@@ -14,13 +14,21 @@
 %}
 
 reserve     function|beginparams|endparams|beginlocals|endlocals|beginbody|endbody|integer|array|of|if|then|endif|else|while|do|beginloop|endloop|continue|read|write|and|or|not|true|false|return
+arithmetic "-"|"+"|"*"|"/"|"%"
+comparison  "=="|"<>"|"<"|">"|"<="|">="
+id  [a-zA-Z][a-zA-Z"_"0-9]*[^"_"]
+special ";"|":"|","|"("|")"|"["|"]"|":="
 
 
 
 
 %%  
-{reserve} printf("RESERVED WORD");
-.         ;
+{reserve} printf("RESERVED WORD\n");
+{arithmetic} printf("ARITH\n");
+{comparison} printf("COMPARE\n");
+{id} printf("ID\n");
+{special} printf("SPECIAL");
+.         printf("ERROR");exit(1);
 
 
 %%
