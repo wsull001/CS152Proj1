@@ -16,10 +16,14 @@
   std::unordered_map<std::string, std::string> special();
 %}
 
-//patterns go here
+reserve     function|beginparams|endparams|beginlocals|endlocals|beginbody|endbody|integer|array|of|if|then|endif|else|while|do|beginloop|endloop|continue|read|write|and|or|not|true|false|return
+
+
+
 
 %%  
-
+{reserve} printf("RESERVED WORD");
+.         ;
 
 
 %%
