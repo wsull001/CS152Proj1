@@ -7,8 +7,8 @@
   #include <cstring>
   #include <string>
   #include "stdio.h"
-  int lineNo = 0;
-  int charNo = 0;
+  int lineNo = 1;
+  int charNo = 1;
   //maps go here
 %}
 
@@ -21,20 +21,21 @@
 reserve     function|beginparams|endparams|beginlocals|endlocals|beginbody|endbody|integer|array|of|if|then|endif|else|while|do|beginloop|endloop|continue|read|write|and|or|not|true|false|return
 arithmetic "-"|"+"|"*"|"/"|"%"
 comparison  "=="|"<>"|"<"|">"|"<="|">="
-id  [a-zA-Z][a-zA-Z"_"0-9]*[^"_"]
+id  [a-zA-Z][a-zA-Z0-9]*(_*[a-zA-Z0-9]+)*|[0-9]+[^a-zA-Z]
 special ";"|":"|","|"("|")"|"["|"]"|":="
 
 
 
 
-%%  
+%% 
+
+[ ]       charNo++;
 {reserve} printf("RESERVED WORD\n");
 {arithmetic} printf("ARITH\n");
 {comparison} printf("COMPARE\n");
 {id} printf("ID\n");
 {special} printf("SPECIAL");
-.         printf("ERROR");exit(1);
-
+\n        lineNo++;charNo=0;
 
 %%
 
