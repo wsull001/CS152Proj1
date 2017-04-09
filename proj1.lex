@@ -22,19 +22,17 @@ reserve     function|beginparams|endparams|beginlocals|endlocals|beginbody|endbo
 arithmetic "-"|"+"|"*"|"/"|"%"
 comparison  "=="|"<>"|"<"|">"|"<="|">="
 id  [a-zA-Z][a-zA-Z0-9]*(_*[a-zA-Z0-9]+)*|[0-9]+[^a-zA-Z]
+badId [0-9]{id}
 special ";"|":"|","|"("|")"|"["|"]"|":="
-
-
-
-
 %% 
 
 [ ]       charNo++;
-{reserve} printf("RESERVED WORD\n");
+{reserve} printf("RESERVE");
 {arithmetic} printf("ARITH\n");
 {comparison} printf("COMPARE\n");
+{badId} printf("ERROR!!!\n");
 {id} printf("ID\n");
-{special} printf("SPECIAL");
+{special} printf("SPECIAL\n");
 \n        lineNo++;charNo=0;
 
 %%
