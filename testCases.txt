@@ -1,3 +1,11 @@
-if name==test do
-  my name is johnathon
-end
+function test;
+beginparams
+endparams
+beginlocals
+n : integer;
+endlocals
+beginbody
+  read n;
+  n := n + 1?
+  write n
+endbody
