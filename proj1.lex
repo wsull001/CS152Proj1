@@ -4,14 +4,20 @@
 
 %{
   #include <cstring>
+  #include <map>
   #include <iostream>
   #include "stdio.h"
   #include "string.h"
-  #include "globals.h"
   int lineNo = 1;
   int charNo = 1;
   //maps go here
 %}
+	std::map<std::string, std::string> reserve;
+	std::map<std::string, std::string> arithmetic;
+	std::map<std::string, std::string> comparison;
+	std::map<std::string, std::string> special;
+
+
 
 reserve     function|beginparams|endparams|beginlocals|endlocals|beginbody|endbody|integer|array|of|if|then|endif|else|while|do|beginloop|endloop|continue|read|write|and|or|not|true|false|return
 arithmetic    "-"|"+"|"*"|"/"|"%"
@@ -40,11 +46,6 @@ endbody       printf("END_BODY");
 %%
 
 
-main (int argc, char** argv) {
-  if (argc > 1) yyin = fopen(argv[1], "r");
-  init_maps();
-  yylex();
-  return 0;
-}
+
 
 
