@@ -24,12 +24,14 @@ arithmetic    "-"|"+"|"*"|"/"|"%"
 comparison    "=="|"<>"|"<"|">"|"<="|">="
 id            [a-zA-Z][a-zA-Z0-9]*(_*[a-zA-Z0-9]+)*
 number        [0-9]+
-numberId      [0-9]+{id}
+numberId      [0-9_]+{id}_*
 underId       {id}_+
 special       ";"|":"|","|"("|")"|"["|"]"|":="
-%% 
-
+%%
+ 
+##.*	      ;
 [ \t]         charNo++;
+endbody       printf("END_BODY");
 {reserve}     printf("%s\n", reserve[yytext].c_str());charNo+=strlen(yytext);
 {arithmetic}  printf("%s\n", arithmetic[yytext].c_str());charNo+=strlen(yytext);
 {comparison}  printf("%s\n", comparison[yytext].c_str());charNo+=strlen(yytext);
@@ -56,7 +58,7 @@ void init_maps(){
   //reserve map init
   reserve.insert(std::make_pair<std::string, std::string>("function", "FUNCTION"));
   reserve.insert(std::make_pair<std::string, std::string>("beginparams", "BEGIN_PARAMS"));
-  reserve.insert(std::make_pair<std::string, std::string>("END_PARAMS", "END_PARAMS"));
+  reserve.insert(std::make_pair<std::string, std::string>("endparams", "END_PARAMS"));
   reserve.insert(std::make_pair<std::string, std::string>("beginlocals", "BEGIN_LOCALS"));
   reserve.insert(std::make_pair<std::string, std::string>("endlocals", "END_LOCALS"));
   reserve.insert(std::make_pair<std::string, std::string>("beginbody", "BEGIN_BODY"));
