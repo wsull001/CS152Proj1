@@ -12,7 +12,7 @@ int yylex(void);
   string*	op_val;
 }
 
-%start	input 
+%start	Program 
 
 %token	<int_val>	INTEGER_LITERAL
 %token	<int_val>	FUNCTION
@@ -61,20 +61,18 @@ int yylex(void);
 %token	<int_val>	L_SQUARE_BRACKET
 %token	<int_val>	R_SQUARE_BRACKET
 
-%type	<int_val>	exp
+%type	<int_val>	Function
+
+
 %left	PLUS
 %left	MULT
 
 %%
 
-input:		/* empty */
-		| exp	{ cout << "Result: " << $1 << endl; }
+Program:	Function Program |
 		;
 
-exp:		INTEGER_LITERAL	{ $$ = $1; }
-		| exp PLUS exp	{ $$ = $1 + $3; }
-		| exp MULT exp	{ $$ = $1 * $3; }
-		;
+Function:	FUNCTION IDENTIFIER SEMICOLON BEGIN_PARAMS Declaration_BLK END_PARAMS 
 
 %%
 
