@@ -14,6 +14,7 @@ int yylex(void);
 
 %start	input 
 
+%token	<int_val>	INTEGER_LITERAL
 %token	<int_val>	FUNCTION
 %token	<int_val>	BEGIN_PARAMS
 %token	<int_val>	END_PARAMS
