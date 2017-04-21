@@ -60,6 +60,8 @@ int yylex(void);
 %token	<int_val>	R_PAREN
 %token	<int_val>	L_SQUARE_BRACKET
 %token	<int_val>	R_SQUARE_BRACKET
+%token	<int_val>	IDENTIFIER
+%token	<int_val>	NUMBER
 
 %type	<int_val>	Function
 %type	<int_val>	Statement_blk
@@ -71,6 +73,14 @@ int yylex(void);
 %type	<int_val>	Not
 %type	<int_val>	Comp
 %type	<int_val>	Expression
+%type	<int_val>	Multiplicative_exp_blk
+%type	<int_val>	Multiplicative_exp_add
+%type	<int_val>	Multiplicative_exp_sub
+%type	<int_val>	Multiplicative_exp
+%type	<int_val>	Term_blk
+%type	<int_val>	Var
+%type	<int_val>	Term
+%type	<int_val>	Expression_blk
 
 
 %left	PLUS
@@ -81,30 +91,30 @@ Program:	Function Program |
 		;
 
 Function:	FUNCTION IDENTIFIER SEMICOLON BEGIN_PARAMS DECLARATION_BLK END_PARAMS BEGIN_LOCALS
-		 DECLARATION END_LOCALES BEGIN_BODY Statement_blk END_BODY ;
+		 DECLARATION END_LOCALS BEGIN_BODY Statement_blk END_BODY ;
 
 Statement_blk:	Statement SEMICOLON Statement_blk | ;
 
-Statement:	VAR SEMICOLON EQ EXPRESSION |
-		IF Bool_exp BEGIN_LOOP Statement SEMICOLONO Statement_blk ELSE|
-		WHILE Bool_exp BEGIN_LOOP Statement SEMICOLON Statement_blk END_LOOP|
-		DO BEGIN_LOOP Statement SEMICOLON Statement_blk END_LOOP WHILE Bool_exp|
-		READ VAR_BLK|
-		WRITE VAR_BLK|
+Statement:	Var SEMICOLON EQ Expression |
+		IF Bool_exp BEGINLOOP Statement SEMICOLON Statement_blk ELSE|
+		WHILE Bool_exp BEGINLOOP Statement SEMICOLON Statement_blk ENDLOOP|
+		DO BEGINLOOP Statement SEMICOLON Statement_blk ENDLOOP WHILE Bool_exp|
+		READ Var_blk|
+		WRITE Var_blk|
 		CONTINUE|
-		RETURN EXPRESSION ;
+		RETURN Expression ;
 
 Else_blk:	ELSE Statement SEMICOLON Statement_blk | ;
 
-Bool_exp:	RELATION_AND_EXP Or;
+Bool_exp:	Relation_and_exp Or;
 
-Or:		OR RELATION_AND_EXP Or | ;
+Or:		OR Relation_and_exp Or | ;
 
-Relation_and_exp:	Relation_exp Amd ;
+Relation_and_exp:	Relation_exp And ;
 
-And:		AND Relation_Exp And | ;
+And:		AND Relation_exp And | ;
 
-Relation_Exp:	Not Expression Comp Expression | Not TRUE | Not FALSE |
+Relation_exp:	Not Expression Comp Expression | Not TRUE | Not FALSE |
 		Not L_PAREN Bool_exp R_PAREN ;
 
 Not:		NOT | ;
