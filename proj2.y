@@ -62,10 +62,18 @@ int yylex(void);
 %token	<int_val>	R_SQUARE_BRACKET
 
 %type	<int_val>	Function
+%type	<int_val>	Statement_blk
+%type 	<int_val>	Statement
+%type	<int_val>	Else_blk
+%type	<int_val>	Bool_exp
+%type	<int_val>	Or
+%type	<int_val>	Relation_and_exp
+%type	<int_val>	Not
+%type	<int_val>	Comp
+%type	<int_val>	Expression
 
 
 %left	PLUS
-%left	MULT
 
 %%
 
