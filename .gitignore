@@ -1,5 +1,6 @@
 bison.c
 lex.yy.c
+*.swp
 bison.o
 lex.c
 lex.o
