@@ -72,8 +72,14 @@ int yylex(void);
 Program:	Function Program |
 		;
 
-Function:	FUNCTION IDENTIFIER SEMICOLON BEGIN_PARAMS DECLARATION_BLK END_PARAMS BEGIN_LOCALS
-		 DECLARATION END_LOCALES BEGIN_BODY Statement_blk END_BODY ;
+Function:	FUNCTION IDENTIFIER SEMICOLON BEGIN_PARAMS Declaration_blk END_PARAMS BEGIN_LOCALS
+		 Declaration END_LOCALES BEGIN_BODY Statement_blk END_BODY ;
+
+Declaration_blk:	Declaration SEMICOLON Declaration_blk | ;
+
+Declaration:	IDENTIFIER Identifier_blk COLON Array_declaration INTEGER ;
+
+Array_declaration:	ARRAY L_SQUARE_BRACKET NUMBER R_SQUARE_BRACKET OF | ;
 
 Statement_blk:	Statement SEMICOLON Statement_blk | ;
 
