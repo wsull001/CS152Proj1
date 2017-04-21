@@ -111,7 +111,28 @@ Not:		NOT | ;
 
 Comp:		EQ| LT | GT | NEQ | LTE | GTE ;
 
-Expression:
+Expression:	Multiplicative_exp Multiplicative_exp_blk ;
+
+Multiplicative_exp_blk:	Multiplicative_exp_add Multiplicative_exp_blk |
+			Multiplicative_exp_sub Multiplicative_exp_blk |
+			 | ;
+Multiplicative_exp_add:	ADD Multiplicative_exp;
+
+Multiplicative_exp_sub:	SUB Multiplicative_exp;
+
+Multiplicative_exp:	Term Term_blk | Term ;
+
+Term_blk:	MULT Term Term_blk | DIV Term Term_blk | MOD Term Term_blk| ;
+
+Var:		IDENTIFIER | IDENTIFIER L_SQUARE_BRACKET Expression R_SQUARE_BRACKET ;
+
+Term:		SUB Var | Var | SUB NUMBER | NUMBER | SUB L_PAREN Expression R_PAREN |
+		SUB L_PAREN Expression R_PAREN | IDENTIFIER  L_PAREN Expression Expression_blk R_PAREN |
+		IDENTIFIER L_PAREN R_PAREN ;
+
+Expression_blk: COMMA Expression Expression_blk | ;
+
+
 
 %%
 
