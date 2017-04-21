@@ -72,7 +72,38 @@ int yylex(void);
 Program:	Function Program |
 		;
 
-Function:	FUNCTION IDENTIFIER SEMICOLON BEGIN_PARAMS Declaration_BLK END_PARAMS 
+Function:	FUNCTION IDENTIFIER SEMICOLON BEGIN_PARAMS DECLARATION_BLK END_PARAMS BEGIN_LOCALS
+		 DECLARATION END_LOCALES BEGIN_BODY Statement_blk END_BODY ;
+
+Statement_blk:	Statement SEMICOLON Statement_blk | ;
+
+Statement:	VAR SEMICOLON EQ EXPRESSION |
+		IF Bool_exp BEGIN_LOOP Statement SEMICOLONO Statement_blk ELSE|
+		WHILE Bool_exp BEGIN_LOOP Statement SEMICOLON Statement_blk END_LOOP|
+		DO BEGIN_LOOP Statement SEMICOLON Statement_blk END_LOOP WHILE Bool_exp|
+		READ VAR_BLK|
+		WRITE VAR_BLK|
+		CONTINUE|
+		RETURN EXPRESSION ;
+
+Else_blk:	ELSE Statement SEMICOLON Statement_blk | ;
+
+Bool_exp:	RELATION_AND_EXP Or;
+
+Or:		OR RELATION_AND_EXP Or | ;
+
+Relation_and_exp:	Relation_exp Amd ;
+
+And:		AND Relation_Exp And | ;
+
+Relation_Exp:	Not Expression Comp Expression | Not TRUE | Not FALSE |
+		Not L_PAREN Bool_exp R_PAREN ;
+
+Not:		NOT | ;
+
+Comp:		EQ| LT | GT | NEQ | LTE | GTE ;
+
+Expression:
 
 %%
 
