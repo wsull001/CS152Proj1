@@ -1,15 +1,16 @@
 /* main.cc */
 
 #include "heading.h"
+#include "tok.h"
 #include <map>
 
 // prototype of bison-generated parser function
 int yyparse();
 
-extern std::map<std::string, std::string> reserve;
-extern std::map<std::string, std::string> arithmetic;
-extern std::map<std::string, std::string> comparison;
-extern std::map<std::string, std::string> special;
+extern std::map<std::string, int> reserve;
+extern std::map<std::string, int> arithmetic;
+extern std::map<std::string, int> comparison;
+extern std::map<std::string, int> special;
 
 void init_maps();
 
@@ -30,52 +31,52 @@ int main(int argc, char **argv)
 
 void init_maps(){
   //reserve map init
-  reserve.insert(std::make_pair<std::string, std::string>("function", "FUNCTION"));
-  reserve.insert(std::make_pair<std::string, std::string>("beginparams", "BEGIN_PARAMS"));
-  reserve.insert(std::make_pair<std::string, std::string>("endparams", "END_PARAMS"));
-  reserve.insert(std::make_pair<std::string, std::string>("beginlocals", "BEGIN_LOCALS"));
-  reserve.insert(std::make_pair<std::string, std::string>("endlocals", "END_LOCALS"));
-  reserve.insert(std::make_pair<std::string, std::string>("beginbody", "BEGIN_BODY"));
-  reserve.insert(std::make_pair<std::string, std::string>("endbody", "END_BODY"));
-  reserve.insert(std::make_pair<std::string, std::string>("integer", "INTEGER"));
-  reserve.insert(std::make_pair<std::string, std::string>("array", "ARRAY"));
-  reserve.insert(std::make_pair<std::string, std::string>("of", "OF"));
-  reserve.insert(std::make_pair<std::string, std::string>("if", "IF"));
-  reserve.insert(std::make_pair<std::string, std::string>("then", "THEN"));
-  reserve.insert(std::make_pair<std::string, std::string>("endif", "ENDIF"));
-  reserve.insert(std::make_pair<std::string, std::string>("else", "ELSE"));
-  reserve.insert(std::make_pair<std::string, std::string>("while", "WHILE"));
-  reserve.insert(std::make_pair<std::string, std::string>("do", "DO"));
-  reserve.insert(std::make_pair<std::string, std::string>("beginloop", "BEGINLOOP"));
-  reserve.insert(std::make_pair<std::string, std::string>("endloop", "ENDLOOP"));
-  reserve.insert(std::make_pair<std::string, std::string>("continue", "CONTINUE"));
-  reserve.insert(std::make_pair<std::string, std::string>("read", "READ"));
-  reserve.insert(std::make_pair<std::string, std::string>("write", "WRITE"));
-  reserve.insert(std::make_pair<std::string, std::string>("and", "AND"));
-  reserve.insert(std::make_pair<std::string, std::string>("or", "OR"));
-  reserve.insert(std::make_pair<std::string, std::string>("not", "NOT"));
-  reserve.insert(std::make_pair<std::string, std::string>("true", "TRUE"));
-  reserve.insert(std::make_pair<std::string, std::string>("false", "FALSE"));
-  reserve.insert(std::make_pair<std::string, std::string>("return", "RETURN"));
+  reserve.insert(std::make_pair<std::string, int>("function", FUNCTION));
+  reserve.insert(std::make_pair<std::string, int>("beginparams", BEGIN_PARAMS));
+  reserve.insert(std::make_pair<std::string, int>("endparams", END_PARAMS));
+  reserve.insert(std::make_pair<std::string, int>("beginlocals", BEGIN_LOCALS));
+  reserve.insert(std::make_pair<std::string, int>("endlocals", END_LOCALS));
+  reserve.insert(std::make_pair<std::string, int>("beginbody", BEGIN_BODY));
+  reserve.insert(std::make_pair<std::string, int>("endbody", END_BODY));
+  reserve.insert(std::make_pair<std::string, int>("integer", INTEGER));
+  reserve.insert(std::make_pair<std::string, int>("array", ARRAY));
+  reserve.insert(std::make_pair<std::string, int>("of", OF));
+  reserve.insert(std::make_pair<std::string, int>("if", IF));
+  reserve.insert(std::make_pair<std::string, int>("then", THEN));
+  reserve.insert(std::make_pair<std::string, int>("endif", ENDIF));
+  reserve.insert(std::make_pair<std::string, int>("else", ELSE));
+  reserve.insert(std::make_pair<std::string, int>("while", WHILE));
+  reserve.insert(std::make_pair<std::string, int>("do", DO));
+  reserve.insert(std::make_pair<std::string, int>("beginloop", BEGINLOOP));
+  reserve.insert(std::make_pair<std::string, int>("endloop", ENDLOOP));
+  reserve.insert(std::make_pair<std::string, int>("continue", CONTINUE));
+  reserve.insert(std::make_pair<std::string, int>("read", READ));
+  reserve.insert(std::make_pair<std::string, int>("write", WRITE));
+  reserve.insert(std::make_pair<std::string, int>("and", AND));
+  reserve.insert(std::make_pair<std::string, int>("or", OR));
+  reserve.insert(std::make_pair<std::string, int>("not", NOT));
+  reserve.insert(std::make_pair<std::string, int>("true", TRUE));
+  reserve.insert(std::make_pair<std::string, int>("false", FALSE));
+  reserve.insert(std::make_pair<std::string, int>("return", RETURN));
   //arithmetic map init
-  arithmetic.insert(std::make_pair<std::string, std::string>("-","SUB"));
-  arithmetic.insert(std::make_pair<std::string, std::string>("+","ADD"));
-  arithmetic.insert(std::make_pair<std::string, std::string>("*","MULT"));
-  arithmetic.insert(std::make_pair<std::string, std::string>("/","DIV"));
-  arithmetic.insert(std::make_pair<std::string, std::string>("%","MOD"));
+  arithmetic.insert(std::make_pair<std::string, int>("-",SUB));
+  arithmetic.insert(std::make_pair<std::string, int>("+",ADD);
+  arithmetic.insert(std::make_pair<std::string, int>("*",MULT));
+  arithmetic.insert(std::make_pair<std::string, int>("/",DIV));
+  arithmetic.insert(std::make_pair<std::string, int>("%",MOD));
   //comparison map init
-  comparison.insert(std::make_pair<std::string, std::string>("==","EQ"));
-  comparison.insert(std::make_pair<std::string, std::string>("<>","NEQ"));
-  comparison.insert(std::make_pair<std::string, std::string>("<","LT"));
-  comparison.insert(std::make_pair<std::string, std::string>(">","GT"));
-  comparison.insert(std::make_pair<std::string, std::string>("<=","LTE"));
-  comparison.insert(std::make_pair<std::string, std::string>(">=","GTE"));
+  comparison.insert(std::make_pair<std::string, int>("==",EQ));
+  comparison.insert(std::make_pair<std::string, int>("<>",NEQ));
+  comparison.insert(std::make_pair<std::string, int>("<",LT));
+  comparison.insert(std::make_pair<std::string, int>(">",GT));
+  comparison.insert(std::make_pair<std::string, int>("<=",LTE));
+  comparison.insert(std::make_pair<std::string, int>(">=",GTE));
   //special map init
-  special.insert(std::make_pair<std::string, std::string>(";","SEMICOLON"));
-  special.insert(std::make_pair<std::string, std::string>(":","COLON"));
-  special.insert(std::make_pair<std::string, std::string>(",","COMMA"));
-  special.insert(std::make_pair<std::string, std::string>("(","L_PAREN"));
-  special.insert(std::make_pair<std::string, std::string>(")","R_PAREN"));
-  special.insert(std::make_pair<std::string, std::string>("[","L_SQUARE_BRACKET"));
-  special.insert(std::make_pair<std::string, std::string>("]","R_SQUARE_BRACKET"));
+  special.insert(std::make_pair<std::string, int>(";",SEMICOLON));
+  special.insert(std::make_pair<std::string, int>(":",COLON));
+  special.insert(std::make_pair<std::string, int>(",",COMMA));
+  special.insert(std::make_pair<std::string, int>("(",L_PAREN));
+  special.insert(std::make_pair<std::string, int>(")",R_PAREN));
+  special.insert(std::make_pair<std::string, int>("[",L_SQUARE_BRACKET));
+  special.insert(std::make_pair<std::string, int>("]",R_SQUARE_BRACKET));
 }
