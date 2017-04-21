@@ -60,7 +60,7 @@ void init_maps(){
   reserve.insert(std::make_pair<std::string, int>("return", RETURN));
   //arithmetic map init
   arithmetic.insert(std::make_pair<std::string, int>("-",SUB));
-  arithmetic.insert(std::make_pair<std::string, int>("+",ADD);
+  arithmetic.insert(std::make_pair<std::string, int>("+",ADD));
   arithmetic.insert(std::make_pair<std::string, int>("*",MULT));
   arithmetic.insert(std::make_pair<std::string, int>("/",DIV));
   arithmetic.insert(std::make_pair<std::string, int>("%",MOD));

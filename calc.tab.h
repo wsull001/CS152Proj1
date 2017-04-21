@@ -47,8 +47,52 @@ extern int yydebug;
       know about them.  */
    enum yytokentype {
      INTEGER_LITERAL = 258,
-     PLUS = 259,
-     MULT = 260
+     FUNCTION = 259,
+     BEGIN_PARAMS = 260,
+     END_PARAMS = 261,
+     BEGIN_LOCALS = 262,
+     END_LOCALS = 263,
+     BEGIN_BODY = 264,
+     END_BODY = 265,
+     INTEGER = 266,
+     ARRAY = 267,
+     OF = 268,
+     IF = 269,
+     THEN = 270,
+     ENDIF = 271,
+     ELSE = 272,
+     WHILE = 273,
+     DO = 274,
+     BEGINLOOP = 275,
+     ENDLOOP = 276,
+     CONTINUE = 277,
+     READ = 278,
+     WRITE = 279,
+     AND = 280,
+     OR = 281,
+     NOT = 282,
+     TRUE = 283,
+     FALSE = 284,
+     RETURN = 285,
+     SUB = 286,
+     ADD = 287,
+     MULT = 288,
+     DIV = 289,
+     MOD = 290,
+     EQ = 291,
+     NEQ = 292,
+     LT = 293,
+     GT = 294,
+     LTE = 295,
+     GTE = 296,
+     SEMICOLON = 297,
+     COLON = 298,
+     COMMA = 299,
+     L_PAREN = 300,
+     R_PAREN = 301,
+     L_SQUARE_BRACKET = 302,
+     R_SQUARE_BRACKET = 303,
+     PLUS = 304
    };
 #endif
 
@@ -64,7 +108,7 @@ typedef union YYSTYPE
 
 
 /* Line 2058 of yacc.c  */
-#line 68 "calc.tab.h"
+#line 112 "calc.tab.h"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
