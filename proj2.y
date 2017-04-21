@@ -81,6 +81,7 @@ int yylex(void);
 %type	<int_val>	Var
 %type	<int_val>	Term
 %type	<int_val>	Expression_blk
+%type	<int_val>	Identifier_blk
 
 
 %left	PLUS
@@ -97,12 +98,14 @@ Declaration_blk:	Declaration SEMICOLON Declaration_blk | ;
 
 Declaration:	IDENTIFIER Identifier_blk COLON Array_declaration INTEGER ;
 
+Identifier_blk: COMMA IDENTIFIER Identifier_blk | ;
+
 Array_declaration:	ARRAY L_SQUARE_BRACKET NUMBER R_SQUARE_BRACKET OF | ;
 
 Statement_blk:	Statement SEMICOLON Statement_blk | ;
 
 Statement:	Var SEMICOLON EQ Expression |
-		IF Bool_exp BEGINLOOP Statement SEMICOLON Statement_blk ELSE|
+		IF Bool_exp BEGINLOOP Statement SEMICOLON Statement_blk ELSE |
 		WHILE Bool_exp BEGINLOOP Statement SEMICOLON Statement_blk ENDLOOP|
 		DO BEGINLOOP Statement SEMICOLON Statement_blk ENDLOOP WHILE Bool_exp|
 		READ Var Var_blk|

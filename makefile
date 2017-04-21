@@ -11,8 +11,8 @@ proj2:		$(OBJS)
 lex.o:		lex.c
 		$(CC) $(CFLAGS) -c lex.c -o lex.o
 
-lex.c:		proj1.lex 
-		flex proj1.lex
+lex.c:		proj2.lex 
+		flex proj2.lex
 		cp lex.yy.c lex.c
 
 bison.o:	bison.c
