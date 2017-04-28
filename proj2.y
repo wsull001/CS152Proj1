@@ -10,6 +10,7 @@ int yylex(void);
 %union{
   int		int_val;
   std::string*	op_val;
+  std::string*	id_val;
 }
 
 %start	Program 
