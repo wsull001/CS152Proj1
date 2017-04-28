@@ -33,12 +33,12 @@ special       ";"|":"|","|"("|")"|"["|"]"|":="
 ##.*	      ;
 [ \t]         charNo++;
 {reserve}     charNo+=strlen(yytext); return reserve[yytext];
-{arithmetic}  charNo+=strlen(yytext); return arithmetic[yytext]
+{arithmetic}  charNo+=strlen(yytext); return arithmetic[yytext];
 {comparison}  charNo+=strlen(yytext); return comparison[yytext];
 {numberId}    printf("Error at line %d, column %d: identifier \"%s\" must begin with a letter\n", lineNo, charNo, yytext);exit(1);
 {underId}     printf("Error at line %d, column %d: identifier \"%s\" cannot end with an underscore\n", lineNo, charNo, yytext);exit(1);
 {id}          charNo+=strlen(yytext); return IDENTIFIER; // set yylval
-{number}      charNo+=strlen(yytext); return Number;  // set yylval
+{number}      charNo+=strlen(yytext); return NUMBER;  // set yylval
 {special}     charNo+=strlen(yytext); return special[yytext];
 \n            lineNo++;charNo=1;
 .             printf("Error at line %d, column %d: unrecognized symbol \"%s\"\n", lineNo, charNo, yytext); exit(1);
