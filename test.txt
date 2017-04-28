@@ -39,7 +39,7 @@ beginbody	## main program
   else
      while  i >= j or false 
        beginloop
-        k := (1 + i - j ) % 3;
+        k := (1 + i - j) % 3;
         i := i - 1;
         if k > 1 then
              continue;

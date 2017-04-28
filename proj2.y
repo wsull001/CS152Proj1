@@ -3,6 +3,7 @@
 
 %{
 #include "heading.h"
+#include <cstring>
 int yyerror(char *s);
 int yylex(void);
 %}
@@ -199,7 +200,7 @@ Term:		SUB Var { cout << "SUB Var" << endl;}
 		| SUB NUMBER {cout << "Term -> SUB " << $2 << endl;}
 		| NUMBER {cout << "Term -> " << $1 << endl;}
 		| SUB L_PAREN Expression R_PAREN { cout << "Term -> SUB L_PAREN Expression R_PAREN" << endl; }
-		| SUB L_PAREN Expression R_PAREN {cout << "Term -> SUB L_PAREN Expression R_PAREN" << endl; }
+		| L_PAREN Expression R_PAREN { cout << "Term -> SUB L_PAREN Expression R_PAREN" << endl; }
 		| IDENTIFIER  L_PAREN Expression Expression_blk R_PAREN {cout << "Term -> " << *((std::string*)$1) << " L_PAREN Expression Expression_blk R_PAREN" << endl;}
 		| IDENTIFIER L_PAREN R_PAREN {cout << "Term -> " << *((std::string*)$1) << " L_PAREN R_PAREN" << endl;}
 		;
@@ -216,9 +217,10 @@ int yyerror(string s)
 {
   extern int yylineno;	// defined and maintained in lex.c
   extern char *yytext;	// defined and maintained in lex.c
+  extern int charNo;
   
   cerr << "ERROR: " << s << " at symbol \"" << yytext;
-  cerr << "\" on line " << yylineno << endl;
+  cerr << "\" on line " << yylineno << " at character " << charNo - strlen(yytext) << endl;
   exit(1);
 }
 
