@@ -89,31 +89,31 @@ int yylex(void);
 
 %%
 
-Program:	Function Program {}
-		| {}
+Program:	Function Program { cout << "Program -> Function Program" << endl;}
+		| { cout << "Program -> epsilon" << endl; }
 		;
 
 Function:	FUNCTION IDENTIFIER SEMICOLON BEGIN_PARAMS Declaration_blk END_PARAMS BEGIN_LOCALS
-		 Declaration END_LOCALS BEGIN_BODY Statement_blk END_BODY {}
+		 Declaration END_LOCALS BEGIN_BODY Statement_blk END_BODY { cout << "Function - > FUNCTION IDENTIFIER SEMICOLON BEGIN_PARAMS Declaration_blk END_PARAMS BEGIN_LOCALS Declaration END_LOCALS BEGIN_BODY Statement_blk END_BODY" << endl; }
 		;
 
-Declaration_blk:	Declaration SEMICOLON Declaration_blk {}
-			| {}
+Declaration_blk:	Declaration SEMICOLON Declaration_blk { cout << "Declaration_blk -> Declaration SEMICOLON Declaration_blk" << endl; }
+			| { cout << "Declaration_blk -> epsilon" << endl; }
 			;
 
-Declaration:	IDENTIFIER Identifier_blk COLON Array_declaration INTEGER {}
+Declaration:	IDENTIFIER Identifier_blk COLON Array_declaration INTEGER { cout << "Declaration -> IDENTIFIER Identifier_blk COLON Array_declaration INTEGER" << endl; }
 		;
 
-Identifier_blk: COMMA IDENTIFIER Identifier_blk {}
-		| {}
+Identifier_blk: COMMA IDENTIFIER Identifier_blk { cout << "Identifier_blk -> COMMA IDENTIFIER Identifier_blk" << endl; }
+		| { cout << "Identifier_blk -> epsilon" << endl; }
 		;
 
-Array_declaration:	ARRAY L_SQUARE_BRACKET NUMBER R_SQUARE_BRACKET OF {}
-			| {}
+Array_declaration:	ARRAY L_SQUARE_BRACKET NUMBER R_SQUARE_BRACKET OF { cout << "Array_declaration -> ARRAY L_SQUARE_BRACKET NUMBER R_SQUARE_BRACKET OF" << endl; }
+			| { cout << "Array_declaration -> epsilon" << endl; }
 			;
 
-Statement_blk:	Statement SEMICOLON Statement_blk {}
-		| {}
+Statement_blk:	Statement SEMICOLON Statement_blk { cout << "Statement_blk -> Statement SEMICOLON Statement_blk" << endl; }
+		| { cout << "Statement_blk -> epsilon" << endl; }
 		;
 
 Statement:	Var SEMICOLON EQ Expression {cout << "Statement -> Var SEMICOLON EQ Expression" << endl;}
@@ -170,10 +170,10 @@ Multiplicative_exp_blk:	Multiplicative_exp_add Multiplicative_exp_blk {cout << "
 			| {cout << "Multiplicative_exp_blk -> epsilon" << endl;}
 			;
 
-Multiplicative_exp_add:	ADD Multiplicative_exp {}
+Multiplicative_exp_add:	ADD Multiplicative_exp { cout << "Multiplicative_exp_add -> ADD Multiplicative_exp" << endl; }
 			;
 
-Multiplicative_exp_sub:	SUB Multiplicative_exp {}
+Multiplicative_exp_sub:	SUB Multiplicative_exp { cout << "Multiplicative_exp_sub -> SUB Multiplicative_exp" << endl; }
 			;
 
 Multiplicative_exp:	Term Term_blk {}
