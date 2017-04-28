@@ -61,6 +61,7 @@ int yylex(void);
 %token	<str_val>	R_PAREN
 %token	<str_val>	L_SQUARE_BRACKET
 %token	<str_val>	R_SQUARE_BRACKET
+%token	<str_val>	ASSIGN
 %token	<str_val>	IDENTIFIER
 %token	<str_val>	NUMBER
 
@@ -94,7 +95,7 @@ Program:	Function Program { cout << "Program -> Function Program" << endl;}
 		;
 
 Function:	FUNCTION IDENTIFIER SEMICOLON BEGIN_PARAMS Declaration_blk END_PARAMS BEGIN_LOCALS
-		 Declaration END_LOCALS BEGIN_BODY Statement_blk END_BODY { cout << "Function - > FUNCTION IDENTIFIER SEMICOLON BEGIN_PARAMS Declaration_blk END_PARAMS BEGIN_LOCALS Declaration END_LOCALS BEGIN_BODY Statement_blk END_BODY" << endl; }
+		 Declaration_blk END_LOCALS BEGIN_BODY Statement_blk END_BODY { cout << "Function - > FUNCTION IDENTIFIER SEMICOLON BEGIN_PARAMS Declaration_blk END_PARAMS BEGIN_LOCALS Declaration END_LOCALS BEGIN_BODY Statement_blk END_BODY" << endl; }
 		;
 
 Declaration_blk:	Declaration SEMICOLON Declaration_blk { cout << "Declaration_blk -> Declaration SEMICOLON Declaration_blk" << endl; }
@@ -116,8 +117,8 @@ Statement_blk:	Statement SEMICOLON Statement_blk { cout << "Statement_blk -> Sta
 		| { cout << "Statement_blk -> epsilon" << endl; }
 		;
 
-Statement:	Var SEMICOLON EQ Expression {cout << "Statement -> Var SEMICOLON EQ Expression" << endl;}
-		| IF Bool_exp BEGINLOOP Statement SEMICOLON Statement_blk ELSE {cout << "Statement -> IF Bool_exp BEGINLOOP Statement SEMICOLON Statement_blk ELSE" << endl;}
+Statement:	Var ASSIGN Expression {cout << "Statement -> Var SEMICOLON EQ Expression" << endl;}
+		| IF Bool_exp THEN Statement SEMICOLON Statement_blk Else_blk ENDIF{cout << "Statement -> IF Bool_exp BEGINLOOP Statement SEMICOLON Statement_blk ELSE" << endl;}
 		| WHILE Bool_exp BEGINLOOP Statement SEMICOLON Statement_blk ENDLOOP {cout << "Statement -> WHILE Bool_exp BEGINLOOP Statement SEMICOLON Statement_blk ENDLOOP" << endl;}
 		| DO BEGINLOOP Statement SEMICOLON Statement_blk ENDLOOP WHILE Bool_exp {cout << "Statement -> WHILE Bool_exp BEGINLOOP Statement SEMICOLON Statement_blk ENDLOOP" << endl;}
 		| READ Var Var_blk {cout << "Statement -> READ Var Var_blk" << endl;}
@@ -140,8 +141,8 @@ Or:		OR Relation_and_exp Or {cout << "OR -> OR Relation_and_exp Or" << endl;}
 Relation_and_exp:	Relation_exp And {cout << "Relation_and_exp -> Relation_exp And" << endl;}
 			;
 
-And:		AND Relation_exp And {cout << "AND -> AND Relation_exp And" << endl;}
-		| {cout << "AND -> epsilon" << endl;}
+And:		AND Relation_exp And {cout << "And -> AND Relation_exp And" << endl;}
+		| {cout << "And -> epsilon" << endl;}
 		;
 
 Relation_exp:	Not Expression Comp Expression {cout << "Relation_exp -> Not Expression Comp Expression" << endl;}
@@ -185,8 +186,8 @@ Term_blk:	MULT Term Term_blk {cout << "Term_blk -> MULT Term Term_blk" << endl;}
 		| {cout << "Term_blk -> epsilon" << endl;}
 		;
 
-Var:		IDENTIFIER { cout << "Var -> IDENTIFIER" << endl;}
-		| IDENTIFIER L_SQUARE_BRACKET Expression R_SQUARE_BRACKET {cout << "Var -> IDENTIFIER L_SQUARE_BRACKET Expression R_SQUARE_BRACKET" << endl;}
+Var:		IDENTIFIER { cout << "Var -> " << *((std::string*)$1) << endl;}
+		| IDENTIFIER L_SQUARE_BRACKET Expression R_SQUARE_BRACKET {cout << "Var ->" << *((std::string*)$1) << "L_SQUARE_BRACKET Expression R_SQUARE_BRACKET" << endl;}
 		;
 
 Var_blk:	COMMA Var Var_blk {cout << "Var_blk -> COMMA VAR Var_blk" << endl;}

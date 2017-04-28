@@ -79,4 +79,5 @@ void init_maps(){
   special.insert(std::make_pair<std::string, int>(")",R_PAREN));
   special.insert(std::make_pair<std::string, int>("[",L_SQUARE_BRACKET));
   special.insert(std::make_pair<std::string, int>("]",R_SQUARE_BRACKET));
+  special.insert(std::make_pair<std::string, int>(":=",ASSIGN));
 }
