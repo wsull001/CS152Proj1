@@ -116,58 +116,58 @@ Statement_blk:	Statement SEMICOLON Statement_blk {}
 		| {}
 		;
 
-Statement:	Var SEMICOLON EQ Expression {}
-		| IF Bool_exp BEGINLOOP Statement SEMICOLON Statement_blk ELSE {}
-		| WHILE Bool_exp BEGINLOOP Statement SEMICOLON Statement_blk ENDLOOP {}
-		| DO BEGINLOOP Statement SEMICOLON Statement_blk ENDLOOP WHILE Bool_exp {}
-		| READ Var Var_blk {}
-		| WRITE Var Var_blk {}
-		| CONTINUE {}
-		| RETURN Expression {}
+Statement:	Var SEMICOLON EQ Expression {cout << "Statement -> Var SEMICOLON EQ Expression" << endl;}
+		| IF Bool_exp BEGINLOOP Statement SEMICOLON Statement_blk ELSE {cout << "Statement -> IF Bool_exp BEGINLOOP Statement SEMICOLON Statement_blk ELSE" << endl;}
+		| WHILE Bool_exp BEGINLOOP Statement SEMICOLON Statement_blk ENDLOOP {cout << "Statement -> WHILE Bool_exp BEGINLOOP Statement SEMICOLON Statement_blk ENDLOOP" << endl;}
+		| DO BEGINLOOP Statement SEMICOLON Statement_blk ENDLOOP WHILE Bool_exp {cout << "Statement -> WHILE Bool_exp BEGINLOOP Statement SEMICOLON Statement_blk ENDLOOP" << endl;}
+		| READ Var Var_blk {cout << "Statement -> READ Var Var_blk" << endl;}
+		| WRITE Var Var_blk {cout << "Statement -> WRITE Var Var_blk" << endl;}
+		| CONTINUE {cout << "Statement -> CONTINUE" << endl;}
+		| RETURN Expression {cout << "Statement -> RETURN Expression" << endl;}
 		;
 
-Else_blk:	ELSE Statement SEMICOLON Statement_blk {}
-		| {}
+Else_blk:	ELSE Statement SEMICOLON Statement_blk {cout << "Else_blk -> ELSE Statement SEMICOLON Statement_blk" << endl;}
+		| {cout << "Else_blk -> epsilon" << endl;}
 		;
 
-Bool_exp:	Relation_and_exp Or {}
+Bool_exp:	Relation_and_exp Or {cout << "Bool_exp -> Relation_and_exp Or" << endl;}
 		;
 
-Or:		OR Relation_and_exp Or {}
-		| {}
+Or:		OR Relation_and_exp Or {cout << "OR -> OR Relation_and_exp Or" << endl;}
+		| {cout << "OR -> epsilon" << endl;}
 		;
 
-Relation_and_exp:	Relation_exp And {}
+Relation_and_exp:	Relation_exp And {cout << "Relation_and_exp -> Relation_exp And" << endl;}
 			;
 
-And:		AND Relation_exp And {}
-		| {}
+And:		AND Relation_exp And {cout << "AND -> AND Relation_exp And" << endl;}
+		| {cout << "AND -> epsilon" << endl;}
 		;
 
-Relation_exp:	Not Expression Comp Expression {}
-		| Not TRUE {}
-		| Not FALSE {}
-		| Not L_PAREN Bool_exp R_PAREN {}
+Relation_exp:	Not Expression Comp Expression {cout << "Relation_exp -> Not Expression Comp Expression" << endl;}
+		| Not TRUE {cout << "Relation_exp -> Not TRUE" << endl;}
+		| Not FALSE {cout << "Relation_exp -> Not FALSE" << endl;}
+		| Not L_PAREN Bool_exp R_PAREN {cout << "Relation_exp -> Not L_PAREN Bool_exp R_PAREN" << endl;}
 		;
 
-Not:		NOT {}
-		| {}
+Not:		NOT {cout << "Not -> NOT" << endl;}
+		| {cout << "Not -> epsilon" << endl;}
 		;
 
-Comp:		EQ {}
-		| LT {}
-		| GT {}
-		| NEQ {}
-		| LTE {}
-		| GTE {}
+Comp:		EQ {cout << "Comp -> EQ" << endl;}
+		| LT {cout << "Comp -> LT" << endl;}
+		| GT {cout << "Comp -> GT" << endl;}
+		| NEQ {cout << "Comp -> NEQ" << endl;}
+		| LTE {cout << "Comp -> LTE" << endl;}
+		| GTE {cout << "Comp -> GTE" << endl;}
 		;
 
-Expression:	Multiplicative_exp Multiplicative_exp_blk {}
+Expression:	Multiplicative_exp Multiplicative_exp_blk {cout << "Expression -> Multiplicative_exp Multiplicative_exp_blk" << endl;}
 		;
 
-Multiplicative_exp_blk:	Multiplicative_exp_add Multiplicative_exp_blk {}
-			| Multiplicative_exp_sub Multiplicative_exp_blk {}
-			| {}
+Multiplicative_exp_blk:	Multiplicative_exp_add Multiplicative_exp_blk {cout << "Multiplicative_exp_blk -> Multiplicative_exp_add Multiplicative_exp_blk" << endl;}
+			| Multiplicative_exp_sub Multiplicative_exp_blk {cout << "Multiplicative_exp_blk -> Multiplicative_exp_sub Multiplicative_exp_blk" << endl;}
+			| {cout << "Multiplicative_exp_blk -> epsilon" << endl;}
 			;
 
 Multiplicative_exp_add:	ADD Multiplicative_exp {}
