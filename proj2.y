@@ -89,7 +89,8 @@ int yylex(void);
 
 %%
 
-Program:	Function Program |
+Program:	Function Program {}
+		| {}
 		;
 
 Function:	FUNCTION IDENTIFIER SEMICOLON BEGIN_PARAMS Declaration_blk END_PARAMS BEGIN_LOCALS
