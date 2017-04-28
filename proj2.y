@@ -170,10 +170,10 @@ Multiplicative_exp_blk:	Multiplicative_exp_add Multiplicative_exp_blk {}
 			| {}
 			;
 
-Multiplicative_exp_add:	ADD Multiplicative_exp {}
+Multiplicative_exp_add:	ADD Multiplicative_exp { cout << "Multiplicative_exp_add -> ADD Multiplicative_exp" << endl; }
 			;
 
-Multiplicative_exp_sub:	SUB Multiplicative_exp {}
+Multiplicative_exp_sub:	SUB Multiplicative_exp { cout << "Multiplicative_exp_sub -> SUB Multiplicative_exp" << endl; }
 			;
 
 Multiplicative_exp:	Term Term_blk {}
