@@ -175,36 +175,35 @@ Multiplicative_exp_add:	ADD Multiplicative_exp {}
 Multiplicative_exp_sub:	SUB Multiplicative_exp {}
 			;
 
-Multiplicative_exp:	Term Term_blk {}
-			| Term {}
+Multiplicative_exp:	Term Term_blk { cout << "Multiplicative_expi -> Term Term_blk" << endl;}
 			;
 
-Term_blk:	MULT Term Term_blk {}
-		| DIV Term Term_blk {}
-		| MOD Term Term_blk {}
-		| {}
+Term_blk:	MULT Term Term_blk {cout << "Term_blk -> MULT Term Term_blk" << endl;}
+		| DIV Term Term_blk {cout << "Term_blk -> DIV Term Term_blk" << endl;}
+		| MOD Term Term_blk {cout << "Term_blk -> MOD Term Term_blk" << endl;}
+		| {cout << "Term_blk -> epsilon" << endl;}
 		;
 
-Var:		IDENTIFIER {}
-		| IDENTIFIER L_SQUARE_BRACKET Expression R_SQUARE_BRACKET {}
+Var:		IDENTIFIER { cout << "Var -> IDENTIFIER" << endl;}
+		| IDENTIFIER L_SQUARE_BRACKET Expression R_SQUARE_BRACKET {cout << "Var -> IDENTIFIER L_SQUARE_BRACKET Expression R_SQUARE_BRACKET" << endl;}
 		;
 
-Var_blk:	COMMA Var Var_blk {}
-		| {}
+Var_blk:	COMMA Var Var_blk {cout << "Var_blk -> COMMA VAR Var_blk" << endl;}
+		| {cout << "Var_blk -> epsilon" << endl;}
 		;
 
-Term:		SUB Var {}
-		| Var {}
-		| SUB NUMBER {}
-		| NUMBER {}
+Term:		SUB Var { cout << "SUB Var" << endl;}
+		| Var {cout << "Term -> Var" << endl;}
+		| SUB NUMBER {cout << "Term -> SUB NUMBER" << endl;}
+		| NUMBER {cout << "Term -> NUMBER" << endl;}
 		| SUB L_PAREN Expression R_PAREN {}
-		| SUB L_PAREN Expression R_PAREN {}
-		| IDENTIFIER  L_PAREN Expression Expression_blk R_PAREN {}
-		| IDENTIFIER L_PAREN R_PAREN {}
+		| SUB L_PAREN Expression R_PAREN {cout << "Term -> SUB L_PAREN Expression R_PAREN" << endl;}
+		| IDENTIFIER  L_PAREN Expression Expression_blk R_PAREN {cout << "Term -> IDENTIFIER L_PAREN Expression Expression_blk R_PAREN" << endl;}
+		| IDENTIFIER L_PAREN R_PAREN {cout << "Term -> IDENTIFIER L_PAREN R_PAREN" << endl;}
 		;
 
-Expression_blk: COMMA Expression Expression_blk {}
-		| {}
+Expression_blk: COMMA Expression Expression_blk { cout << "Expression_blk -> COMMA Expression Expressin_blk" << endl;}
+		| {cout << "Expression_blk -> epsilon"}
 		;
 
 
