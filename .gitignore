@@ -12,3 +12,5 @@ proj2.tab.c
 proj2.tab.h
 .nfs*
 .DS_Store
+*.aux
+*.log
