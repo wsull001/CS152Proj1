@@ -1,0 +1,26 @@
+\documentclass{article}
+
+\usepackage{fullpage,latexsym,picinpar,amsmath,amsfonts}
+
+\input{macros.tex}
+
+\begin{document}
+ 
+ 
+\centerline{\large \bf CS152 Parser Language Rules}
+\centerline{Stanley Cohen (scohe001)}
+\centerline{Wyatt Sullivan (wsull001)}
+\centerline{Preston Giorgianni (pgior002)}
+
+\texttt{
+\
+{\vskip 0.1in \noindent\bf Program} $\Rightarrow$ 
+        Function Program $|$ $\epsilon$
+{\vskip 0.1in \noindent\bf Function} $\Rightarrow$ 
+        FUNCTION IDENTIFIER SEMICOLON BEGIN\char`_PARAMS Declaration\char`_blk 
+        END\char`_PARAMS BEGIN\char`_LOCALS Declaration END\char`_LOCALS BEGIN\char`_BODY 
+        Statement\char`_blk END\char`_BODY $|$ $\epsilon$
+\
+}
+
+\end{document}
