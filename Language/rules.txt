@@ -1,11 +1,3 @@
-Program:	Function Program {}
-		| {}
-		;
-
-Function:	FUNCTION IDENTIFIER SEMICOLON BEGIN_PARAMS Declaration_blk END_PARAMS BEGIN_LOCALS
-		 Declaration END_LOCALS BEGIN_BODY Statement_blk END_BODY {}
-		;
-
 Declaration_blk:	Declaration SEMICOLON Declaration_blk {}
 			| {}
 			;
@@ -116,3 +108,4 @@ Term:		SUB Var {}
 Expression_blk: COMMA Expression Expression_blk {}
 		| {}
 		;
+END

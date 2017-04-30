@@ -21,6 +21,54 @@
         END\char`_PARAMS BEGIN\char`_LOCALS Declaration END\char`_LOCALS BEGIN\char`_BODY 
         Statement\char`_blk END\char`_BODY $|$ $\epsilon$
 \
+{\vskip 0.1in \noindent\bf Declaration\_blk} $\Rightarrow$ 
+    Declaration SEMICOLON Declaration\char`_blk $|$ $\epsilon$
+{\vskip 0.1in \noindent\bf Declaration} $\Rightarrow$ 
+    IDENTIFIER Identifier\char`_blk COLON Array\char`_declaration INTEGER
+{\vskip 0.1in \noindent\bf Identifier\_blk} $\Rightarrow$ 
+    COMMA IDENTIFIER Identifier\char`_blk $|$ $\epsilon$
+{\vskip 0.1in \noindent\bf Array\_declaration} $\Rightarrow$ 
+    ARRAY L\char`_SQUARE\char`_BRACKET NUMBER R\char`_SQUARE\char`_BRACKET OF $|$ $\epsilon$
+{\vskip 0.1in \noindent\bf Statement\_blk} $\Rightarrow$ 
+    Statement SEMICOLON Statement\char`_blk $|$ $\epsilon$
+{\vskip 0.1in \noindent\bf Statement} $\Rightarrow$ 
+    Var SEMICOLON EQ Expression $|$ IF Bool\char`_exp BEGINLOOP Statement SEMICOLON Statement\char`_blk ELSE $|$ WHILE Bool\char`_exp BEGINLOOP Statement SEMICOLON Statement\char`_blk ENDLOOP $|$ DO BEGINLOOP Statement SEMICOLON Statement\char`_blk ENDLOOP WHILE Bool\char`_exp $|$ READ Var Var\char`_blk $|$ WRITE Var Var\char`_blk $|$ CONTINUE $|$ RETURN Expression
+{\vskip 0.1in \noindent\bf Else\_blk} $\Rightarrow$ 
+    ELSE Statement SEMICOLON Statement\char`_blk $|$ $\epsilon$
+{\vskip 0.1in \noindent\bf Bool\_exp} $\Rightarrow$ 
+    Relation\char`_and\char`_exp Or
+{\vskip 0.1in \noindent\bf Or} $\Rightarrow$ 
+    OR Relation\char`_and\char`_exp Or $|$ $\epsilon$
+{\vskip 0.1in \noindent\bf Relation\_and\_exp} $\Rightarrow$ 
+    Relation\char`_exp And
+{\vskip 0.1in \noindent\bf And} $\Rightarrow$ 
+    AND Relation\char`_exp And $|$ $\epsilon$
+{\vskip 0.1in \noindent\bf Relation\_exp} $\Rightarrow$ 
+    Not Expression Comp Expression $|$ Not TRUE $|$ Not FALSE $|$ Not L\char`_PAREN Bool\char`_exp R\char`_PAREN
+{\vskip 0.1in \noindent\bf Not} $\Rightarrow$ 
+    NOT $|$ $\epsilon$
+{\vskip 0.1in \noindent\bf Comp} $\Rightarrow$ 
+    EQ $|$ LT $|$ GT $|$ NEQ $|$ LTE $|$ GTE
+{\vskip 0.1in \noindent\bf Expression} $\Rightarrow$ 
+    Multiplicative\char`_exp Multiplicative\char`_exp\char`_blk
+{\vskip 0.1in \noindent\bf Multiplicative\_exp\_blk} $\Rightarrow$ 
+    Multiplicative\char`_exp\char`_add Multiplicative\char`_exp\char`_blk $|$ Multiplicative\char`_exp\char`_sub Multiplicative\char`_exp\char`_blk $|$ $\epsilon$
+{\vskip 0.1in \noindent\bf Multiplicative\_exp\_add} $\Rightarrow$ 
+    ADD Multiplicative\char`_exp
+{\vskip 0.1in \noindent\bf Multiplicative\_exp\_sub} $\Rightarrow$ 
+    SUB Multiplicative\char`_exp
+{\vskip 0.1in \noindent\bf Multiplicative\_exp} $\Rightarrow$ 
+    Term Term\char`_blk $|$ Term
+{\vskip 0.1in \noindent\bf Term\_blk} $\Rightarrow$ 
+    MULT Term Term\char`_blk $|$ DIV Term Term\char`_blk $|$ MOD Term Term\char`_blk $|$ $\epsilon$
+{\vskip 0.1in \noindent\bf Var} $\Rightarrow$ 
+    IDENTIFIER $|$ IDENTIFIER L\char`_SQUARE\char`_BRACKET Expression R\char`_SQUARE\char`_BRACKET
+{\vskip 0.1in \noindent\bf Var\_blk} $\Rightarrow$ 
+    COMMA Var Var\char`_blk $|$ $\epsilon$
+{\vskip 0.1in \noindent\bf Term} $\Rightarrow$ 
+    SUB Var $|$ Var $|$ SUB NUMBER $|$ NUMBER $|$ SUB L\char`_PAREN Expression R\char`_PAREN $|$ SUB L\char`_PAREN Expression R\char`_PAREN $|$ IDENTIFIER  L\char`_PAREN Expression Expression\char`_blk R\char`_PAREN $|$ IDENTIFIER L\char`_PAREN R\char`_PAREN
+{\vskip 0.1in \noindent\bf Expression\_blk} $\Rightarrow$ 
+    COMMA Expression Expression\char`_blk $|$ $\epsilon$
 }
 
 \end{document}
