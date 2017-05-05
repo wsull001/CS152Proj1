@@ -10,16 +10,28 @@
 \centerline{\large \bf CS152 Parser Language Rules}
 \centerline{Stanley Cohen (scohe001)}
 \centerline{Wyatt Sullivan (wsull001)}
-\centerline{Preston Giorgianni (pgior002)}
+\centerline{Preston Giorgianni (pgior001)}
+
+\smallskip
+\hrulefill
+\smallskip
+
+\center{
+    \em{NOTE: items in the expansion of a grammar rule will be of the form} \\
+        SOMEVALUE \em{for terminals or} Some\_value \em{for a non-terminal.}
+}
+
+\smallskip 
+\hrulefill
+\smallskip 
 
 \texttt{
-\
 {\vskip 0.1in \noindent\bf Program} $\Rightarrow$ 
         Function Program $|$ $\epsilon$
 {\vskip 0.1in \noindent\bf Function} $\Rightarrow$ 
         FUNCTION IDENTIFIER SEMICOLON BEGIN\char`_PARAMS Declaration\char`_blk 
         END\char`_PARAMS BEGIN\char`_LOCALS Declaration END\char`_LOCALS BEGIN\char`_BODY 
-        Statement\char`_blk END\char`_BODY $|$ $\epsilon$
+        Statement\char`_blk END\char`_BODY
 \
 {\vskip 0.1in \noindent\bf Declaration\_blk} $\Rightarrow$ 
     Declaration SEMICOLON Declaration\char`_blk $|$ $\epsilon$
