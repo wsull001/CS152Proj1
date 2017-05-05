@@ -86,8 +86,22 @@ int yylex(void);
 %type	<str_val>	Expression_blk
 %type	<str_val>	Identifier_blk
 
+%left	EQ
+%left	NEQ
 
-%left	PLUS
+%left	OR
+%left	AND
+%left	GT
+%left	LT
+%left	LTE
+%left	GTE
+
+%left	SUB
+%left	MULT
+%left	DIV
+%left	MOD
+
+%left	NOT
 
 %%
 
