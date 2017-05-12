@@ -9,6 +9,7 @@ int yylex(void);
 %}
 
 %union{
+  int		junk;
   int		int_val;
   std::string*	str_val;
   std::string*	id_val;
@@ -16,56 +17,7 @@ int yylex(void);
 
 %start	Program 
 
-%token	<str_val>	INTEGER_LITERAL
-%token	<str_val>	FUNCTION
-%token	<str_val>	BEGIN_PARAMS
-%token	<str_val>	END_PARAMS
-%token	<str_val>	BEGIN_LOCALS
-%token	<str_val>	END_LOCALS
-%token	<str_val>	BEGIN_BODY
-%token	<str_val>	END_BODY
-%token	<str_val>	INTEGER
-%token	<str_val>	ARRAY
-%token	<str_val>	OF
-%token	<str_val>	IF
-%token	<str_val> 	THEN
-%token	<str_val>	ENDIF
-%token	<str_val>	ELSE
-%token	<str_val>	WHILE
-%token	<str_val>	DO
-%token	<str_val>	BEGINLOOP
-%token	<str_val>	ENDLOOP
-%token	<str_val>	CONTINUE
-%token	<str_val>	READ
-%token	<str_val>	WRITE
-%token	<str_val>	AND
-%token	<str_val>	OR
-%token	<str_val>	NOT
-%token	<str_val>	TRUE
-%token	<str_val>	FALSE
-%token	<str_val>	RETURN
-%token	<str_val>	SUB
-%token	<str_val>	ADD
-%token	<str_val>	MULT
-%token	<str_val>	DIV
-%token	<str_val>	MOD
-%token	<str_val>	EQ
-%token	<str_val>	NEQ
-%token	<str_val>	LT
-%token	<str_val>	GT
-%token	<str_val>	LTE
-%token	<str_val>	GTE
-%token	<str_val>	SEMICOLON
-%token	<str_val>	COLON
-%token	<str_val>	COMMA
-%token	<str_val>	L_PAREN
-%token	<str_val>	R_PAREN
-%token	<str_val>	L_SQUARE_BRACKET
-%token	<str_val>	R_SQUARE_BRACKET
-%token	<str_val>	ASSIGN
-%token	<str_val>	IDENTIFIER
-%token	<str_val>	NUMBER
-
+//non terminals
 %type	<str_val>	Function
 %type	<str_val>	Statement_blk
 %type 	<str_val>	Statement
@@ -85,23 +37,54 @@ int yylex(void);
 %type	<str_val>	Term
 %type	<str_val>	Expression_blk
 %type	<str_val>	Identifier_blk
+// end non terminals
 
-%left	EQ
-%left	NEQ
+%nonassoc	<junk>	FUNCTION
+%token		<str_val>	INTEGER_LITERAL
+%nonassoc	<junk>		BEGIN_PARAMS
+%nonassoc	<junk>		END_PARAMS
+%nonassoc	<junk>		BEGIN_LOCALS
+%nonassoc	<junk>		END_LOCALS
+%nonassoc	<junk>		BEGIN_BODY
+%nonassoc	<junk>		END_BODY
+%token		<str_val>	INTEGER
+%token		<str_val>	ARRAY
+%token		<junk>		OF
+%nonassoc	<junk>		IF
+%token		<junk>	 	THEN
+%token		<junk>		ENDIF
+%nonassoc	<junk>		ELSE
+%nonassoc	<junk>		WHILE
+%token		<junk>		DO
+%token		<junk>		BEGINLOOP
+%token		<junk>		ENDLOOP
+%token		<junk>		CONTINUE
+%token		<junk>		READ
+%token		<junk>		WRITE
+%token		<junk>		TRUE
+%token		<junk>		FALSE
+%token		<junk>		RETURN
+%token		<junk>		SEMICOLON
+%token		<junk>		COLON
+%token		<junk>		COMMA
+%nonassoc	<junk>		L_PAREN
+%nonassoc	<junk>		R_PAREN
+%nonassoc	<junk>		L_SQUARE_BRACKET
+%nonassoc	<junk>		R_SQUARE_BRACKET
+%token		<junk>		ASSIGN
+%token		<id_val>	IDENTIFIER
+%token		<str_val>	NUMBER
 
-%left	OR
-%left	AND
-%left	GT
-%left	LT
-%left	LTE
-%left	GTE
+%left		<str_val>	OR
+%left		<str_val>	AND
+%left		<str_val>	EQ NEQ
+%left		<str_val>	GT LT LTE GTE
 
-%left	SUB
-%left	MULT
-%left	DIV
-%left	MOD
 
-%left	NOT
+%left		<str_val>	SUB ADD
+%left		<str_val>	MULT DIV MOD
+
+%left		<str_val>	NOT
 
 %%
 
