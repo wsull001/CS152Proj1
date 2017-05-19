@@ -6,6 +6,6 @@ n : integer;
 endlocals
 beginbody
   read n;
-  n := n + 1?
-  write n
+  n := n + 1;
+  write n;
 endbody
