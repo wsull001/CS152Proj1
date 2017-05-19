@@ -67,24 +67,28 @@ int yylex(void);
 %token		<junk>		SEMICOLON
 %token		<junk>		COLON
 %token		<junk>		COMMA
-%nonassoc	<junk>		L_PAREN
-%nonassoc	<junk>		R_PAREN
-%nonassoc	<junk>		L_SQUARE_BRACKET
-%nonassoc	<junk>		R_SQUARE_BRACKET
-%token		<junk>		ASSIGN
 %token		<id_val>	IDENTIFIER
 %token		<str_val>	NUMBER
 
-%left		<str_val>	OR
-%left		<str_val>	AND
-%left		<str_val>	EQ NEQ
-%left		<str_val>	GT LT LTE GTE
-
-
-%left		<str_val>	SUB ADD
-%left		<str_val>	MULT DIV MOD
-
-%left		<str_val>	NOT
+%right		<junk>		ASSIGN
+%left		<junk>		OR
+%left		<junk>		AND
+%right		<junk>		NOT
+%left		<junk>		NEQ
+%left		<junk>		EQ
+%left		<junk>		GTE
+%left		<junk>		GT
+%left		<junk>		LTE
+%left		<junk>		LT
+%left		<junk>		SUB
+%left		<junk>		ADD
+%left		<junk>		MOD
+%left		<junk>		DIV
+%left		<junk>		MULT
+%left		<junk>		L_PAREN
+%left		<junk>		R_PAREN
+%left		<junk>		L_SQUARE_BRACKET
+%left		<junk>		R_SQUARE_BRACKET
 
 %%
 
