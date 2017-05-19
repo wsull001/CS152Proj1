@@ -28,8 +28,6 @@ int yylex(void);
 %}
 
 %union{
-  int		junk;
-  int		int_val;
   std::string*	str_val;
   std::string*	id_val;
 }
@@ -58,56 +56,56 @@ int yylex(void);
 %type	<str_val>	Identifier_blk
 // end non terminals
 
-%nonassoc	<junk>		FUNCTION
+%nonassoc	<str_val>		FUNCTION
 %token		<str_val>	INTEGER_LITERAL
-%nonassoc	<junk>		BEGIN_PARAMS
-%nonassoc	<junk>		END_PARAMS
-%nonassoc	<junk>		BEGIN_LOCALS
-%nonassoc	<junk>		END_LOCALS
-%nonassoc	<junk>		BEGIN_BODY
-%nonassoc	<junk>		END_BODY
+%nonassoc	<str_val>		BEGIN_PARAMS
+%nonassoc	<str_val>		END_PARAMS
+%nonassoc	<str_val>		BEGIN_LOCALS
+%nonassoc	<str_val>		END_LOCALS
+%nonassoc	<str_val>		BEGIN_BODY
+%nonassoc	<str_val>		END_BODY
 %token		<str_val>	INTEGER
 %token		<str_val>	ARRAY
-%token		<junk>		OF
-%nonassoc	<junk>		IF
-%token		<junk>	 	THEN
-%token		<junk>		ENDIF
-%nonassoc	<junk>		ELSE
-%nonassoc	<junk>		WHILE
-%token		<junk>		DO
-%token		<junk>		BEGINLOOP
-%token		<junk>		ENDLOOP
-%token		<junk>		CONTINUE
-%token		<junk>		READ
-%token		<junk>		WRITE
-%token		<junk>		TRUE
-%token		<junk>		FALSE
-%token		<junk>		RETURN
-%token		<junk>		SEMICOLON
-%token		<junk>		COLON
-%token		<junk>		COMMA
+%token		<str_val>		OF
+%nonassoc	<str_val>		IF
+%token		<str_val>	 	THEN
+%token		<str_val>		ENDIF
+%nonassoc	<str_val>		ELSE
+%nonassoc	<str_val>		WHILE
+%token		<str_val>		DO
+%token		<str_val>		BEGINLOOP
+%token		<str_val>		ENDLOOP
+%token		<str_val>		CONTINUE
+%token		<str_val>		READ
+%token		<str_val>		WRITE
+%token		<str_val>		TRUE
+%token		<str_val>		FALSE
+%token		<str_val>		RETURN
+%token		<str_val>		SEMICOLON
+%token		<str_val>		COLON
+%token		<str_val>		COMMA
 %token		<id_val>	IDENTIFIER
 %token		<str_val>	NUMBER
 
-%right		<junk>		ASSIGN
-%left		<junk>		OR
-%left		<junk>		AND
-%right		<junk>		NOT
-%left		<junk>		NEQ
-%left		<junk>		EQ
-%left		<junk>		GTE
-%left		<junk>		GT
-%left		<junk>		LTE
-%left		<junk>		LT
-%left		<junk>		SUB
-%left		<junk>		ADD
-%left		<junk>		MOD
-%left		<junk>		DIV
-%left		<junk>		MULT
-%left		<junk>		L_PAREN
-%left		<junk>		R_PAREN
-%left		<junk>		L_SQUARE_BRACKET
-%left		<junk>		R_SQUARE_BRACKET
+%right		<str_val>		ASSIGN
+%left		<str_val>		OR
+%left		<str_val>		AND
+%right		<str_val>		NOT
+%left		<str_val>		NEQ
+%left		<str_val>		EQ
+%left		<str_val>		GTE
+%left		<str_val>		GT
+%left		<str_val>		LTE
+%left		<str_val>		LT
+%left		<str_val>		SUB
+%left		<str_val>		ADD
+%left		<str_val>		MOD
+%left		<str_val>		DIV
+%left		<str_val>		MULT
+%left		<str_val>		L_PAREN
+%left		<str_val>		R_PAREN
+%left		<str_val>		L_SQUARE_BRACKET
+%left		<str_val>		R_SQUARE_BRACKET
 
 %%
 
