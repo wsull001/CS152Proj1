@@ -56,6 +56,7 @@ int yylex(void);
 %type	<str_val>	Term
 %type	<str_val>	Expression_blk
 %type	<str_val>	Identifier_blk
+%type	<str_val>	Array_declaration
 // end non terminals
 
 %nonassoc	<junk>		FUNCTION
@@ -123,14 +124,14 @@ Declaration_blk:	Declaration SEMICOLON Declaration_blk { cout << "Declaration_bl
 			| {}
 			;
 
-Declaration:	IDENTIFIER Identifier_blk COLON Array_declaration INTEGER { cout << "Declaration -> " << *((std::string*)$1) << *((std::string)$2) "COLON Array_declaration INTEGER" << endl; }
+Declaration:	IDENTIFIER Identifier_blk COLON Array_declaration INTEGER { cout << BOLDRED << "Declaration -> " << *((std::string*)$1) << *((std::string*)$2) << " COLON " << *((std::string*)$4) << " INTEGER" << endl << RESET; }
 		;
 
-Identifier_blk: COMMA IDENTIFIER Identifier_blk { $$ = new std::string(*((std::string*)$2) + ',' + *((std::string*)$3)); }
-		| {}
+Identifier_blk: COMMA IDENTIFIER Identifier_blk { $$ = new std::string(',' + *((std::string*)$2) + *((std::string*)$3)); }
+		| {$$ = new std::string();}
 		;
 
-Array_declaration:	ARRAY L_SQUARE_BRACKET NUMBER R_SQUARE_BRACKET OF { cout << "Array_declaration -> ARRAY L_SQUARE_BRACKET " << $3 << "R_SQUARE_BRACKET OF" << endl; }
+Array_declaration:	ARRAY L_SQUARE_BRACKET NUMBER R_SQUARE_BRACKET OF { $$ = new std::string("array[" + *((std::string*)$3) + "]");	}
 			| {}
 			;
 
