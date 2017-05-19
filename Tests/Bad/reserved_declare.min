@@ -1,0 +1,10 @@
+function main;
+beginparams
+endparams
+beginlocals
+	continue : integer;
+endlocals
+beginbody
+	continue := 3;
+	write continue;
+ endbody

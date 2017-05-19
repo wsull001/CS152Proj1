@@ -1,15 +1,12 @@
-function main;
+function not_main;
 beginparams
 endparams
 beginlocals
 	n : integer;
 	r : array [10] of integer;
-	n : array [10] of integer;
 endlocals
 beginbody
  	read n;
- 	n := z + 1;
- 	n := n + r;
+ 	n := n + 1;
  	write n;
- 	continue;
  endbody

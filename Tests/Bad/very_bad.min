@@ -1,0 +1,16 @@
+function main;
+beginparams
+endparams
+beginlocals
+	n : integer;
+	r : array [10] of integer;
+	n : array [10] of integer;
+endlocals
+beginbody
+	n := fibonacci(n);
+ 	read n;
+ 	n := z + 1;
+ 	n := n + r;
+ 	write n;
+ 	continue;
+ endbody

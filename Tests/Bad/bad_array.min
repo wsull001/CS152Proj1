@@ -1,0 +1,12 @@
+function main;
+beginparams
+endparams
+beginlocals
+	r : array [10] of integer;
+	n : array [10] of integer;
+endlocals
+beginbody
+ 	n := 7;
+ 	n := n + 1;
+ 	write n;
+ endbody
