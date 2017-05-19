@@ -133,7 +133,7 @@ Declaration_blk:	Declaration SEMICOLON Declaration_blk { $$ = new std::string(*(
 			;
 
 
-Declaration:	IDENTIFIER Identifier_blk COLON Array_declaration INTEGER { /*cout << BOLDRED << "Declaration -> " << *((std::string*)$1) << *((std::string*)$2) << " COLON " << *((std::string*)$4) << " INTEGER" << endl << RESET;*/
+Declaration:	IDENTIFIER Identifier_blk COLON Array_declaration INTEGER {
  $$ = new std::string(*((std::string*)$1) + *((std::string*)$2) + ":" + *((std::string*)$4) + "integer"); }
 		;
 
@@ -183,16 +183,16 @@ Relation_exp:	Not Expression Comp Expression {}
 		| Not L_PAREN Bool_exp R_PAREN {}
 		;
 
-Not:		NOT {}
+Not:		NOT { $$ = $1; }
 		| { $$ = new std::string(); }
 		;
 
-Comp:		EQ {}
-		| LT {}
-		| GT {}
-		| NEQ {}
-		| LTE {}
-		| GTE {}
+Comp:		EQ { $$ = $1; }
+		| LT { $$ = $1; }
+		| GT { $$ = $1; }
+		| NEQ { $$ = $1; }
+		| LTE { $$ = $1; }
+		| GTE { $$ = $1; }
 		;
 
 Expression:	Multiplicative_exp Multiplicative_exp_blk {}
@@ -218,8 +218,8 @@ Term_blk:	MULT Term Term_blk { }
 		| { $$ = new std::string(); }
 		;
 
-Var:		IDENTIFIER { }
-		| IDENTIFIER L_SQUARE_BRACKET Expression R_SQUARE_BRACKET { }
+Var:		IDENTIFIER { $$ = $1; }
+		| IDENTIFIER L_SQUARE_BRACKET Expression R_SQUARE_BRACKET { $$ = new string(*((std::string*)$1) + '[' + *((std::string*)$2) + ']') }
 		;
 
 Var_blk:	COMMA Var Var_blk { }
