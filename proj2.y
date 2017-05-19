@@ -4,6 +4,9 @@
 %{
 #include "heading.h"
 #include <cstring>
+#include <string>
+#include <stdio.h>
+#include <stdlib.h>
 int yyerror(char *s);
 int yylex(void);
 
@@ -54,6 +57,13 @@ int yylex(void);
 %type	<str_val>	Term
 %type	<str_val>	Expression_blk
 %type	<str_val>	Identifier_blk
+%type	<str_val>	Array_declaration
+%type	<str_val>	Declaration_blk
+%type	<str_val>	Program
+%type	<str_val>	Var_blk
+%type	<str_val>	And
+%type	<str_val>	Declaration
+	
 // end non terminals
 
 %nonassoc	<str_val>		FUNCTION
@@ -114,21 +124,23 @@ Program:	Function Program { }
 		;
 
 Function:	FUNCTION IDENTIFIER SEMICOLON BEGIN_PARAMS Declaration_blk END_PARAMS BEGIN_LOCALS
-		 Declaration_blk END_LOCALS BEGIN_BODY Statement_blk END_BODY {  }
+		 Declaration_blk END_LOCALS BEGIN_BODY Statement_blk END_BODY { cout << BOLDMAGENTA << *((std::string*)$5) << ' ' << *((std::string*)$8) << endl << RESET;  }
 		;
 
-Declaration_blk:	Declaration SEMICOLON Declaration_blk { }
+Declaration_blk:	Declaration SEMICOLON Declaration_blk { $$ = new std::string(*((std::string*)$1)
+								 + ';' + *((std::string*)$3));}
 			| { $$ = new std::string(); }
 			;
 
-Declaration:	IDENTIFIER Identifier_blk COLON Array_declaration INTEGER {  }
+
+Declaration:	IDENTIFIER Identifier_blk COLON Array_declaration INTEGER { cout << BOLDRED << "Declaration -> " << *((std::string*)$1) << *((std::string*)$2) << " COLON " << *((std::string*)$4) << " INTEGER" << endl << RESET; }
 		;
 
-Identifier_blk: COMMA IDENTIFIER Identifier_blk { $$ = new std::string(*((std::string*)$2) + ',' + *((std::string*)$3)); }
-		| { $$ = new std::string(); }
+Identifier_blk: COMMA IDENTIFIER Identifier_blk { $$ = new std::string(',' + *((std::string*)$2) + *((std::string*)$3)); }
+		| {$$ = new std::string();}
 		;
 
-Array_declaration:	ARRAY L_SQUARE_BRACKET NUMBER R_SQUARE_BRACKET OF {  }
+Array_declaration:	ARRAY L_SQUARE_BRACKET NUMBER R_SQUARE_BRACKET OF { $$ = new std::string("array[" + *((std::string*)$3) + "]");	}
 			| { $$ = new std::string(); }
 			;
 
