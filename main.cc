@@ -11,6 +11,7 @@ extern std::map<std::string, int> reserve;
 extern std::map<std::string, int> arithmetic;
 extern std::map<std::string, int> comparison;
 extern std::map<std::string, int> special;
+extern std::string exec_name;
 
 void init_maps();
 
@@ -23,6 +24,7 @@ int main(int argc, char **argv)
     exit( 1 );
   }
   
+  exec_name = argv[0];
   yyparse();
 
   return 0;

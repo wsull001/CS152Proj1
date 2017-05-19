@@ -3,6 +3,7 @@
 
 %{
 #include "heading.h"
+#include "functions.h"
 #include <cstring>
 #include <string>
 #include <stdio.h>
@@ -249,9 +250,10 @@ int yyerror(string s)
   extern int yylineno;	// defined and maintained in lex.c
   extern char *yytext;	// defined and maintained in lex.c
   extern int charNo;
+  extern std::string exec_name;
   
-  cerr << "ERROR: " << s << " at symbol \"" << yytext;
-  cerr << "\" on line " << yylineno << " at character " << charNo - strlen(yytext) << endl;
+  cerr << BOLDBLACK << exec_name << ':' << yylineno << ':' << charNo - strlen(yytext) << ':' << BOLDRED << " fatal: " << RESET;
+  cerr << s << " at symbol \"" << yytext << endl;
   exit(1);
 }
 

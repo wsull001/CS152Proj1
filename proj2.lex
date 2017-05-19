@@ -17,6 +17,7 @@
 	std::map<std::string, int> arithmetic;
 	std::map<std::string, int> comparison;
 	std::map<std::string, int> special;
+        std::string exec_name;
 
 
 
