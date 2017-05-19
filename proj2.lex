@@ -38,7 +38,7 @@ special       ";"|":"|","|"("|")"|"["|"]"|":="
 {numberId}    printf("Error at line %d, column %d: identifier \"%s\" must begin with a letter\n", yylineno, charNo, yytext);exit(1);
 {underId}     printf("Error at line %d, column %d: identifier \"%s\" cannot end with an underscore\n", yylineno, charNo, yytext);exit(1);
 {id}          charNo+=strlen(yytext); yylval.id_val = new std::string(yytext); return IDENTIFIER;
-{number}      charNo+=strlen(yytext); yylval.int_val = atoi(yytext); return NUMBER;
+{number}      charNo+=strlen(yytext); yylval.str_val = new std::string(yytext); return NUMBER;
 {special}     charNo+=strlen(yytext); return special[yytext];
 \n            yylineno++;charNo=1;
 .             printf("Error at line %d, column %d: unrecognized symbol \"%s\"\n", yylineno, charNo, yytext); exit(1);
