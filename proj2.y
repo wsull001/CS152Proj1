@@ -39,7 +39,7 @@ int yylex(void);
 %type	<str_val>	Identifier_blk
 // end non terminals
 
-%nonassoc	<junk>	FUNCTION
+%nonassoc	<junk>		FUNCTION
 %token		<str_val>	INTEGER_LITERAL
 %nonassoc	<junk>		BEGIN_PARAMS
 %nonassoc	<junk>		END_PARAMS
@@ -93,7 +93,7 @@ int yylex(void);
 %%
 
 Program:	Function Program { cout << "Program -> Function Program" << endl;}
-		| { cout << "Program -> epsilon" << endl; }
+		| {}
 		;
 
 Function:	FUNCTION IDENTIFIER SEMICOLON BEGIN_PARAMS Declaration_blk END_PARAMS BEGIN_LOCALS
@@ -101,22 +101,22 @@ Function:	FUNCTION IDENTIFIER SEMICOLON BEGIN_PARAMS Declaration_blk END_PARAMS 
 		;
 
 Declaration_blk:	Declaration SEMICOLON Declaration_blk { cout << "Declaration_blk -> Declaration SEMICOLON Declaration_blk" << endl; }
-			| { cout << "Declaration_blk -> epsilon" << endl; }
+			| {}
 			;
 
-Declaration:	IDENTIFIER Identifier_blk COLON Array_declaration INTEGER { cout << "Declaration -> " << *((std::string*)$1) << " Identifier_blk COLON Array_declaration INTEGER" << endl; }
+Declaration:	IDENTIFIER Identifier_blk COLON Array_declaration INTEGER { cout << "Declaration -> " << *((std::string*)$1) << *((std::string)$2) "COLON Array_declaration INTEGER" << endl; }
 		;
 
-Identifier_blk: COMMA IDENTIFIER Identifier_blk { cout << "Identifier_blk -> COMMA " << *((std::string*)$2) << " Identifier_blk" << endl; }
-		| { cout << "Identifier_blk -> epsilon" << endl; }
+Identifier_blk: COMMA IDENTIFIER Identifier_blk { $$ = new std::string(*((std::string*)$2) + ',' + *((std::string*)$3)); }
+		| {}
 		;
 
 Array_declaration:	ARRAY L_SQUARE_BRACKET NUMBER R_SQUARE_BRACKET OF { cout << "Array_declaration -> ARRAY L_SQUARE_BRACKET " << $3 << "R_SQUARE_BRACKET OF" << endl; }
-			| { cout << "Array_declaration -> epsilon" << endl; }
+			| {}
 			;
 
 Statement_blk:	Statement SEMICOLON Statement_blk { cout << "Statement_blk -> Statement SEMICOLON Statement_blk" << endl; }
-		| { cout << "Statement_blk -> epsilon" << endl; }
+		| {}
 		;
 
 Statement:	Var ASSIGN Expression {cout << "Statement -> Var ASSIGN Expression" << endl;}
@@ -130,21 +130,21 @@ Statement:	Var ASSIGN Expression {cout << "Statement -> Var ASSIGN Expression" <
 		;
 
 Else_blk:	ELSE Statement SEMICOLON Statement_blk {cout << "Else_blk -> ELSE Statement SEMICOLON Statement_blk" << endl;}
-		| {cout << "Else_blk -> epsilon" << endl;}
+		| {}
 		;
 
 Bool_exp:	Relation_and_exp Or {cout << "Bool_exp -> Relation_and_exp Or" << endl;}
 		;
 
 Or:		OR Relation_and_exp Or {cout << "OR -> OR Relation_and_exp Or" << endl;}
-		| {cout << "OR -> epsilon" << endl;}
+		| {}
 		;
 
 Relation_and_exp:	Relation_exp And {cout << "Relation_and_exp -> Relation_exp And" << endl;}
 			;
 
 And:		AND Relation_exp And {cout << "And -> AND Relation_exp And" << endl;}
-		| {cout << "And -> epsilon" << endl;}
+		| {}
 		;
 
 Relation_exp:	Not Expression Comp Expression {cout << "Relation_exp -> Not Expression Comp Expression" << endl;}
@@ -154,7 +154,7 @@ Relation_exp:	Not Expression Comp Expression {cout << "Relation_exp -> Not Expre
 		;
 
 Not:		NOT {cout << "Not -> NOT" << endl;}
-		| {cout << "Not -> epsilon" << endl;}
+		| {}
 		;
 
 Comp:		EQ {cout << "Comp -> EQ" << endl;}
@@ -170,7 +170,7 @@ Expression:	Multiplicative_exp Multiplicative_exp_blk {cout << "Expression -> Mu
 
 Multiplicative_exp_blk:	Multiplicative_exp_add Multiplicative_exp_blk {cout << "Multiplicative_exp_blk -> Multiplicative_exp_add Multiplicative_exp_blk" << endl;}
 			| Multiplicative_exp_sub Multiplicative_exp_blk {cout << "Multiplicative_exp_blk -> Multiplicative_exp_sub Multiplicative_exp_blk" << endl;}
-			| {cout << "Multiplicative_exp_blk -> epsilon" << endl;}
+			| {}
 			;
 
 Multiplicative_exp_add:	ADD Multiplicative_exp { cout << "Multiplicative_exp_add -> ADD Multiplicative_exp" << endl; }
@@ -185,7 +185,7 @@ Multiplicative_exp:	Term Term_blk { cout << "Multiplicative_exp -> Term Term_blk
 Term_blk:	MULT Term Term_blk {cout << "Term_blk -> MULT Term Term_blk" << endl;}
 		| DIV Term Term_blk {cout << "Term_blk -> DIV Term Term_blk" << endl;}
 		| MOD Term Term_blk {cout << "Term_blk -> MOD Term Term_blk" << endl;}
-		| {cout << "Term_blk -> epsilon" << endl;}
+		| {}
 		;
 
 Var:		IDENTIFIER { cout << "Var -> " << *((std::string*)$1) << endl;}
@@ -193,7 +193,7 @@ Var:		IDENTIFIER { cout << "Var -> " << *((std::string*)$1) << endl;}
 		;
 
 Var_blk:	COMMA Var Var_blk {cout << "Var_blk -> COMMA VAR Var_blk" << endl;}
-		| {cout << "Var_blk -> epsilon" << endl;}
+		| {}
 		;
 
 Term:		SUB Var { cout << "SUB Var" << endl;}
@@ -207,7 +207,7 @@ Term:		SUB Var { cout << "SUB Var" << endl;}
 		;
 
 Expression_blk: COMMA Expression Expression_blk { cout << "Expression_blk -> COMMA Expression Expressin_blk" << endl;}
-		| {cout << "Expression_blk -> epsilon" << endl; }
+		| {}
 		;
 
 
