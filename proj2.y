@@ -135,14 +135,15 @@ Declaration_blk:	Declaration SEMICOLON Declaration_blk { $$ = new std::string(*(
 			;
 
 
-Declaration:	IDENTIFIER Identifier_blk COLON Array_declaration INTEGER { cout << BOLDRED << "Declaration -> " << *((std::string*)$1) << *((std::string*)$2) << " COLON " << *((std::string*)$4) << " INTEGER" << endl << RESET; }
+Declaration:	IDENTIFIER Identifier_blk COLON Array_declaration INTEGER { /*cout << BOLDRED << "Declaration -> " << *((std::string*)$1) << *((std::string*)$2) << " COLON " << *((std::string*)$4) << " INTEGER" << endl << RESET;*/
+ $$ = new std::string(*((std::string*)$1) + *((std::string*)$2) + ":" + *((std::string*)$4) + "integer"); }
 		;
 
 Identifier_blk: COMMA IDENTIFIER Identifier_blk { $$ = new std::string(',' + *((std::string*)$2) + *((std::string*)$3)); }
 		| {$$ = new std::string();}
 		;
 
-Array_declaration:	ARRAY L_SQUARE_BRACKET NUMBER R_SQUARE_BRACKET OF { $$ = new std::string("array[" + *((std::string*)$3) + "]");	}
+Array_declaration:	ARRAY L_SQUARE_BRACKET NUMBER R_SQUARE_BRACKET OF { $$ = new std::string("array[" + *((std::string*)$3) + "] of ");	}
 			| { $$ = new std::string(); }
 			;
 
