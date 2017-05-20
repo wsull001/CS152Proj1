@@ -125,11 +125,10 @@ Program:	Function Program { }
 		;
 
 Function:	FUNCTION IDENTIFIER SEMICOLON BEGIN_PARAMS Declaration_blk END_PARAMS BEGIN_LOCALS
-		 Declaration_blk END_LOCALS BEGIN_BODY Statement_blk END_BODY { cout << BOLDMAGENTA << *((std::string*)$5) << ' ' << *((std::string*)$8) << endl << RESET;  }
+		 Declaration_blk END_LOCALS BEGIN_BODY Statement_blk END_BODY { cout << BOLDMAGENTA << *(paramCode((std::string*)$5)) << *(declrCode((std::string*)$8)) << endl << RESET;  }
 		;
 
-Declaration_blk:	Declaration SEMICOLON Declaration_blk { $$ = new std::string(*((std::string*)$1)
-								 + ';' + *((std::string*)$3));}
+Declaration_blk:	Declaration SEMICOLON Declaration_blk { $$ = new std::string(*((std::string*)$1) + ';' + *((std::string*)$3));}
 			| { $$ = new std::string(); }
 			;
 

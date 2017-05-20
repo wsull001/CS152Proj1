@@ -18,7 +18,8 @@ lex.c:		proj2.lex
 bison.o:	bison.c
 		$(CC) $(CFLAGS) -c bison.c -o bison.o
 
-bison.c:	proj2.y
+bison.c:	proj2.y functions.h
+		
 		bison -d -v proj2.y
 		cp proj2.tab.c bison.c
 		cmp -s proj2.tab.h tok.h || cp proj2.tab.h tok.h
@@ -26,6 +27,7 @@ bison.c:	proj2.y
 main.o:		main.cc
 		$(CC) $(CFLAGS) -c main.cc -o main.o
 
+lex.o yac.o main.o  : functions.h
 lex.o yac.o main.o	: heading.h
 lex.o main.o		: tok.h
 

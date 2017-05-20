@@ -28,24 +28,59 @@ std::vector<std::string> split(std::string in, char delim) {
 
 }
 
-std::string* declrCode(std::string* declr) { //generate declaration statements
-        std::string* code = new std::string();
-        int colenPos = declr->find(':');
-        std::string typestr = declr->substr(colenPos + 1);
-        std::cout << *declr << std::endl;
+std::string* declrCode(std::string* declr) { //generate declaration statements for locals
+    std::string* code = new std::string();
+    if (declr->size() == 0) return code;
+    vector<std::string> lines = split(*declr, ';'); //split declr into lines
+    for (int j = 0; j < lines.size(); j++) {
+        if (lines.at(j).size() == 0) break;
+        int colenPos = lines.at(j).find(':');
+        std::string typestr = lines.at(j).substr(colenPos + 1);
         int brackstart = typestr.find('[');
-        int len = typestr.find(']') - brackstart;
-        std::string idline = declr->substr(0, colenPos);
+        int len = typestr.find(']') - brackstart - 1;
+        std::string idline = lines.at(j).substr(0, colenPos);
         int type = (typestr.at(0) == 'i') ? 0 : 1;
         std::vector<std::string> ids = split(idline, ',');
         for (int i = 0; i < ids.size(); i++) {
-                if (symbols.find(ids.at(i)) != symbols.end()) {
-                        std::cerr << "Redeclaration of symbol " << ids.at(i) << std::endl;
-                        exit(1);
-                }
-                symbols[ids.at(i)] = type;
-                if (type == 0) *code = *code + ". " + ids.at(i) + "\n";
-                else *code = *code + ".[] " + ids.at(i) + ", " + typestr.substr(brackstart + 1, len) + "\n";
+            if (symbols.find(ids.at(i)) != symbols.end()) {
+                std::cerr << "Redeclaration of symbol " << ids.at(i) << std::endl;
+                exit(1);
+            }
+            symbols[ids.at(i)] = type;
+            if (type == 0) *code = *code + ". " + ids.at(i) + "\n";
+            else *code = *code + ".[] " + ids.at(i) + ", " + typestr.substr(brackstart + 1, len) + "\n";
         }
-        return code;
+    }
+    return code;
+}
+
+
+std::string* paramCode(std::string* declr) { //generate declaration statements for locals
+    std::string* code = new std::string();
+    int paramCount = 0;
+    if (declr->size() == 0) return code;
+    vector<std::string> lines = split(*declr, ';'); //split declr into lines
+    for (int j = 0; j < lines.size(); j++) {
+        if (lines.at(j).size() == 0) break;
+        int colenPos = lines.at(j).find(':');
+        std::string typestr = lines.at(j).substr(colenPos + 1);
+        int brackstart = typestr.find('[');
+        int len = typestr.find(']') - brackstart - 1;
+        std::string idline = lines.at(j).substr(0, colenPos);
+        int type = (typestr.at(0) == 'i') ? 0 : 1;
+        std::vector<std::string> ids = split(idline, ',');
+        for (int i = 0; i < ids.size(); i++) {
+            if (symbols.find(ids.at(i)) != symbols.end()) {
+                std::cerr << "Redeclaration of symbol " << ids.at(i) << std::endl;
+                exit(1);
+            }
+            symbols[ids.at(i)] = type;
+            *code = *code + ". " + ids.at(i) + "\n"; //code can only be integers in params
+            std::ostringstream strout;
+            strout << paramCount;
+            *code = *code + "= " + ids.at(i) + ", $" + strout.str();
+            paramCount++;
+        }
+    }
+    return code;
 }
