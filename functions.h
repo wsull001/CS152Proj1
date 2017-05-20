@@ -8,6 +8,7 @@
 #include <sstream>
 #include <map>
 #include <stdlib.h>
+#include <cstdarg>
 
 //functions
 
@@ -83,4 +84,16 @@ std::string* paramCode(std::string* declr) { //generate declaration statements f
         }
     }
     return code;
+}
+
+
+void takeOutTheTrash(int n, ...) {
+    va_list args;
+
+    va_start(args, n);
+    for (int i = 0; i < n; i++) {
+        void* m = va_arg(args, void*);
+        if (m != 0) delete m; //assume m is not dangling bc if so seg fault
+    }
+    va_end(args);
 }
