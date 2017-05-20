@@ -83,7 +83,7 @@ std::string* declrCode(std::string* declr) { //generate declaration statements f
 }
 
 
-std::string* paramCode(std::string* declr) { //generate declaration statements for locals
+std::string* paramCode(std::string* declr) { //generate declaration statements for parameters
     std::string* code = new std::string();
     int paramCount = 0;
     if (declr->size() == 0) return code;
@@ -108,7 +108,7 @@ std::string* paramCode(std::string* declr) { //generate declaration statements f
             *code = *code + ". " + ids.at(i) + "\n"; //code can only be integers in params
             std::ostringstream strout;
             strout << paramCount;
-            *code = *code + "= " + ids.at(i) + ", $" + strout.str();
+            *code = *code + "= " + ids.at(i) + ", $" + strout.str(); //initialize to the proper parameter
             paramCount++;
         }
     }
@@ -116,7 +116,7 @@ std::string* paramCode(std::string* declr) { //generate declaration statements f
 }
 
 
-void takeOutTheTrash(int n, ...) {
+void takeOutTheTrash(int n, ...) { //USAGE: n is the number of pointers to delete, then just list the pointers
     va_list args;
 
     va_start(args, n);
