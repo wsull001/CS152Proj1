@@ -234,7 +234,7 @@ int yyerror( string s ) {
   extern std::string compilerName;
   
   cerr << BOLDBLACK << compilerName << ':' << yylineno << ':' << BOLDRED << " fatal: " << RESET;
-  cerr << s << " at symbol \"" << yytext << endl;
+  cerr << s << " at symbol \"" << yytext << "\"" << endl;
   //cerr << "ERROR " + s + " at symbol " + yytext + " on line" ;
   exit( 1 );
 }
