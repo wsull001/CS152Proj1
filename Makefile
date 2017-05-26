@@ -37,7 +37,7 @@ yac.c:		source.y
 
 clean:
 		rm *.o lex.c lex.yy.c yac.c source.tab.c\
-		source.output source.tab.h tok.h printout.ps core
+		source.output source.tab.h tok.h
 		rm compile_of_crap
 		
 
