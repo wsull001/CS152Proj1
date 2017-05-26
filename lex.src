@@ -9,7 +9,7 @@
 #include "heading.H"
 #include "nodes.h"
 #include "tok.h"
-int yyerror( char* s );
+int yyerror( const char* s );
 extern int yylineno;
 %}
 
@@ -58,8 +58,8 @@ array			return yylval.junk = ARRAY;
 ":="			return yylval.junk = ASSGN;
 "=="			return yylval.junk = EQ;
 "<>"			return yylval.junk = NE;
-"<"			return yylval.junk = '<';
-">"			return yylval.junk = '>';
+"<"			return yylval.junk = LT;
+">"			return yylval.junk = GT;
 "<="			return yylval.junk = LE;
 ">="			return yylval.junk = GE;
 "+"			return yylval.junk = '+';

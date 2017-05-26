@@ -1,12 +1,13 @@
 // -*- c++ -*-
 // nodes.h
 
-// #include "heading.H"  // for tesing only.  Else comment this out
+#ifndef BRUH_GIT_GUD
+#define BRUH_GIT_GUD
+
+ #include "heading.H"  // for tesing only.  Else comment this out
 
 // Definitions of node classes, i.e., translation records.
 // A work in progress
-#ifndef NODES_H
-#define NODES_H
 
 // External global variables
 extern ostringstream code;                            // Where target code goes
@@ -179,4 +180,5 @@ public:
 };
 
 
-#endif 
+#endif //BRUH_GIT_GUD
+ 

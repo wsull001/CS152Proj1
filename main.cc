@@ -49,38 +49,7 @@ int main( int argc, char* argv[] ) {
 
 }
 
-// These should create a name and install it into the appropriate table.
-// It's attributes can be filled in later.
 
-string newVar()   {
-  static int counter = 0;
-  return "Var" + itoa(counter++);
-}
-
-string newArry()  {
-  static int counter = 0;
-  return "Arry" + itoa(counter++);
-}
-
-string newParam() {
-  static int counter = 0;
-  return "Param" + itoa(counter++);
-}
-
-string newFunct() {
-  static int counter = 0;
-  return "Funct" + itoa(counter++);
-}
-
-string newTemp()  {
-  static int counter = 0;
-  return "Temp" + itoa(counter++);
-}
-
-string newLabel() {
-  static int counter = 0;
-  return "Label" + itoa(counter++);
-}
 
 
   // The rest is left over from my MiniJava compiler  THP

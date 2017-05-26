@@ -21,13 +21,6 @@ using namespace std;
 #include <cstring>
 #include <stack>
 
-inline std::string itoa( int x ) {  // converts an integer to a string.
-  ostringstream s;
-  s << x;
-  return s.str();
-}
-
-
 //the following are UBUNTU/LINUX ONLY terminal color codes.
 #define RESET   "\033[0m"
 #define BLACK   "\033[30m"      /* Black */
@@ -46,6 +39,45 @@ inline std::string itoa( int x ) {  // converts an integer to a string.
 #define BOLDMAGENTA "\033[1m\033[35m"      /* Bold Magenta */
 #define BOLDCYAN    "\033[1m\033[36m"      /* Bold Cyan */
 #define BOLDWHITE   "\033[1m\033[37m"      /* Bold White */
+
+inline std::string itoa( int x ) {  // converts an integer to a string.
+  ostringstream s;
+  s << x;
+  return s.str();
+}
+
+// These should create a name and install it into the appropriate table.
+// It's attributes can be filled in later.
+
+inline std::string newVar()   {
+  static int counter = 0;
+  return "Var" + itoa(counter++);
+}
+
+inline std::string newArry()  {
+  static int counter = 0;
+  return "Arry" + itoa(counter++);
+}
+
+inline std::string newParam() {
+  static int counter = 0;
+  return "Param" + itoa(counter++);
+}
+
+inline std::string newFunct() {
+  static int counter = 0;
+  return "Funct" + itoa(counter++);
+}
+
+inline std::string newTemp()  {
+  static int counter = 0;
+  return "Temp" + itoa(counter++);
+}
+
+inline std::string newLabel() {
+  static int counter = 0;
+  return "Label" + itoa(counter++);
+}
 
 
 

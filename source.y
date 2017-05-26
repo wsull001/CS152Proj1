@@ -5,10 +5,12 @@
 %{ // Everything from here to "%}" is copied verbatim to the top of source.y
 #include "heading.H"
 #include "nodes.h"
-int yyerror( char* s );
+int yyerror( const char* s );
 int yylex( void );
 extern int decCnt;
 %}
+
+%error-verbose
 
 %union{
 
@@ -236,11 +238,10 @@ int yyerror( string s ) {
   
   cerr << BOLDBLACK << compilerName << ':' << yylineno << ':' << BOLDRED << " fatal: " << RESET;
   cerr << s << " at symbol \"" << yytext << "\"" << endl;
-  //cerr << "ERROR " + s + " at symbol " + yytext + " on line" ;
   exit( 1 );
 }
 
-int yyerror( char* s ) { return yyerror( string(s) ); }
+int yyerror( const char* s ) { return yyerror( string(s) ); }
 
 
 
