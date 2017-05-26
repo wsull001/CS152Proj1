@@ -16,3 +16,9 @@ proj2.tab.h
 *.log
 a.out
 compile_of_crap
+source.output
+source.tab.c
+source.tab.h
+yac.c
+yac.o
+

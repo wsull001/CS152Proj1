@@ -53,6 +53,7 @@ or			return yylval.junk = OR;
 not			return yylval.junk = NOT;
 integer                 return yylval.junk = INTEGER;
 of                      return yylval.junk = OF;
+array			return yylval.junk = ARRAY;
 
 ":="			return yylval.junk = ASSGN;
 "=="			return yylval.junk = EQ;
