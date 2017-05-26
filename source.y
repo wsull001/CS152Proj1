@@ -7,6 +7,7 @@
 #include "nodes.h"
 int yyerror( const char* s );
 int yylex( void );
+extern int decCnt;
 %}
 
 %error-verbose
@@ -167,7 +168,7 @@ Function     : FUNCTION ID ';'
                BEGINPARAMS Declarations ENDPARAMS
                BEGINLOCALS Declarations ENDLOCALS                            
  	       BEGINBODY   Statements   ENDBODY                         
-                 { $$ = new Function($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12); }
+                 { $$ = new Function($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12); decCnt = 0;}
 
              ;
 
