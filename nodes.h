@@ -9,7 +9,6 @@
 // Definitions of node classes, i.e., translation records.
 // A work in progress
 
-
 // External global variables
 extern ostringstream code;                            // Where target code goes
 extern ostringstream init;             // Where target initialization code goes
@@ -18,6 +17,9 @@ extern int yylineno;                           // defined & maintained in lex.c
 extern char* yytext;                           // defined & maintained in lex.c
 extern map< int, string > decode;              // MiniJava-to-C op-decode table
 extern string compilerName;               // initialized from argv[0] in main()
+extern int decCnt;
+
+extern map<string,int> symtab;
 
 // Obsolete stuff:
 // extern SemanticType* theIntType;    // global entity for MiniJava's Int type
@@ -176,11 +178,20 @@ public:
 
 class Declaration : public Node {
 public:
-  Declaration( list<string*>* c1, int c2, int c3 ) 
-  {};  
+  Declaration( list<string*>* c1, int c2, int c3, bool isParam=true ) {
+    for (auto i : *c1) {
+      code << ". " << *i << endl;
+      if (isParam) {
+        code << "= " << *i << ", $" << decCnt++;
+      }
+    }
+  };  
   Declaration( list<string*>* c1, int c2, int c3, int c4, int c5, int c6,
-	       int c7, int c8 )
-  { }
+	       int c7, int c8, bool isParam=true ) {
+    for (auto i : *c1) {
+      code << "[] " << *i << ", " << c5 << endl;
+    }
+  };
 };
 
 
@@ -201,6 +212,7 @@ public:
   Program(Functions *c1) 
   { for( auto it : *c1 ) { /* process it */ } }  
 };
+
 
 #endif //BRUH_GIT_GUD
  

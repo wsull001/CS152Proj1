@@ -5,9 +5,12 @@
 %{ // Everything from here to "%}" is copied verbatim to the top of source.y
 #include "heading.H"
 #include "nodes.h"
-int yyerror( char* s );
+int yyerror( const char* s );
 int yylex( void );
+extern int decCnt;
 %}
+
+%error-verbose
 
 %union{
 
@@ -165,7 +168,7 @@ Function     : FUNCTION ID ';'
                BEGINPARAMS Declarations ENDPARAMS
                BEGINLOCALS Declarations ENDLOCALS                            
  	       BEGINBODY   Statements   ENDBODY                         
-                 { $$ = new Function($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12); }
+                 { $$ = new Function($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12); decCnt = 0;}
 
              ;
 
@@ -235,11 +238,10 @@ int yyerror( string s ) {
   
   cerr << BOLDBLACK << compilerName << ':' << yylineno << ':' << BOLDRED << " fatal: " << RESET;
   cerr << s << " at symbol \"" << yytext << "\"" << endl;
-  //cerr << "ERROR " + s + " at symbol " + yytext + " on line" ;
   exit( 1 );
 }
 
-int yyerror( char* s ) { return yyerror( string(s) ); }
+int yyerror( const char* s ) { return yyerror( string(s) ); }
 
 
 
