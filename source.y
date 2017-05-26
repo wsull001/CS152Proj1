@@ -230,7 +230,12 @@ Expression   : Var                                  { $$ = new Expression($1); }
 int yyerror( string s ) {
   extern int yylineno;
   extern char* yytext;
-  cerr << "ERROR " + s + " at symbol " + yytext + " on line" ;
+  extern int charNo;
+  extern std::string compilerName;
+  
+  cerr << BOLDBLACK << compilerName << ':' << yylineno << ':' << BOLDRED << " fatal: " << RESET;
+  cerr << s << " at symbol \"" << yytext << endl;
+  //cerr << "ERROR " + s + " at symbol " + yytext + " on line" ;
   exit( 1 );
 }
 
