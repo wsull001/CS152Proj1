@@ -1,0 +1,83 @@
+/* -*- c++ -*- */
+/* lex.src for Mini-L */
+/* Updated 1:40 PM 5/22/17 */
+
+/* Everything between "%{" and "%}" gets copied verbatim to top of lex.c. */
+
+
+%{
+#include "heading.H"
+#include "nodes.h"
+#include "tok.h"
+int yyerror( char* s );
+extern int yylineno;
+%}
+
+%option noyywrap
+
+/* special states */
+%x                    inComment   
+
+letter                [a-zA-Z]
+digit                 [0-9]
+number                {digit}+
+identifier            {letter}([_]*{letter}|[_]*{digit})*   
+
+
+/* Lexical patterns with their actions */
+%%
+
+function		return yylval.junk = FUNCTION;
+beginparams		return yylval.junk = BEGINPARAMS;
+endparams		return yylval.junk = ENDPARAMS;
+beginlocals		return yylval.junk = BEGINLOCALS;
+endlocals		return yylval.junk = ENDLOCALS;
+beginbody		return yylval.junk = BEGINBODY;
+endbody			return yylval.junk = ENDBODY;
+beginloop		return yylval.junk = BEGINLOOP;
+endloop			return yylval.junk = ENDLOOP;
+if			return yylval.junk = IF;
+then			return yylval.junk = THEN;
+else			return yylval.junk = ELSE;
+endif			return yylval.junk = ENDIF;
+do			return yylval.junk = DO;
+while			return yylval.junk = WHILE;
+read			return yylval.junk = READ;
+write			return yylval.junk = WRITE;
+continue		return yylval.junk = CONTINUE;
+return			return yylval.junk = RETURN;
+true			return yylval.junk = TRUE;
+false			return yylval.junk = FALSE;
+and			return yylval.junk = AND;
+or			return yylval.junk = OR;
+not			return yylval.junk = NOT;
+integer                 return yylval.junk = INTEGER;
+of                      return yylval.junk = OF;
+
+":="			return yylval.junk = ASSGN;
+"=="			return yylval.junk = EQ;
+"<>"			return yylval.junk = NE;
+"<"			return yylval.junk = '<';
+">"			return yylval.junk = '>';
+"<="			return yylval.junk = LE;
+">="			return yylval.junk = GE;
+"+"			return yylval.junk = '+';
+"-"			return yylval.junk = '-';
+"*"			return yylval.junk = '*';
+"/"			return yylval.junk = '/';
+"%"			return yylval.junk = '%';
+"["			return yylval.junk = '[';
+"]"			return yylval.junk = ']';
+"("			return yylval.junk = '(';
+")"			return yylval.junk = ')';
+":"			return yylval.junk = ':';
+","			return yylval.junk = ',';
+";"			return yylval.junk = ';';
+
+{number}            { yylval.int_val = atoi( yytext ); return NUMBER; }
+{identifier}        { yylval.ident   = new std::string( yytext ); return ID; }
+[ \t]*              ;
+[\n]                ++yylineno;
+"##"[^\n]*          ;
+
+.                   { std::cerr << "LEXICAL "; yyerror( "" ); }

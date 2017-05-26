@@ -1,0 +1,511 @@
+ 
+                            README
+
+The project specification is to write a MiniJava-to-C-minor compiler
+in C++ that takes a MiniJava program from standard input and puts an
+equivalent C-minor program onto standard output.
+
+
+                           MiniJava
+
+The details of MiniJava are given in the Appendix of Modern Compiler
+Implementation in Java (second edition) by Appel and Palsberg.
+
+  Program: 
+    MainClass ClassDecls
+
+  MainClass: 
+    class Id { public static void main ( String [] Id ) { Statement } }
+
+  ClassDecl: 
+    class Id { VarDecls MethodDecls }
+    class Id extends id { VarDecls MethodDecls }
+
+  VarDecl:   
+    Type Id ;
+
+  MethodDecl: 
+    public Type Id ( FormalList ) { VarDecls Statements return Exp ; }
+
+  Type: 
+    int[] 
+    boolean 
+    int 
+    Id
+
+  Statement:
+    { Statements }
+    if ( Exp ) Statement else Statement
+    while ( Exp ) statement
+    System.out.println ( Exp ) ;
+    Id = Exp ;
+    Id [ Exp ] = Exp ;
+
+  Exp: 
+    Exp Op Exp 
+    Exp [ Exp ] 
+    Exp . length
+    Exp . id ( ExpList )
+    IntegerLiteral
+    true
+    false
+    Id
+    this
+    new int [ Exp ]
+    new Id ( )
+    ! Exp
+    ( Exp )
+
+  ExpList: 
+    Empty
+    Exp ExpRests
+
+  ExpRests: 
+    Empty
+    ExpRests , Exp 
+
+  FormalList: 
+    Empty
+    Type Id FormalRests
+
+  FormalRests: 
+    Empty
+    FormalRests , Type Id 
+
+  ClassDecls:
+    Empty
+    ClassDecls ClassDecl
+
+  VarDecls:
+    Empty
+    VarDecls VarDecl
+
+  MethodDecls:
+    Empty
+    MethodDecls MethodDecl
+
+  Statements:
+    Empty
+    Statements Statement
+
+In the above, captalized words are non-terminals.  Lower-case words
+are keyword terminals.  Punctuation symbols are terminals.
+Id(entifier) denotes any sequence of letters digits and underscore
+characters beginning with a letter.  IntegerLiteral means sequences of
+digits.  Empty denotes the empty string.  Op denotes +, -, *, < or &&.
+All MiniJava programs are Java programs and have Java semantics.
+
+
+                            C-minor
+
+C-minor is a simple subset of C++ that corresponds to the assembly
+language for a generic three-address load/store architecture with an
+arbitrarily large set of registers (a.k.a., "variables").  A C-minor
+program is a list of C-minor declarations (with optional initializers)
+followed by C-minor instructions; it's a C++ program and has C++
+semantics.
+
+C-minor supports the data types: int, string, voidptr, stringptr,
+wordptr and word, which are defined in the preamble, which is written
+out by main() as follows:
+
+  cout << "#include<string>           \n";   // Write out the preamble.
+  cout << "#include<iostream>         \n";
+  cout << "using namespace std;       \n";
+  cout << "union word {               \n";   // Define "word",
+  cout << "        string* stringptr; \n";
+  cout << "        int     intval;    \n"; 
+  cout << "        void*   voidptr;   \n";
+  cout << "        int*    intptr;    \n";
+  cout << "        word*   wordptr;   \n";
+  cout << "};                         \n";
+  cout << "typedef string* stringptr; \n";   // and its types.
+  cout << "typedef int     intval;    \n";
+  cout << "typedef void*   voidptr;   \n";
+  cout << "typedef word*   wordptr;   \n";
+  cout << "typedef int*    intptr;    \n";
+  cout << "int main() {               \n";   // the C-minor main() 
+  cout << "word junkreg;              \n";   // a useful thing 
+  cout << "wordptr TP;                \n";   // the This Pointer
+  cout << "wordptr SP;                \n";   // the Stack Pointer
+  cout << "SP = new word[2048];       \n";   // the stack
+  cout << "SP = SP + 2000;            \n";   // stacks grow downward 
+  cout << "goto thefirstbypass;       \n";   // initialize vtables
+  cout << "theverybeginning:;         \n";   // begin execution
+
+So, here is the C-minor grammar.
+
+  Preamble:
+     (see the above cout expressions/statements.)
+ 
+  BasicType: 
+     intval 
+     voidptr 
+     wordptr 
+     intptr
+
+  Type: 
+     BasicType 
+     word
+
+  Program:  
+     Preamble Declarations Instructions }
+
+  Declarations:
+     Declaration
+     Declarations Declaration
+
+  Instructions:
+     Instruction
+     Instructions Instruction
+
+  Declaration:  
+     Type identifier
+      
+  Register: 
+     identifier
+
+  ThreeAddressInstruction: 
+     Register "=" Register Op Register ";"  
+
+  Op: + | - | * | / | < | > | == | != | <= | >=
+
+  UnaryInstruction:
+     Register = ! Register ;
+     Register = - Register ;
+     Register =   Register ;
+
+  LoadInstruction:
+     Register = Register [ Register ] . BasicType ; 
+
+  StoreInstruction:
+     Register [ Register ] . BasicType = Register ;  
+
+  FlowOfControlInstructions:
+     goto Label ;                              // unconditional jump
+     if (  Register ) goto Label ;               // conditional jump
+     Label : ;                                   // label definition 
+     Register =&& Label ;    //load label (Register must be voidptr)
+     goto* Register ;    // indirect jump (Register must be voidptr)
+     calls to C/C++ functions in a standard run-time library, lib.h.
+
+  Label: 
+     identifier
+
+  SpecialInstruction:
+     cout << Register ;
+     Register = new word [ Register ] ;
+
+C-minor programs present MiniJava variables as (symbolic) registers
+Each MiniJava declaration gets a unique C-minor register.  If the
+declaration is an instance of a class or an array, that register is of
+type wordptr and holds a pointer to the actual object or array, which
+in turn is an array of words in main memory.
+
+Each run-time instance of a declaration/register has a its own unique
+memory location, which is at a static offset from either SP or TP,
+depending on whether the declaration is local to a method or a class.
+For instance, the C-minor instruction:
+
+     SP[12].intval = x17;
+
+updates the home location of a method-local integer variable x17 whose
+static offset is 12.  Obviously, if the surrounding method is
+recursive, multiple instances of x17 can be live at any given time.
+But only one will be accessible via x17's home-location expression,
+"SP[12].intval".
+
+
+                          My Solution
+
+At present, my solution involves 1800 lines of code.  It passes all
+eight of the tests furnished by Appel and Palsberg.  My error messages
+need a lot of work, however.
+
+
+                          Organization
+
+My compiler makes three passes:
+
+  * The parsing pass builds the syntax tree by calling node
+    constructors corresponding to the grammar's production rules.
+    Those constructors take from the stack one argument per symbol on
+    the right hand side of the rule, and save those values const
+    private local variables, named c1, c2, ...  The parsing phase does
+    not set any other variables, with the exception that the
+    constructor for the class Program, sets the global root pointer to
+    point to that node.
+
+  * The semantic-analysis pass traverses the tree by calling the
+    analyze() member function for each node.  That function:
+      - initializes the node's public members
+      - installs child nodes that are declarations by calling their 
+        install() method.
+      - resolves bindings to types of declaration nodes by calling
+        their resolve() method.
+      - manipulates the nesting stack and the scope stack.
+      
+  * The code-generation pass traverses the tree by calling the gen() 
+    member function for each node.  That function:
+      - does not modify any member data
+      - does not consult symbol table
+      - does not call any non-member functions, except newlabel()
+      - does not issue any error messages
+      - does not invoke methods of other objects, except for the 
+        gen(), load(), and store() methods
+      - does not read or maintain the thisClass or thisMethod.
+      - does not create new temporaries, via calls to newTemp().
+      - does, however, create new labels via calls to newLabel().
+      - emits C-minor declarations and code into two string streams,
+        decs and code respectively.
+
+The main() function: 
+      - redirects the standard input, cin, to come from a command-line 
+        specified file, if any,
+      - initializes global variables, including the semantic types.
+      - invokes the (Bison-generated) parser, yyparse(), which builds
+        a syntax tree from the program obtained from cin, 
+      - invokes the analyze() operation of the root node to kick off the 
+        semantic-analysis phase,
+      - invokes the gen() operation of the root node to kick off the 
+        code-generation phase,
+      - writes the pre-amble of the C-minor program to cout,
+      - finalizes decs by writing a final '\0' to it,
+      - writes decs.str() to cout,
+      - finalizes code by writing a final '\0' to it,
+      - writes code.str() to cout,
+      - writes postamble to cout.
+
+The plan is to first get the scanner working, i.e., have it print out
+all of the tokens for Factorial.java.  Then get the parser working and
+have it scan Factorial.java.  Then the tree building and build the
+tree for Factorial.java.  (Have the constructors print out the
+identities of their classes.)
+
+Then get the translation routines for the declarations working, so
+that I can build the symbol tables.  Then get the simplest expressions
+(e.g., binary operations) to emit code.  Next deal with assignment
+operations, which requires dealing with lvalues.
+
+Then move on to the if/then control expressions, which produce no
+value.  Then to the if/then/else expressions, which produce a value
+and require checking that the both clauses have the same type.  Then
+do the for-loops and the while-loops.
+
+Next, to attack the function declarations and calls.
+
+The code for this compiler is written in C++ using Flex and Bison,
+which are open-source workalikes for Lex and YACC.  It is organized
+into several files, including: Makefile, lex.src, yac.src. tree.H,
+tree.cc, heading.H and main.cc.  The makefile is written so that a
+working compiler, called "compile", is produced as follows:
+
+  - From lex.src, Lex produces lex.yy.c, which gets renamed lex.c.
+
+  - From yac.src, YACC produces yac.src.tab.c, which gets renamed
+    yac.c and which #includes yac.h and tree.H.
+
+  - From yac.src, YACC also produces yac.src.tab.h, which contains
+    a definition of the union data type (YYSTYPE) for the semantic
+    portion of parse-stack entries.  It also #defines each token
+    appearing in a %token, %right, %left or %nonassoc line in yac.src
+    to a unique number above 256.  (Single character tokens
+    automatically corresponding to numbers below 256 via their ASCII
+    encodings.)  To avoid unnecessary recompilation, we compare
+    yac.src.tab.h to the existing tok.h (if any), and if they differ
+    yac.src.tab.h gets renamed tok.h and, under that name, gets
+    #included in yac.c and tree.cc.
+
+  - From lex.c, yac.c, tree.c and main.c, gcc produces the compiler,
+    which is called "compile".
+
+To completely test the compiler on a MiniJava program, say
+Widget.java:
+
+    > make clean
+    > make
+    > ./compile Widget.java > junk.cc
+    > gcc -g junk.cc
+    > gdb ./a.out 
+
+Obviously, make clean and running under gdb are optional.  Note that our
+target language, C-minor, is a subset of C++.
+
+
+                         Parsing Phase
+
+During the (bottom-up) parse phase, the compiler produces the detailed
+syntax tree of the program, whose semantic validity is checked during
+a top-down traveral of that tree (the semantic-analysis phase) and
+whose intermediate code is then generated during a second top-down
+traversal (the code-generation phase).
+
+During parsing, the semantic information about each occurrence of a
+given grammar symbol gets stored in an object of the symbol's
+"semantic type."  The first segment of yac.src, from "%union{" to
+"%}", contains the definition of the union type YYSTYPE, whose members
+are the respective semantic types of the symbols of the grammar.  At
+each stage in the (bottom-up) construction of the parse tree, a number
+of subtrees will exist.  Each stack entry contains the semantic
+information about the root of one of those trees, with information
+about the right-most root on top, etc.
+
+  - The semantic value for an integer literal gets held in a union
+    member, int_val, of type int.
+
+  - The semantic value for a token for a singleton lexical category
+    gets held in a union member of type int and named junk.
+
+  - The semantic information for identifiers and string literals
+    gets passed in the corresponding member of YYSTYPE as a pointer 
+    to a string.
+
+  - The semantic value for a non-terminal named, say, Widget gets held
+    in a union member of type Widget* and named widget (for lack of
+    any better name).
+
+The correspondence between YYSTYPE members and grammar symbols is
+established via a series of lines in the declaration section of
+yac.src, which immediately follows the the union declaration.  A
+non-terminal, say widget, appears in a line of the form:
+
+      %type  <member-name>  symbol-name
+
+for example
+
+      %type <widget> widget
+
+Each token appears in a line of the form:
+
+      %token <member-name> token_1 token_2 ... token_n
+
+where member-name is selected per the recipe above.  The token
+declarations are listed in order of increasing precedence (i.e.,
+binding strength), discussed below.  Replacing the YACC keyword %token
+with %left, %right, or %nonassoc attaches associativity (discussed
+below) to the listed symbols.  All tokens on a given line receive the
+same precedence and associativity.
+
+Bison/YACC forms a parse table for a DPDA even in the presence of
+conflicts.  By default, Yacc reports conflicts and resolves them ---
+reduce/reduce conflicts are resolved in favor of the earlier rule in
+the input sequence and shift/reduce conflicts are resolved in favor of
+the shift.  However, a shift/reduce conflict where both rules and the
+input (lookahead) token have precedence (as defined below) is not
+reported and is resolved in favor of the rule of higher precedence
+with ties broken on the basis of associativity of the completed item:
+``left'' implies reduce, ``right'' implies shift, ``nonassoc'' implies
+error.  The precedence and associativity of a grammar rule are those
+of the last token in the rule's body, unless the rule is followed by
+"%prec" and an overriding precedence/associativity token.  The use of
+associativity and precedence allows translation to be directed by
+ambiguous grammars that are significantly more compact and intuitive
+than their disambiguated counterparts.
+
+The semantic class of a non-terminal symbol, say widget, is pointer-to
+a base class, named Widget.  These per-nonterminal classes are defined
+in the upper portion of tree.H.  With each grammar rule for expanding
+the widget (i.e., each widget-rule), we associate a semantic action of
+the form
+           $$ = new Widget_whatever($1,$2, ..., $n);
+where:
+    
+  - Widget_whatever is a class (unique to that rule) derived from
+    Widget and having a single constructor, Widget_whatever(...),
+    which has a parameter for each symbol on the right-hand side of
+    that widget-rule.
+
+  - $$ denotes the semantic value for the Widget that is about to be
+    added to the tree.  $$ will be the value of the YYSTYPE object in
+    the semantic portion of the new stack top.
+
+  - $1, $2, ..., $n are the YYSTYPE values in the semantic portions of
+    the top n entries on the stack (with $n on top) and contain or
+    point to the semantic information for instances of the grammar
+    symbols in the body of the widget-rule upon whose reductions this
+    semantic action gets invoked.
+
+      * If the corresponding grammar symbol is a token, then its stack
+        entry holds the semantic value given it by the scanner, i.e., 
+        assigned to yylval, and pushed onto the stack during its
+        shift operation.
+
+      * If the corresponding grammar symbol is a non-terminal, then
+        its stack entry is the value assigned to $$ during the
+        reduction operation that pushed that entry onto the stack, a
+        pointer to the corresponding root in the forest that has been
+        constructed so far.
+
+Of course, the types of the constructor's parameters must correspond
+to the semantic types (union members) for the respective symbols.  The
+constructor parameters, d1, d2, ..., hold the values of the
+corresponding arguments, $1, $2, ..., respectively.  The constructor
+must initializes local data members, (called c1, c2, ...,
+respectively) with the values of the corresponding d's.  These
+per-rule derived classes are defined in the lower portion of tree.H.
+Each node in the syntax tree is an instance of one of these derived
+classes.
+
+Each of these classes has a translation function, void gen() --- in
+case of the per-symbol base classes, virtual void gen().  The
+translation function for a syntax-tree node (i.e., for each of the
+per-rule derived classes) must emit code and invoke the translation
+functions of some of its children.  Note that this translation
+function gets an opportunity to emit code both before and after each
+child.  The constructor for the start symbol of the grammar must
+initiate the top-down translation process by invoking its own
+translator function.  Note that parent nodes obtain information from
+the values of their children's data members (a.k.a., attributes), a
+technique called attribute synthesis.  Parents can also set the values
+of their children's attributes, a technique that is called "attribute
+inheritance."
+
+The strategy of simply building the syntax tree bottom-up parse and
+postponing translation until a subsequent top-down pass gets
+complicated a bit by the fact that the grammars for many programming
+languages require that identifiers be properly categorized by the
+scanner, which requires information that the scanner can only obtain
+from the identifier's symbol-table information --- information that
+had to be put into the symbol table by the parser during the bottom-up
+construction of the syntax tree by the constructors of certain
+semantic classes.
+
+Moreover, symbol-table management must take into account the scoping
+rules of the language.  So, during the bottom-up, tree-building phase,
+the scope-entry and scope-exit operations of the symbol table must be
+invoked by appropriate constructors.
+
+
+                         Symbol Table
+
+The symbol table is distributed throughout the syntax tree in maps
+that map identifiers to their declaration nodes in the tree.  These
+maps are members of base classes called Contexts, which have two
+operations, add(string,Decl) and lookup(string).  A Context<VarDecl>,
+Context<MethodDecl>, or Context<ClassDecl> is a scope for VarDecls,
+MethodDecls, or ClassDecls, respectively.  In our MiniJava compiler,
+ClassDecl is a derived from Context<VarDecl> and Context<MethodDecl>.
+And, MethodDecl is derived from Context<VarDecl>.  There are two
+pointers, MethodDecl* thisMethod and ClassDecl* thisClass, which are
+set by analyze() to point to the current MethodDecl/ClassDecl, if any,
+and to 0 otherwise.  Variables are looked up and declared in
+*thisMethod if any, else in *thisContext.
+
+
+                        Semantic Types
+
+For syntactic purposes, Type is a nonterminal.  In the syntax tree,
+there are Type nodes, some of which are IntType nodes, others of which
+are BooleanType nodes, and others of which are UserDefinedType nodes.
+For the sake of coherence, we introduce compile-time entities,
+SemanticTypes, each instance of which represents a given type, e.g.,
+
+  SemanticType theBooleanType("Boolean", "int");
+
+where the parameters represent the names for this type that will be
+used in error messages and the C-minor program, respectively.  The
+declaration of a user-defined type, i.e., a ClassDecl, will be a
+SemanticType (i.e., will be derived from SemanticType).
+                        
+
+
