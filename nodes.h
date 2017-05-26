@@ -16,6 +16,8 @@ extern char* yytext;                           // defined & maintained in lex.c
 extern map< int, string > decode;              // MiniJava-to-C op-decode table
 extern string compilerName;               // initialized from argv[0] in main()
 
+map<string,int> symtab;
+
 // Obsolete stuff:
 // extern SemanticType* theIntType;    // global entity for MiniJava's Int type
 // extern SemanticType* theIntArrayType;       // ... for MiniJava's Int[] type
@@ -139,11 +141,21 @@ public:
 
 class Declaration : public Node {
 public:
-  Declaration( list<string*>* c1, int c2, int c3 ) 
-  {};  
+  static int count = 0;
+  Declaration( list<string*>* c1, int c2, int c3, bool isParam ) {
+    for (auto i : c1) {
+      code << ". " << *i << endl;
+      if (isParam) {
+        code << "= " << *i << ", $" << count++;
+      }
+    }
+  };  
   Declaration( list<string*>* c1, int c2, int c3, int c4, int c5, int c6,
-	       int c7, int c8 )
-  { }
+	       int c7, int c8, bool isParam ) {
+    for (auto i : c1) {
+
+    }
+  };
 };
 
 
