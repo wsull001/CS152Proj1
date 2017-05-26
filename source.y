@@ -169,8 +169,8 @@ Function     : FUNCTION ID ';'
 
              ;
 
-Declaration  : IDs ':' INTEGER               { $$ = new Declaration($1,$2,$3); }
-             | IDs ':' ARRAY '[' NUMBER ']' OF INTEGER   
+Declaration  : IDs ':' INTEGER ';'           { $$ = new Declaration($1,$2,$3); }
+             | IDs ':' ARRAY '[' NUMBER ']' OF INTEGER ';'  
                               { $$ = new Declaration($1,$2,$3,$4,$5,$6,$7,$8); }
 	     ;
 
