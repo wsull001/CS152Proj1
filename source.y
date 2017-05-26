@@ -169,8 +169,8 @@ Function     : FUNCTION ID ';'
 
              ;
 
-Declaration  : IDs ':' INTEGER               { $$ = new Declaration($1,$2,$3); }
-             | IDs ':' ARRAY '[' NUMBER ']' OF INTEGER   
+Declaration  : IDs ':' INTEGER ';'           { $$ = new Declaration($1,$2,$3); }
+             | IDs ':' ARRAY '[' NUMBER ']' OF INTEGER ';'  
                               { $$ = new Declaration($1,$2,$3,$4,$5,$6,$7,$8); }
 	     ;
 
@@ -234,7 +234,7 @@ int yyerror( string s ) {
   extern std::string compilerName;
   
   cerr << BOLDBLACK << compilerName << ':' << yylineno << ':' << BOLDRED << " fatal: " << RESET;
-  cerr << s << " at symbol \"" << yytext << endl;
+  cerr << s << " at symbol \"" << yytext << "\"" << endl;
   //cerr << "ERROR " + s + " at symbol " + yytext + " on line" ;
   exit( 1 );
 }
