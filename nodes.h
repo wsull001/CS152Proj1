@@ -46,6 +46,7 @@ typedef list<Expression*>   Expressions;
 
 struct Node {
 public:
+  ostringstream code;
   Node() : lineNo(yylineno), nextTok(yytext) {}
   virtual ~Node() {};
   string pos() {      // for reporting errors, which we do only from nodes
@@ -94,12 +95,30 @@ public:
 
 class ReadStmt : public Statement {
 public:   
-  ReadStmt( int c1, Vars* c2 ) {}
+  ReadStmt( int c1, list<Var*>* c2 ) {
+    for(auto var : *c2){
+      if(var->expression_val == ""){
+        this->code << ".< " + var->val;
+      }
+      else{
+        this->code << "[].< " + var->val + ',' + var->expression_val;
+      }
+    }
+  }
 };
 
 class WriteStmt : public Statement {
 public:   
-  WriteStmt( int c1, Vars* c2 ) {}
+  WriteStmt( int c1, list<Var*>* c2 ) {
+    for(auto var : *c2){
+      if(var->expression_val == ""){
+        this->code << ".> " + var->val;
+      }
+      else{
+        this->code << "[].> " + var->val + ',' + var->expression_val;
+      }
+    }
+  }
 };
 
 class ContinueStmt : public Statement {
@@ -124,8 +143,14 @@ public:
 
 class Expression  : public Node {
 public:   
-  Expression( Var* c1 ) {}  // Var
-  Expression( int c1 ) {}  // NUMBER 
+  string val;
+
+  Expression( Var* c1 ) {
+    val = c1->val;
+  }  // Var
+  Expression( int c1 ) {
+    val = itoa(c1);
+  }  // NUMBER 
   Expression( int c1, Expression* c2, int c3 ) {} // '(" Expression ')'
   Expression( string* c1, int c2, Expressions* c3, int c4 ) {} 
   Expression( Expression* c1, int c2, Expression* c3 ) {}
@@ -134,8 +159,17 @@ public:
 
 class Var         : public Node {
 public:
-  Var( string* c1 ) {}
-  Var( string* c1, int c2, Expression* c3, int c4 ) {} 
+  string val;
+  string expression_val;
+
+  Var( string* c1 ) {
+    val = *c1;
+    expression_val = "";
+  }
+  Var( string* c1, int c2, Expression* c3, int c4 ) {
+    val = *c1;
+    expression_val = c3->val;
+  } 
 };
 
 
