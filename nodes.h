@@ -1,7 +1,10 @@
 // -*- c++ -*-
 // nodes.h
 
-// #include "heading.H"  // for tesing only.  Else comment this out
+#ifndef BRUH_GIT_GUD
+#define BRUH_GIT_GUD
+
+ #include "heading.H"  // for tesing only.  Else comment this out
 
 // Definitions of node classes, i.e., translation records.
 // A work in progress
@@ -165,5 +168,5 @@ public:
   { for( auto it : *c1 ) { /* process it */ } }  
 };
 
-
+#endif //BRUH_GIT_GUD
  
