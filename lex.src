@@ -9,7 +9,7 @@
 #include "heading.H"
 #include "nodes.h"
 #include "tok.h"
-int yyerror( char* s );
+int yyerror( const char* s );
 extern int yylineno;
 %}
 
