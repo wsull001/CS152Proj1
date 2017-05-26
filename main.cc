@@ -13,6 +13,9 @@ ostringstream init;   // holds gen()-emitted intialization instructions
 ostringstream code;     // holds gen()-emitted target-code instructions
 string compilerName; // initialized by main() for use in error messages
 int yyparse();          // prototype of bison-generated parser function
+int decCnt = 0;
+map<string,int> symtab;
+
 
 string preamble =
    "// beginning of preamble  ================================\n\

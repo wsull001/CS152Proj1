@@ -7,6 +7,7 @@
 #include "nodes.h"
 int yyerror( char* s );
 int yylex( void );
+extern int decCnt;
 %}
 
 %union{
@@ -165,7 +166,7 @@ Function     : FUNCTION ID ';'
                BEGINPARAMS Declarations ENDPARAMS
                BEGINLOCALS Declarations ENDLOCALS                            
  	       BEGINBODY   Statements   ENDBODY                         
-                 { $$ = new Function($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12); Declaration::count = 0;}
+                 { $$ = new Function($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12); decCnt = 0;}
 
              ;
 
