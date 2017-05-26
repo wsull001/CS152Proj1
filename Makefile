@@ -19,8 +19,8 @@ CFLAGS    =  -std=c++11 -w
 
 
 compile:	$(OBJS)
-		$(CC) $(CFLAGS) $(OBJS)  -o compile 
-#		$(CC) $(CFLAGS) $(OBJS)  -o compile -lfl 
+		$(CC) $(CFLAGS) $(OBJS)  -o compile_of_crap 
+#		$(CC) $(CFLAGS) $(OBJS)  -o compile_of_crap -lfl 
 
 lex.o yac.o main.o /*nodes.o*/	: heading.H 
 lex.o main.o /*nodes.o*/	: tok.h
@@ -38,6 +38,8 @@ yac.c:		source.y
 clean:
 		rm *.o lex.c lex.yy.c yac.c source.tab.c\
 		source.output source.tab.h tok.h printout.ps core
+		rm compile_of_crap
+		
 
 print:		
 		a2ps --line-numbers=1 -M letter /*README*/ Makefile heading.H\
@@ -53,7 +55,7 @@ size:
 # checkout:
 # 		co -l  README Makefile lex.src source.y nodes.h nodes.cc\
 # 		main.cc heading.H lib.h
-
-test:		
-		./testscript
+#
+#test:		
+#		./testscript
 
