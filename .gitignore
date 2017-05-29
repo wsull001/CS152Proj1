@@ -4,6 +4,7 @@ lex.yy.c
 bison.o
 lex.c
 lex.o
+nodes.o
 main.o
 tok.h
 proj2
