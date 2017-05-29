@@ -1,6 +1,6 @@
 # Makefile
 
-OBJS      =  yac.o  lex.o  main.o  
+OBJS      =  yac.o  lex.o  main.o nodes.o 
 #nodes.o
 SFLS      =  yac.c  lex.c  main.cc 
 #nodes.cc
@@ -22,9 +22,9 @@ compile:	$(OBJS)
 		$(CC) $(CFLAGS) $(OBJS)  -o compile_of_crap 
 #		$(CC) $(CFLAGS) $(OBJS)  -o compile_of_crap -lfl 
 
-lex.o yac.o main.o /*nodes.o*/	: heading.H 
-lex.o main.o /*nodes.o*/	: tok.h
-# yac.o main.o lex.o nodes.o : nodes.cc 
+lex.o yac.o main.o nodes.o	: heading.H 
+lex.o main.o nodes.o	: tok.h
+yac.o main.o lex.o nodes.o : nodes.cc 
 
 lex.c:		lex.src 
 		flex lex.src

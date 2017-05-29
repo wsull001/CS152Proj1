@@ -97,31 +97,14 @@ public:
 
 class ReadStmt : public Statement {
 public:   
-  ReadStmt( int c1, list<Var*>* c2 ) {
-    for(auto var : *c2){
-      if(var->expression_val == ""){
-        this->code << ".< " + var->val;
-      }
-      else{
-        this->code << "[].< " + var->val + ',' + var->expression_val;
-      }
-    }
-  }
+  ReadStmt( int c1, list<Var*>* c2 );
 };
 
 class WriteStmt : public Statement {
 public:   
-  WriteStmt( int c1, list<Var*>* c2 ) {
-    for(auto var : *c2){
-      if(var->expression_val == ""){
-        this->code << ".> " + var->val;
-      }
-      else{
-        this->code << "[].> " + var->val + ',' + var->expression_val;
-      }
-    }
-  }
+  WriteStmt( int c1, list<Var*>* c2 ); 
 };
+
 
 class ContinueStmt : public Statement {
 public:
@@ -147,9 +130,7 @@ class Expression  : public Node {
 public:   
   string val;
 
-  Expression( Var* c1 ) {
-    val = c1->val;
-  }  // Var
+  Expression( Var* c1 );  // Var
   Expression( int c1 ) {
     val = itoa(c1);
   }  // NUMBER 
