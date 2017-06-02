@@ -278,6 +278,7 @@ public:
     for( auto it : *c11 ) { /* process it */ 
       std::cout << it->code.str(); 
     };   
+    std::cout<< "endfunc" << std::endl;
   }
 };
 
