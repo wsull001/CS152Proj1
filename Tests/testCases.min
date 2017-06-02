@@ -8,6 +8,8 @@ beginbody
   read n;
   if n <> 70 then
     n := -n - 1;
+  else
+    n := n + 1;
   endif;
   write n;
   read n;

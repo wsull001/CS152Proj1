@@ -66,9 +66,22 @@ IfThenStmt::IfThenStmt( int c1, BoolExpr* c2, int c3, Statements* c4, int c5 ) {
     code << ": " << after << endl;
 }
 
-IfThenElseStmt::IfThenElseStmt( int c1, BoolExpr* c2, int c3, Statements* c4, int c5,
-		  Statements* c6, int c7 ) {
-
+IfThenElseStmt::IfThenElseStmt( int c1, BoolExpr* c2, int c3, Statements* c4, int c5,Statements* c6, int c7 ) {
+  after = newLabel();
+  string elseLbl = newLabel();
+  code << c2->code.str();
+  string temp = newTemp(code);
+  code << "! " << temp << ", " << c2->val << endl;
+  code << "?:= " << elseLbl << ", " << temp << endl;
+  for(auto st: *c4){
+    code << st->code.str();
+  }
+  code << ":= " << after << endl;
+  code << ": " << elseLbl << endl;
+  for(auto st: *c6){
+    code << st->code.str();
+  }
+  code << ": " << after << endl;
 }
 
 
