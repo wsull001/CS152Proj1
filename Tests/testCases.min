@@ -10,4 +10,9 @@ beginbody
     n := n - 1;
   endif;
   write n;
+  read n;
+  while n > 0 beginloop
+    write n;
+    n := n - 1;
+  endloop;
 endbody
