@@ -3,6 +3,7 @@
 
 #include "heading.H"
 #include "nodes.h"
+ #include "tok.h"
 
 // Globals
 // int yylineno = 1;

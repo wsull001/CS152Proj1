@@ -5,7 +5,6 @@
 #define BRUH_GIT_GUD
 
  #include "heading.H"  // for tesing only.  Else comment this out
- //#include "tok.h"
 
 // Definitions of node classes, i.e., translation records.
 // A work in progress
@@ -59,6 +58,10 @@ public:
   ostringstream code;
   Node() : lineNo(yylineno), nextTok(yytext) {}
   virtual ~Node() {};
+  void error(string err){
+    cerr << BOLDBLACK << compilerName << ':' << BOLDRED << " fatal: " << RESET << pos();
+    exit( 1 );
+  }
   string pos() {      // for reporting errors, which we do only from nodes
     return "At symbol \"" + nextTok + "\" on line " + itoa(lineNo) +",\n";
   }  
@@ -151,17 +154,17 @@ public:
   } 
   Expression( Expression* c1, int c2, Expression* c3 ) {
     val = newTemp();
-    /*if(c2 == ADD){
-      code << '+' + val + "," + c1->val + "," + c3->val + '\n';
-    } else if (c2 == SUB){
-      code << '-' + val + "," + c1->val + "," + c3->val + '\n';
-    } else if (c2 == MULT){
-      code << '*' + val + "," + c1->val + "," + c3->val + '\n';
-    } else if (c2 == MOD){
-      code << '%' + val + "," + c1->val + "," + c3->val + '\n';
+    if(c2 == '+'){
+      code << "+ " + val + ", " + c1->val + ", " + c3->val + '\n';
+    } else if (c2 == '-'){
+      code << "+ " + val + ", " + c1->val + ", " + c3->val + '\n';
+    } else if (c2 == '*'){
+      code << "* " + val + ", " + c1->val + ", " + c3->val + '\n';
+    } else if (c2 == '%'){
+      code << "% " + val + ", " + c1->val + ", " + c3->val + '\n';
     } else {
-      code << '/' + val + "," + c1->val + "," + c3->val + '\n';
-    }*/
+      code << "/ " + val + ", " + c1->val + ", " + c3->val + '\n';
+    }
   }
   Expression( int c2, Expression* c3 ) {}
 };
@@ -170,12 +173,20 @@ class Var         : public Node {
 public:
   string index;
   Var( string* c1 ) {
-    val = *c1;
-    index = "";
+    if(!symtab.count(*c1) && (symtab[*c1] != integer)){
+
+    } else{
+      val = *c1;
+      index = "";
+    }
   }
   Var( string* c1, int c2, Expression* c3, int c4 ) {
-    val = *c1;
-    index = c3->val;
+    if(!symtab.count(*c1) && (symtab[*c1] != arraytype)){
+
+    } else {
+      val = *c1;
+      index = c3->val;
+    }
   } 
 };
 
