@@ -135,6 +135,7 @@ public:
 //  BoolExpr( BoolExpr* c1,   int c2, BoolExpr* c3 ) {}
 
   BoolExpr(Node *c1, int c2, Node *c3) {
+    code << c1->code << c3->code;
     val = newTemp(code);
     switch(c2) {
       case 0:
