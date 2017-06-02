@@ -211,11 +211,11 @@ Expression   : Var                                  { $$ = new Expression($1); }
 	           | NUMBER                               { $$ = new Expression($1); }
              | '(' Expression ')'                                   { $$ = $2; }
              | ID '(' Expressions ')'      { $$ = new Expression($1,$2,$3,$4); }
-             | Expression '+' Expression      { $$ = new Expression($1,$2,$3); }
-             | Expression '-' Expression      { $$ = new Expression($1,$2,$3); }
-             | Expression '*' Expression      { $$ = new Expression($1,$2,$3); }
-             | Expression '/' Expression      { $$ = new Expression($1,$2,$3); }
-             | Expression '%' Expression      { $$ = new Expression($1,$2,$3); }
+             | Expression '+' Expression      { $$ = new Expression($1,'+',$3); }
+             | Expression '-' Expression      { $$ = new Expression($1,'-',$3); }
+             | Expression '*' Expression      { $$ = new Expression($1,'*',$3); }
+             | Expression '/' Expression      { $$ = new Expression($1,'/',$3); }
+             | Expression '%' Expression      { $$ = new Expression($1,'%',$3); }
              | '-' Expression  %prec UMINUS   { $$ = new Expression($1,$2); }
              ;
 
