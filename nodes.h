@@ -87,7 +87,7 @@ public:
 class IfThenStmt : public Statement {
 public:   
 public:   
-  IfThenStmt( int c1, BoolExpr* c2, int c3, Statements* c4, int c5 ) {}
+  IfThenStmt( int c1, BoolExpr* c2, int c3, Statements* c4, int c5 );
 };
 
 class IfThenElseStmt : public Statement {
