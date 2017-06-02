@@ -98,7 +98,9 @@ public:
 
 class WhileStmt : public Statement {
 public:   
-  WhileStmt( int c1, BoolExpr* c2, int c3, Statements* c4, int c5) {}
+  WhileStmt( int c1, BoolExpr* c2, int c3, Statements* c4, int c5) {
+    string 
+  }
 };
 
 class DoWhileStmt : public Statement {
