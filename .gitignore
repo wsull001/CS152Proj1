@@ -22,4 +22,4 @@ source.tab.c
 source.tab.h
 yac.c
 yac.o
-
+*.o

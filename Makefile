@@ -36,9 +36,9 @@ yac.c:		source.y
 	 	-cmp -s source.tab.h tok.h || cp source.tab.h tok.h
 
 clean:
-		rm *.o lex.c lex.yy.c yac.c source.tab.c\
+		rm -f *.o lex.c lex.yy.c yac.c source.tab.c\
 		source.output source.tab.h tok.h
-		rm compile_of_crap
+		rm -f compile_of_crap
 		
 
 print:		
