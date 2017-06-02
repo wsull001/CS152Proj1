@@ -64,7 +64,7 @@ public:
     exit( 1 );
   }
   string pos() {      // for reporting errors, which we do only from nodes
-    return "At symbol \"" + nextTok + "\" on line " + itoa(lineNo) +",\n";
+    return "At symbol \"" + nextTok + "\" on line " + itoa(lineNo) +"," << endl;
   }  
 
   // Declare code and place here.
@@ -135,7 +135,7 @@ public:
 //  BoolExpr( BoolExpr* c1,   int c2, BoolExpr* c3 ) {}
 
   BoolExpr(Node *c1, int c2, Node *c3) {
-    code << c1->code << c3->code;
+    code << c1->code.str() << c3->code.str();
     val = newTemp(code);
     switch(c2) {
       case 0:
@@ -176,6 +176,7 @@ public:
   }
   
   BoolExpr( int c1, BoolExpr* c2 ) {
+    code << c2->code.str();
     val = newTemp(code);
     code << "! " << val << ", " << c2->val << endl;
   }
@@ -193,18 +194,18 @@ public:
 
   } 
   Expression( Expression* c1, int c2, Expression* c3 ) {
-    code << c1->code.str() << c2->code.str();
+    code << c1->code.str() << c3->code.str();
     val = newTemp(code);
     if(c2 == '+'){
-      code << "+ " + val + ", " + c1->val + ", " + c3->val + '\n';
+      code << "+ " + val + ", " + c1->val + ", " + c3->val << endl;
     } else if (c2 == '-'){
-      code << "- " + val + ", " + c1->val + ", " + c3->val + '\n';
+      code << "- " + val + ", " + c1->val + ", " + c3->val << endl;
     } else if (c2 == '*'){
-      code << "* " + val + ", " + c1->val + ", " + c3->val + '\n';
+      code << "* " + val + ", " + c1->val + ", " + c3->val << endl;
     } else if (c2 == '%'){
-      code << "% " + val + ", " + c1->val + ", " + c3->val + '\n';
+      code << "% " + val + ", " + c1->val + ", " + c3->val << endl;
     } else {
-      code << "/ " + val + ", " + c1->val + ", " + c3->val + '\n';
+      code << "/ " + val + ", " + c1->val + ", " + c3->val << endl;
     }
   }
   Expression( int c2, Expression* c3 ) {}
@@ -224,6 +225,7 @@ public:
     }
   }
   Var( string* c1, int c2, Expression* c3, int c4 ) {
+    code << c3->code.str();
     if(!symtab.count(*c1)){
       error("undefined symbol");
     } else if((symtab[*c1] != arraytype)){

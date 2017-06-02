@@ -30,6 +30,7 @@ WriteStmt::WriteStmt( int c1, list<Var*>* c2 ) {
 }
 
 AssignmentStmt::AssignmentStmt( Var* c1, int c2, Expression* c3 ) {
+  code << c3->code.str();
   if(c1->index != ""){
     code << "=[] " + c1->val + ", " + c1->index + '\n';
   } else {
