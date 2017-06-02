@@ -8,6 +8,7 @@
 int yyerror( const char* s );
 int yylex( void );
 extern int decCnt;
+bool isParam = false;
 %}
 
 %error-verbose
@@ -137,7 +138,7 @@ Functions    : /* empty */                         { $$ = new list<Function*>; }
              | Functions Function                    { ($$=$1)->push_back($2); }
              ;                    /* any possibly empty sequence of Functions */
 
-Declarations : /* empty */                      { $$ = new list<Declaration*>; }
+Declarations : /* empty */                      { $$ = new list<Declaration*>; isParam = !isParam;}
              | Declarations Declaration              { ($$=$1)->push_back($2); }
              ;/* any possibly empty semicolon-terminated Declaration sequence */
 
@@ -167,12 +168,12 @@ Program      : Functions                              { $$ = new Program($1); }
 Function     : FUNCTION ID ';'                   
                BEGINPARAMS Declarations ENDPARAMS
                BEGINLOCALS Declarations ENDLOCALS                            
- 	       BEGINBODY   Statements   ENDBODY                         
-                 { $$ = new Function($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12); decCnt = 0;}
+ 	             BEGINBODY   Statements   ENDBODY                         
+                  { $$ = new Function($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12); decCnt = 0;}
 
              ;
 
-Declaration  : IDs ':' INTEGER ';'           { $$ = new Declaration($1,$2,$3); }
+Declaration  : IDs ':' INTEGER ';'           { $$ = new Declaration($1,$2,$3, isParam); }
              | IDs ':' ARRAY '[' NUMBER ']' OF INTEGER ';'  
                               { $$ = new Declaration($1,$2,$3,$4,$5,$6,$7,$8); }
 	     ;
@@ -187,27 +188,27 @@ Statement    : Var ASSGN Expression       { $$ = new AssignmentStmt($1,$2,$3); }
 	     | DO BEGINLOOP Statements ENDLOOP WHILE BoolExpr
                                     { $$ = new DoWhileStmt($1,$2,$3,$4,$5,$6); }
              | READ Vars                           { $$ = new ReadStmt($1,$2); }
-	     | WRITE Vars                         { $$ = new WriteStmt($1,$2); }
-	     | CONTINUE                           { $$ = new ContinueStmt($1); }
+	           | WRITE Vars                         { $$ = new WriteStmt($1,$2); }
+	           | CONTINUE                           { $$ = new ContinueStmt($1); }
              | RETURN Expression                 { $$ = new ReturnStmt($1,$2); }
              ;
 
- BoolExpr    : Expression EQ Expression         { $$ = new BoolExpr($1,$2,$3); }
-             | Expression NE Expression         { $$ = new BoolExpr($1,$2,$3); }
-             | Expression LT Expression         { $$ = new BoolExpr($1,$2,$3); }
-             | Expression GT Expression         { $$ = new BoolExpr($1,$2,$3); }
-             | Expression LE Expression         { $$ = new BoolExpr($1,$2,$3); }
-             | Expression GE Expression         { $$ = new BoolExpr($1,$2,$3); }
-	     | BoolExpr AND BoolExpr            { $$ = new BoolExpr($1,$2,$3); }
-	     | BoolExpr OR BoolExpr             { $$ = new BoolExpr($1,$2,$3); }
-             | NOT BoolExpr                     { $$ = new BoolExpr( 0,$1,$2); }
-             | TRUE                             { $$ = new BoolExpr( 0, 1, 0); }
-             | FALSE                            { $$ = new BoolExpr( 0, 0, 0); }
+ BoolExpr    : Expression EQ Expression         { $$ = new BoolExpr($1,0,$3); }
+             | Expression NE Expression         { $$ = new BoolExpr($1,1,$3); }
+             | Expression LT Expression         { $$ = new BoolExpr($1,2,$3); }
+             | Expression GT Expression         { $$ = new BoolExpr($1,3,$3); }
+             | Expression LE Expression         { $$ = new BoolExpr($1,4,$3); }
+             | Expression GE Expression         { $$ = new BoolExpr($1,5,$3); }
+	           | BoolExpr AND BoolExpr            { $$ = new BoolExpr($1,6,$3); }
+	           | BoolExpr OR BoolExpr             { $$ = new BoolExpr($1,69,$3); }
+             | NOT BoolExpr                     { $$ = new BoolExpr($1,$2); }
+             | TRUE                             { $$ = new BoolExpr( 1); }
+             | FALSE                            { $$ = new BoolExpr( 0); }
              | '(' BoolExpr ')'                                     { $$ = $2; }
 	     ;
 
 Expression   : Var                                  { $$ = new Expression($1); }
-	     | NUMBER                               { $$ = new Expression($1); }
+	           | NUMBER                               { $$ = new Expression($1); }
              | '(' Expression ')'                                   { $$ = $2; }
              | ID '(' Expressions ')'      { $$ = new Expression($1,$2,$3,$4); }
              | Expression '+' Expression      { $$ = new Expression($1,$2,$3); }
