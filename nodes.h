@@ -275,7 +275,9 @@ public:
     for( auto it : *c8  ) { /* process it */ 
       std::cout << it->code.str() << std::endl;
     };   
-    for( auto it : *c11 ) { /* process it */ };   
+    for( auto it : *c11 ) { /* process it */ 
+      std::cout << it->code.str() << std::endl;
+    };   
   }
 };
 
