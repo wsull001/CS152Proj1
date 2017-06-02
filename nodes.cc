@@ -9,7 +9,7 @@ Expression::Expression(Var* c1) {
 ReadStmt::ReadStmt( int c1, list<Var*>* c2 ) {
   for(auto var : *c2){
     if(var->index == ""){
-      this->code << ".< " + var->val ='\n';
+      this->code << ".< " + var->val + '\n';
     }
     else{
       this->code << "[].< " + var->val + ", " + var->index + '\n';
