@@ -64,7 +64,7 @@ public:
     exit( 1 );
   }
   string pos() {      // for reporting errors, which we do only from nodes
-    return "At symbol \"" + nextTok + "\" on line " + itoa(lineNo) +"," << endl;
+    return "At symbol \"" + nextTok + "\" on line " + itoa(lineNo) +",\n";
   }  
 
   // Declare code and place here.
