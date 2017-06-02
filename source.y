@@ -218,7 +218,7 @@ Expression   : Var                                  { $$ = new Expression($1); }
              | '-' Expression  %prec UMINUS   { $$ = new Expression(00,$1,$2); }
              ;
 
- Var	     : ID                                 { $$ = new Var($1, 0, 0, 0); }
+ Var	     : ID                                 { $$ = new Var($1); }
              | ID '[' Expression ']'              { $$ = new Var($1,$2,$3,$4); }
              ;
 
