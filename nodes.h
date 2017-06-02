@@ -20,6 +20,9 @@ extern string compilerName;               // initialized from argv[0] in main()
 extern int decCnt;
 
 extern map<string,int> symtab;
+const int integer = 0;
+const int arraytype = 1;
+const int function = 2;
 
 // Obsolete stuff:
 // extern SemanticType* theIntType;    // global entity for MiniJava's Int type
@@ -161,6 +164,7 @@ class Declaration : public Node {
 public:
   Declaration( list<string*>* c1, int c2, int c3, bool isParam=true ) {
     for (auto i : *c1) {
+      symtab[*i] = integer;
       code << ". " << *i << endl;
       if (isParam) {
         code << "= " << *i << ", $" << decCnt++;
@@ -170,6 +174,7 @@ public:
   Declaration( list<string*>* c1, int c2, int c3, int c4, int c5, int c6,
 	       int c7, int c8, bool isParam=true ) {
     for (auto i : *c1) {
+      symtab[*i] = arraytype;
       code << "[] " << *i << ", " << c5 << endl;
     }
   };
