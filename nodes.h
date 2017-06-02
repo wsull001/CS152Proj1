@@ -57,7 +57,8 @@ public:
   Node() : lineNo(yylineno), nextTok(yytext) {}
   virtual ~Node() {};
   void error(string err){
-    cerr << BOLDBLACK << compilerName << ':' << BOLDRED << " fatal: " << RESET << pos();
+    cerr << BOLDBLACK << compilerName << ':' << BOLDRED << " fatal: " << RESET << pos() << "\n\t"
+    << err << endl;
     exit( 1 );
   }
   string pos() {      // for reporting errors, which we do only from nodes
@@ -144,9 +145,6 @@ public:
   Expression( int c1 ) {
     val = itoa(c1);
   }  // NUMBER 
-  Expression( int c1, Expression* c2, int c3 ) {
-    val = c2->val;
-  } // '(" Expression ')'
   Expression( string* c1, int c2, Expressions* c3, int c4 ) {
 
   } 
@@ -171,16 +169,20 @@ class Var         : public Node {
 public:
   string index;
   Var( string* c1 ) {
-    if(!symtab.count(*c1) && (symtab[*c1] != integer)){
-
+    if(!symtab.count(*c1)){
+      error("undefined symbol");
+    } else if((symtab[*c1] != integer)){
+      error("integer acessed as a non integer");
     } else{
       val = *c1;
       index = "";
     }
   }
   Var( string* c1, int c2, Expression* c3, int c4 ) {
-    if(!symtab.count(*c1) && (symtab[*c1] != arraytype)){
-
+    if(!symtab.count(*c1)){
+      error("undefined symbol");
+    } else if((symtab[*c1] != arraytype)){
+      error("array acessed as a non array");
     } else {
       val = *c1;
       index = c3->val;
