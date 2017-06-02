@@ -8,6 +8,7 @@
 int yyerror( const char* s );
 int yylex( void );
 extern int decCnt;
+bool isParam = false;
 %}
 
 %error-verbose
@@ -137,7 +138,7 @@ Functions    : /* empty */                         { $$ = new list<Function*>; }
              | Functions Function                    { ($$=$1)->push_back($2); }
              ;                    /* any possibly empty sequence of Functions */
 
-Declarations : /* empty */                      { $$ = new list<Declaration*>; }
+Declarations : /* empty */                      { $$ = new list<Declaration*>; isParam = !isParam;}
              | Declarations Declaration              { ($$=$1)->push_back($2); }
              ;/* any possibly empty semicolon-terminated Declaration sequence */
 
@@ -172,7 +173,7 @@ Function     : FUNCTION ID ';'
 
              ;
 
-Declaration  : IDs ':' INTEGER ';'           { $$ = new Declaration($1,$2,$3); }
+Declaration  : IDs ':' INTEGER ';'           { $$ = new Declaration($1,$2,$3, isParam); }
              | IDs ':' ARRAY '[' NUMBER ']' OF INTEGER ';'  
                               { $$ = new Declaration($1,$2,$3,$4,$5,$6,$7,$8); }
 	     ;
@@ -215,7 +216,7 @@ Expression   : Var                                  { $$ = new Expression($1); }
              | Expression '*' Expression      { $$ = new Expression($1,$2,$3); }
              | Expression '/' Expression      { $$ = new Expression($1,$2,$3); }
              | Expression '%' Expression      { $$ = new Expression($1,$2,$3); }
-             | '-' Expression  %prec UMINUS   { $$ = new Expression(00,$1,$2); }
+             | '-' Expression  %prec UMINUS   { $$ = new Expression($1,$2); }
              ;
 
  Var	     : ID                                 { $$ = new Var($1); }

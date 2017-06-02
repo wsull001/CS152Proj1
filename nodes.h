@@ -5,7 +5,6 @@
 #define BRUH_GIT_GUD
 
  #include "heading.H"  // for tesing only.  Else comment this out
- //#include "tok.h"
 
 // Definitions of node classes, i.e., translation records.
 // A work in progress
@@ -24,6 +23,7 @@ extern map<string,int> symtab;
 const int integer = 0;
 const int arraytype = 1;
 const int function = 2;
+
 
 // Obsolete stuff:
 // extern SemanticType* theIntType;    // global entity for MiniJava's Int type
@@ -56,6 +56,10 @@ public:
   ostringstream code;
   Node() : lineNo(yylineno), nextTok(yytext) {}
   virtual ~Node() {};
+  void error(string err){
+    cerr << BOLDBLACK << compilerName << ':' << BOLDRED << " fatal: " << RESET << pos();
+    exit( 1 );
+  }
   string pos() {      // for reporting errors, which we do only from nodes
     return "At symbol \"" + nextTok + "\" on line " + itoa(lineNo) +",\n";
   }  
@@ -192,17 +196,17 @@ public:
   } 
   Expression( Expression* c1, int c2, Expression* c3 ) {
     val = newTemp();
-    /*if(c2 == ADD){
-      code << '+' + val + "," + c1->val + "," + c3->val + '\n';
-    } else if (c2 == SUB){
-      code << '-' + val + "," + c1->val + "," + c3->val + '\n';
-    } else if (c2 == MULT){
-      code << '*' + val + "," + c1->val + "," + c3->val + '\n';
-    } else if (c2 == MOD){
-      code << '%' + val + "," + c1->val + "," + c3->val + '\n';
+    if(c2 == '+'){
+      code << "+ " + val + ", " + c1->val + ", " + c3->val + '\n';
+    } else if (c2 == '-'){
+      code << "+ " + val + ", " + c1->val + ", " + c3->val + '\n';
+    } else if (c2 == '*'){
+      code << "* " + val + ", " + c1->val + ", " + c3->val + '\n';
+    } else if (c2 == '%'){
+      code << "% " + val + ", " + c1->val + ", " + c3->val + '\n';
     } else {
-      code << '/' + val + "," + c1->val + "," + c3->val + '\n';
-    }*/
+      code << "/ " + val + ", " + c1->val + ", " + c3->val + '\n';
+    }
   }
   Expression( int c2, Expression* c3 ) {}
 };
@@ -211,12 +215,20 @@ class Var         : public Node {
 public:
   string index;
   Var( string* c1 ) {
-    val = *c1;
-    index = "";
+    if(!symtab.count(*c1) && (symtab[*c1] != integer)){
+
+    } else{
+      val = *c1;
+      index = "";
+    }
   }
   Var( string* c1, int c2, Expression* c3, int c4 ) {
-    val = *c1;
-    index = c3->val;
+    if(!symtab.count(*c1) && (symtab[*c1] != arraytype)){
+
+    } else {
+      val = *c1;
+      index = c3->val;
+    }
   } 
 };
 
@@ -227,7 +239,7 @@ public:
   Declaration( list<string*>* c1, int c2, int c3, bool isParam=true ) {
     for (auto i : *c1) {
       symtab[*i] = integer;
-      code << ". " << *i << endl;
+      code << ". " << *i << (isParam ? "\n" : "");
       if (isParam) {
         code << "= " << *i << ", $" << decCnt++;
       }
@@ -237,7 +249,7 @@ public:
 	       int c7, int c8, bool isParam=true ) {
     for (auto i : *c1) {
       symtab[*i] = arraytype;
-      code << "[] " << *i << ", " << c5 << endl;
+      code << "[] " << *i << ", " << c5;
     }
   };
 };
@@ -248,9 +260,14 @@ public:
   Function(int c1, string* c2, int c3, int c4, Declarations* c5, int c6,
       int c7, Declarations* c8, int c9, int c10, Statements* c11, int c12)
   {
+    std::cout << "func " << *c2 << std::endl;
     // emit MIL-code function declaration for c2
-    for( auto it : *c5  ) { /* process it */ };   
-    for( auto it : *c8  ) { /* process it */ };   
+    for( auto it : *c5  ) { /* process it */ 
+      std::cout << it->code.str() << std::endl;
+    };   
+    for( auto it : *c8  ) { /* process it */ 
+      std::cout << it->code.str() << std::endl;
+    };   
     for( auto it : *c11 ) { /* process it */ };   
   }
 };
