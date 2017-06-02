@@ -193,11 +193,12 @@ public:
 
   } 
   Expression( Expression* c1, int c2, Expression* c3 ) {
+    code << c1->code.str() << c2->code.str();
     val = newTemp(code);
     if(c2 == '+'){
       code << "+ " + val + ", " + c1->val + ", " + c3->val + '\n';
     } else if (c2 == '-'){
-      code << "+ " + val + ", " + c1->val + ", " + c3->val + '\n';
+      code << "- " + val + ", " + c1->val + ", " + c3->val + '\n';
     } else if (c2 == '*'){
       code << "* " + val + ", " + c1->val + ", " + c3->val + '\n';
     } else if (c2 == '%'){
