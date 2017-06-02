@@ -5,6 +5,7 @@
 #define BRUH_GIT_GUD
 
  #include "heading.H"  // for tesing only.  Else comment this out
+ #include "tok.h"
 
 // Definitions of node classes, i.e., translation records.
 // A work in progress
@@ -48,6 +49,7 @@ typedef list<Expression*>   Expressions;
 
 struct Node {
 public:
+  string val, before, after;
   ostringstream code;
   Node() : lineNo(yylineno), nextTok(yytext) {}
   virtual ~Node() {};
@@ -69,7 +71,7 @@ public:
 
 class AssignmentStmt : public Statement {
 public:   
-  AssignmentStmt( Var* c1, int c2, Expression* c3 ) {}
+  AssignmentStmt( Var* c1, int c2, Expression* c3 );
 };
 
 class IfThenStmt : public Statement {
@@ -128,30 +130,43 @@ public:
 
 class Expression  : public Node {
 public:   
-  string val;
-
   Expression( Var* c1 );  // Var
   Expression( int c1 ) {
     val = itoa(c1);
   }  // NUMBER 
-  Expression( int c1, Expression* c2, int c3 ) {} // '(" Expression ')'
-  Expression( string* c1, int c2, Expressions* c3, int c4 ) {} 
-  Expression( Expression* c1, int c2, Expression* c3 ) {}
+  Expression( int c1, Expression* c2, int c3 ) {
+    val = c2->val;
+  } // '(" Expression ')'
+  Expression( string* c1, int c2, Expressions* c3, int c4 ) {
+
+  } 
+  Expression( Expression* c1, int c2, Expression* c3 ) {
+    val = newTemp();
+    /*if(c2 == ADD){
+      code << '+' + val + "," + c1->val + "," + c3->val + '\n';
+    } else if (c2 == SUB){
+      code << '-' + val + "," + c1->val + "," + c3->val + '\n';
+    } else if (c2 == MULT){
+      code << '*' + val + "," + c1->val + "," + c3->val + '\n';
+    } else if (c2 == MOD){
+      code << '%' + val + "," + c1->val + "," + c3->val + '\n';
+    } else {
+      code << '/' + val + "," + c1->val + "," + c3->val + '\n';
+    }*/
+  }
   Expression( int c2, Expression* c3 ) {}
 };
 
 class Var         : public Node {
 public:
-  string val;
-  string expression_val;
-
+  string index;
   Var( string* c1 ) {
     val = *c1;
-    expression_val = "";
+    index = "";
   }
   Var( string* c1, int c2, Expression* c3, int c4 ) {
     val = *c1;
-    expression_val = c3->val;
+    index = c3->val;
   } 
 };
 
