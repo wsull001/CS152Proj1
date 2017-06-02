@@ -59,7 +59,7 @@ public:
   Node() : lineNo(yylineno), nextTok(yytext) {}
   virtual ~Node() {};
   void error(string err){
-    cerr << BOLDBLACK << compilerName << ':' << BOLDRED << " fatal: " << RESET << pos() << "\n\t"
+    cerr << BOLDBLACK << compilerName << ':' << BOLDRED << " fatal: " << RESET << pos() << "\t"
     << err << endl;
     exit( 1 );
   }
