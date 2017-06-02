@@ -123,15 +123,59 @@ public:
 
 class BoolExpr    : public Node {
 public:   
-  BoolExpr( Expression* c1, int c2, Expression* c3 ) {
-    cout << c2 << endl;
-  }
+//  Combining these both into one constructor. If things break, revert to two
+//  BoolExpr( Expression* c1, int c2, Expression* c3 ) {}
+//  BoolExpr( BoolExpr* c1,   int c2, BoolExpr* c3 ) {}
 
-  BoolExpr( BoolExpr* c1,   int c2, BoolExpr* c3 ) {}
-  BoolExpr( int c1, BoolExpr* c2 ) {}
-  BoolExpr( int c1 ) {}
-  BoolExpr( int c1, BoolExpr* c2, int c3 ) {}
-  BoolExpr( int c1, int c2, int c3 ) {}
+  BoolExpr(Node *c1, int c2, Node *c3) {
+    val = newTemp();
+    switch(c2) {
+      case 0:
+        //EQ
+        code << "== "; 
+        break;
+      case 1:
+        //NE
+        code << "!= ";
+        break;
+      case 2:
+        //LT
+        code << "< ";
+        break;
+      case 3:
+        //GT
+        code << "> ";
+        break;
+      case 4:
+        //LE
+        code << "<= ";
+        break;
+      case 5:
+        //GE
+        code << ">= ";
+        break;
+      case 6:
+        //AND
+        code << "&& ";
+        break;
+      case 69:
+        //OR
+        code << "|| ";
+        break;
+    }
+    
+    code << val << ", " << c1->val << ", " << c3->val << endl;
+    cout << code.str();
+    
+  }
+  
+  BoolExpr( int c1, BoolExpr* c2 ) {
+    val = newTemp();
+    code << "! " << val << ", " << c2->val << endl;
+  }
+ 
+
+  BoolExpr( int c1 ) { val = c1; }
 };
 
 class Expression  : public Node {
