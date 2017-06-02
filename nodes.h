@@ -124,7 +124,10 @@ public:
 
 class BoolExpr    : public Node {
 public:   
-  BoolExpr( Expression* c1, int c2, Expression* c3 ) {}
+  BoolExpr( Expression* c1, int c2, Expression* c3 ) {
+    cout << c2 << endl;
+  }
+
   BoolExpr( BoolExpr* c1,   int c2, BoolExpr* c3 ) {}
   BoolExpr( int c1, BoolExpr* c2 ) {}
   BoolExpr( int c1 ) {}
