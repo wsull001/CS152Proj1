@@ -125,7 +125,7 @@ public:
 
 class ReturnStmt : public Statement {
 public:   
-  ReturnStmt( int c1, Expression* c2 ) {}
+  ReturnStmt( int c1, Expression* c2 );
 };
 
 class BoolExpr    : public Node {

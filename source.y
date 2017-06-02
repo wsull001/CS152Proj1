@@ -164,6 +164,7 @@ NonemptyExpressionList
              ;            /* any nonempty comma-separated list of Expressions */
 
 Program      : Functions                              { $$ = new Program($1); }
+             ;
 
 Function     : FUNCTION ID ';'                   
                BEGINPARAMS Declarations ENDPARAMS

@@ -17,4 +17,5 @@ beginbody
     write n;
     n := n - 1;
   endloop;
+  return n;
 endbody

@@ -84,5 +84,10 @@ IfThenElseStmt::IfThenElseStmt( int c1, BoolExpr* c2, int c3, Statements* c4, in
   code << ": " << after << endl;
 }
 
+ReturnStmt::ReturnStmt( int c1, Expression* c2 ) {
+  code << c2->code.str();
+  code << "ret " << c2->val << endl;
+}
+
 
  
