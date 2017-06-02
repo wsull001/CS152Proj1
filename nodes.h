@@ -5,7 +5,6 @@
 #define BRUH_GIT_GUD
 
  #include "heading.H"  // for tesing only.  Else comment this out
- //#include "tok.h"
 
 // Definitions of node classes, i.e., translation records.
 // A work in progress
@@ -145,17 +144,17 @@ public:
   } 
   Expression( Expression* c1, int c2, Expression* c3 ) {
     val = newTemp();
-    /*if(c2 == ADD){
+    if(c2 == '+'){
       code << '+' + val + "," + c1->val + "," + c3->val + '\n';
-    } else if (c2 == SUB){
+    } else if (c2 == '-'){
       code << '-' + val + "," + c1->val + "," + c3->val + '\n';
-    } else if (c2 == MULT){
+    } else if (c2 == '*'){
       code << '*' + val + "," + c1->val + "," + c3->val + '\n';
-    } else if (c2 == MOD){
+    } else if (c2 == '%'){
       code << '%' + val + "," + c1->val + "," + c3->val + '\n';
     } else {
       code << '/' + val + "," + c1->val + "," + c3->val + '\n';
-    }*/
+    }
   }
   Expression( int c2, Expression* c3 ) {}
 };
