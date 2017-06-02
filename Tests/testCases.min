@@ -6,6 +6,8 @@ n : integer;
 endlocals
 beginbody
   read n;
-  n := n + 1;
+  if n == 70 then
+    n := n - 1;
+  endif;
   write n;
 endbody
