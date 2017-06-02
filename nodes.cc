@@ -4,7 +4,7 @@ WhileStmt::WhileStmt( int c1, BoolExpr* c2, int c3, Statements* c4, int c5) {
     string startlbl = newLabel();
     string endlbl = newLabel();
 
-    code << ":= " << startlbl << std::endl;
+    code << ": " << startlbl << std::endl;
     code << c2->code.str();
     string myTmp = newTemp(code);
     code << "! " << myTmp << ", " <<  c2->val << std::endl;
@@ -12,7 +12,8 @@ WhileStmt::WhileStmt( int c1, BoolExpr* c2, int c3, Statements* c4, int c5) {
     for (auto i : *c4) {
       code << i->code.str();
     }
-    code << ":= " << endlbl << std::endl;
+    code << ":= " << startlbl << std::endl;
+    code << ": " << endlbl << std::endl;
 
   }
 
