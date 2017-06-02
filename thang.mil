@@ -1,0 +1,26 @@
+func main
+. n
+.< n
+. __Temp__0
+== __Temp__0, n, 70
+. __Temp__2
+! __Temp__2, __Temp__0
+?:= __Label__0, __Temp__2
+. __Temp__1
+- __Temp__1, n, 1
+= n, __Temp__1
+: __Label__0
+.> n
+.< n
+:= __Label__1
+. __Temp__3
+> __Temp__3, n, 0
+. __Temp__5
+! __Temp__5, __Temp__3
+?:= __Label__2, __Temp__5
+.> n
+. __Temp__4
+- __Temp__4, n, 1
+= n, __Temp__4
+:= __Label__2
+endfunc
