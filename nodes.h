@@ -135,7 +135,7 @@ public:
 //  BoolExpr( BoolExpr* c1,   int c2, BoolExpr* c3 ) {}
 
   BoolExpr(Node *c1, int c2, Node *c3) {
-    val = newTemp();
+    val = newTemp(code);
     switch(c2) {
       case 0:
         //EQ
@@ -175,7 +175,7 @@ public:
   }
   
   BoolExpr( int c1, BoolExpr* c2 ) {
-    val = newTemp();
+    val = newTemp(code);
     code << "! " << val << ", " << c2->val << endl;
   }
 
@@ -192,7 +192,7 @@ public:
 
   } 
   Expression( Expression* c1, int c2, Expression* c3 ) {
-    val = newTemp();
+    val = newTemp(code);
     if(c2 == '+'){
       code << "+ " + val + ", " + c1->val + ", " + c3->val + '\n';
     } else if (c2 == '-'){
