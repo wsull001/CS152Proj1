@@ -69,9 +69,11 @@ inline std::string newFunct() {
   return "Funct" + itoa(counter++);
 }
 
-inline std::string newTemp()  {
+inline std::string newTemp(ostringstream &code)  {
   static int counter = 0;
-  return "Temp" + itoa(counter++);
+  string temp = "__Temp__" + itoa(counter++);
+  code << ". " << temp << endl;
+  return temp;
 }
 
 inline std::string newLabel() {
