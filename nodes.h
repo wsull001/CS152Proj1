@@ -93,7 +93,7 @@ public:
 class IfThenElseStmt : public Statement {
 public:    
   IfThenElseStmt( int c1, BoolExpr* c2, int c3, Statements* c4, int c5,
-		  Statements* c6, int c7 ) {}
+		  Statements* c6, int c7 );
 };
 
 class WhileStmt : public Statement {

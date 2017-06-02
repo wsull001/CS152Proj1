@@ -63,7 +63,12 @@ IfThenStmt::IfThenStmt( int c1, BoolExpr* c2, int c3, Statements* c4, int c5 ) {
       code << st->code.str();
     }
     code << ": " << after << endl;
-  }
+}
+
+IfThenElseStmt::IfThenElseStmt( int c1, BoolExpr* c2, int c3, Statements* c4, int c5,
+		  Statements* c6, int c7 ) {
+
+}
 
 
  
