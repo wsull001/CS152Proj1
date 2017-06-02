@@ -25,6 +25,7 @@ const int integer = 0;
 const int arraytype = 1;
 const int function = 2;
 
+
 // Obsolete stuff:
 // extern SemanticType* theIntType;    // global entity for MiniJava's Int type
 // extern SemanticType* theIntArrayType;       // ... for MiniJava's Int[] type
@@ -180,7 +181,7 @@ public:
   Declaration( list<string*>* c1, int c2, int c3, bool isParam=true ) {
     for (auto i : *c1) {
       symtab[*i] = integer;
-      code << ". " << *i << endl;
+      code << ". " << *i << (isParam ? "\n" : "");
       if (isParam) {
         code << "= " << *i << ", $" << decCnt++;
       }
@@ -190,7 +191,7 @@ public:
 	       int c7, int c8, bool isParam=true ) {
     for (auto i : *c1) {
       symtab[*i] = arraytype;
-      code << "[] " << *i << ", " << c5 << endl;
+      code << "[] " << *i << ", " << c5;
     }
   };
 };
@@ -201,9 +202,14 @@ public:
   Function(int c1, string* c2, int c3, int c4, Declarations* c5, int c6,
       int c7, Declarations* c8, int c9, int c10, Statements* c11, int c12)
   {
+    std::cout << "func " << *c2 << std::endl;
     // emit MIL-code function declaration for c2
-    for( auto it : *c5  ) { /* process it */ };   
-    for( auto it : *c8  ) { /* process it */ };   
+    for( auto it : *c5  ) { /* process it */ 
+      std::cout << it->code.str() << std::endl;
+    };   
+    for( auto it : *c8  ) { /* process it */ 
+      std::cout << it->code.str() << std::endl;
+    };   
     for( auto it : *c11 ) { /* process it */ };   
   }
 };
