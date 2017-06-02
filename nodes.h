@@ -211,7 +211,7 @@ public:
   Expression( int c2, Expression* c3 ) {
     code << c3->code.str();
     val = newTemp(code);
-    code << "* " << val << ", " << val << ", -1" << endl;
+    code << "- " << val << ", 0, " << c3->val << endl;
   }
 };
 
