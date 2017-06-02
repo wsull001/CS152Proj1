@@ -200,9 +200,9 @@ Statement    : Var ASSGN Expression       { $$ = new AssignmentStmt($1,$2,$3); }
              | Expression GE Expression         { $$ = new BoolExpr($1,$2,$3); }
 	     | BoolExpr AND BoolExpr            { $$ = new BoolExpr($1,$2,$3); }
 	     | BoolExpr OR BoolExpr             { $$ = new BoolExpr($1,$2,$3); }
-             | NOT BoolExpr                     { $$ = new BoolExpr(00,$1,$2); }
-             | TRUE                             { $$ = new BoolExpr(00,1,00); }
-             | FALSE                            { $$ = new BoolExpr(00,0,00); }
+             | NOT BoolExpr                     { $$ = new BoolExpr( 0,$1,$2); }
+             | TRUE                             { $$ = new BoolExpr( 0, 1, 0); }
+             | FALSE                            { $$ = new BoolExpr( 0, 0, 0); }
              | '(' BoolExpr ')'                                     { $$ = $2; }
 	     ;
 
@@ -218,7 +218,7 @@ Expression   : Var                                  { $$ = new Expression($1); }
              | '-' Expression  %prec UMINUS   { $$ = new Expression(00,$1,$2); }
              ;
 
- Var	     : ID                                 { $$ = new Var($1, 0, 0, 0); }
+ Var	     : ID                                 { $$ = new Var($1); }
              | ID '[' Expression ']'              { $$ = new Var($1,$2,$3,$4); }
              ;
 
