@@ -168,16 +168,13 @@ public:
         break;
     }
     
-    code << val << ", " << c1->val << ", " << c3->val << endl;
-    cout << code.str();
-    
+    code << val << ", " << c1->val << ", " << c3->val << endl;    
   }
   
   BoolExpr( int c1, BoolExpr* c2 ) {
     val = newTemp();
     code << "! " << val << ", " << c2->val << endl;
   }
- 
 
   BoolExpr( int c1 ) { val = c1; }
 };
