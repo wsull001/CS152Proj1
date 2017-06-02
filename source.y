@@ -215,7 +215,7 @@ Expression   : Var                                  { $$ = new Expression($1); }
              | Expression '*' Expression      { $$ = new Expression($1,$2,$3); }
              | Expression '/' Expression      { $$ = new Expression($1,$2,$3); }
              | Expression '%' Expression      { $$ = new Expression($1,$2,$3); }
-             | '-' Expression  %prec UMINUS   { $$ = new Expression(00,$1,$2); }
+             | '-' Expression  %prec UMINUS   { $$ = new Expression($1,$2); }
              ;
 
  Var	     : ID                                 { $$ = new Var($1); }

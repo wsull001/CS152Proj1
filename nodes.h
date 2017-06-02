@@ -145,15 +145,15 @@ public:
   Expression( Expression* c1, int c2, Expression* c3 ) {
     val = newTemp();
     if(c2 == '+'){
-      code << '+' + val + "," + c1->val + "," + c3->val + '\n';
+      code << "+ " + val + ", " + c1->val + ", " + c3->val + '\n';
     } else if (c2 == '-'){
-      code << '-' + val + "," + c1->val + "," + c3->val + '\n';
+      code << "+ " + val + ", " + c1->val + ", " + c3->val + '\n';
     } else if (c2 == '*'){
-      code << '*' + val + "," + c1->val + "," + c3->val + '\n';
+      code << "* " + val + ", " + c1->val + ", " + c3->val + '\n';
     } else if (c2 == '%'){
-      code << '%' + val + "," + c1->val + "," + c3->val + '\n';
+      code << "% " + val + ", " + c1->val + ", " + c3->val + '\n';
     } else {
-      code << '/' + val + "," + c1->val + "," + c3->val + '\n';
+      code << "/ " + val + ", " + c1->val + ", " + c3->val + '\n';
     }
   }
   Expression( int c2, Expression* c3 ) {}
