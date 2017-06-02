@@ -208,7 +208,11 @@ public:
       code << "/ " + val + ", " + c1->val + ", " + c3->val << endl;
     }
   }
-  Expression( int c2, Expression* c3 ) {}
+  Expression( int c2, Expression* c3 ) {
+    code << c3->code.str();
+    val = newTemp(code);
+    code << "- " << val << ", 0, " << c3->val << endl;
+  }
 };
 
 class Var         : public Node {
