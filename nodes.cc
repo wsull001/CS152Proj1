@@ -39,13 +39,13 @@ AssignmentStmt::AssignmentStmt( Var* c1, int c2, Expression* c3 ) {
 }
 
 IfThenStmt::IfThenStmt( int c1, BoolExpr* c2, int c3, Statements* c4, int c5 ) {
-    string label = newLabel();
+    after = newLabel();
     code << c2->code.str();
-    code << "?:= " << label << ", " << c2->val << endl;
+    code << "?:= " << after << ", " << c2->val << endl;
     for(auto st: *c4){
       code << st->code.str();
     }
-    after = label;
+    code << ": " << after << endl;
   }
 
 

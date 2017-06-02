@@ -76,7 +76,7 @@ inline std::string newTemp(ostringstream &code)  {
   return temp;
 }
 
-inline std::string newLabel(ostringstream &code) {
+inline std::string newLabel() {
   static int counter = 0;
   return "__Label__" + itoa(counter++);
 }
