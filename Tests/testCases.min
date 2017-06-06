@@ -16,6 +16,10 @@ beginbody
   while n > 0 beginloop
     write n;
     n := n - 1;
+    if n == 4 then
+      continue;
+    endif;
+    write n;
   endloop;
   return n;
 endbody

@@ -16,6 +16,7 @@ string compilerName; // initialized by main() for use in error messages
 int yyparse();          // prototype of bison-generated parser function
 int decCnt = 0;
 map<string,int> symtab;
+int loopCount = 0;
 
 
 string preamble =

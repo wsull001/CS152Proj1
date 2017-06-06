@@ -18,6 +18,7 @@ extern char* yytext;                           // defined & maintained in lex.c
 extern map< int, string > decode;              // MiniJava-to-C op-decode table
 extern string compilerName;               // initialized from argv[0] in main()
 extern int decCnt;
+extern int loopCount;                     // preston's loopcount idea
 
 extern map<string,int> symtab;
 const int integer = 0;
@@ -120,7 +121,10 @@ public:
 
 class ContinueStmt : public Statement {
 public:
-  ContinueStmt( int c1 ) {}
+  ContinueStmt( int c1 ) {
+    if (loopCount == 0) error("Continue statement outside of loop body");
+    code << "{" << endl;
+  }
 };
 
 class ReturnStmt : public Statement {

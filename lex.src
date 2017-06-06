@@ -11,6 +11,7 @@
 #include "tok.h"
 int yyerror( const char* s );
 extern int yylineno;
+extern int loopCount;
 %}
 
 %option noyywrap
@@ -34,8 +35,8 @@ beginlocals		return yylval.junk = BEGINLOCALS;
 endlocals		return yylval.junk = ENDLOCALS;
 beginbody		return yylval.junk = BEGINBODY;
 endbody			return yylval.junk = ENDBODY;
-beginloop		return yylval.junk = BEGINLOOP;
-endloop			return yylval.junk = ENDLOOP;
+beginloop		loopCount++; return yylval.junk = BEGINLOOP;
+endloop			loopCount--; return yylval.junk = ENDLOOP; loopCount--;
 if			return yylval.junk = IF;
 then			return yylval.junk = THEN;
 else			return yylval.junk = ELSE;

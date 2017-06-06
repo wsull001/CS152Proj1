@@ -9,13 +9,25 @@ WhileStmt::WhileStmt( int c1, BoolExpr* c2, int c3, Statements* c4, int c5) {
     string myTmp = newTemp(code);
     code << "! " << myTmp << ", " <<  c2->val << std::endl;
     code << "?:= " << endlbl << ", " << myTmp << std::endl;
+    std::string statements = "";
     for (auto i : *c4) {
-      code << i->code.str();
+      statements += i->code.str();
     }
+    istringstream strin(statements);
+    
+    std::string temp;
+
+    while (getline(strin, temp)) {
+      if (temp.at(0) == '{') {
+        code << ":= " << startlbl << std::endl;
+      } else {
+        code << temp << std::endl;
+      }
+    }
+
     code << ":= " << startlbl << std::endl;
     code << ": " << endlbl << std::endl;
-
-  }
+}
 
 
 Expression::Expression(Var* c1) {
