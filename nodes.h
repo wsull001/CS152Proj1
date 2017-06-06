@@ -195,6 +195,15 @@ public:
     val = itoa(c1);
   }  // NUMBER 
   Expression( string* c1, int c2, Expressions* c3, int c4 ) {
+    
+    for (auto i : *c3) {
+      code << i->code.str();
+      code << "param " << i->val << std::endl;
+    }
+    
+    val = newTemp(code);
+
+    code << "call " << *c1 << ", " << val << std::endl;
 
   } 
   Expression( Expression* c1, int c2, Expression* c3 ) {

@@ -1,8 +1,21 @@
+function test;
+beginparams
+  i : integer;
+  k : integer;
+endparams
+beginlocals
+endlocals
+beginbody
+  return i - k;
+endbody
+
+
 function main;
 beginparams
 endparams
 beginlocals
 n : integer;
+j : integer;
 endlocals
 beginbody
   read n;
@@ -22,8 +35,9 @@ beginbody
     write n;
   endloop;
   read n;
+  read j;
   do beginloop
     write n;
-    n := n - 1;
-  endloop while n > 1;
+    n := test( n, j );
+  endloop while n > 0;
 endbody
