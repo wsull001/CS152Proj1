@@ -16,17 +16,20 @@ beginbody	## main program
 
   k := 0;
   n := 20;
-  
-  while k < n beginloop
-       t[k] := k;
-       k := k + 1;
-       if k % 2 == 0 then
-           continue;
-       endif;
-       write t[k-1];
-    endloop;
+ 
+  do
+    beginloop
+     t[k] := k;
+     k := k + 1;
+     if k % 2 == 0 then
+       continue;
+     endif;
+     write t[k-1];
+    endloop
+  while k < n;
+ 
 
-  if i<j and j < n and i>=0 then
+ if i<j and j < n and i>=0 then
      t[i] := i * 2;
      t[j] := j * 2;
      k := t[i];
