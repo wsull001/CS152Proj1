@@ -293,20 +293,16 @@ public:
       int c7, Declarations* c8, int c9, int c10, Statements* c11, int c12)
   {
     symtab[*c2] = function;
-    code << "func " << *c2 << std::endl;
     // emit MIL-code function declaration for c2
     for( auto it : *c5  ) { /* process it */ 
       std::cout << it->code.str();
     };   
     for( auto it : *c8  ) { /* process it */ 
       std::cout << it->code.str();
-      code << it->code.str() << std::endl;
-    };   
     };   
     for( auto it : *c11 ) { /* process it */ 
       code << it->code.str(); 
     };   
-    code << "endfunc" << std::endl;
   }
 };
 

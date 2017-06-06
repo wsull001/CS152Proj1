@@ -70,7 +70,7 @@ ReadStmt::ReadStmt( int c1, list<Var*>* c2 ) {
       this->code << ".< " + var->val <<endl;
     }
     else{
-      this->code << "[].< " + var->val << ", " << var->index <<endl;
+      this->code << ".[]< " + var->val << ", " << var->index <<endl;
     }
   }
 }
@@ -82,7 +82,7 @@ WriteStmt::WriteStmt( int c1, list<Var*>* c2 ) {
       this->code << ".> " + var->val <<endl;
     }
     else{
-      this->code << "[].> " + var->val + ", " + var->index << endl;
+      this->code << ".[]> " + var->val + ", " + var->index << endl;
     }
   }
 }
