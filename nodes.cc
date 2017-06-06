@@ -66,6 +66,7 @@ Expression::Expression(Var* c1) {
 
 ReadStmt::ReadStmt( int c1, list<Var*>* c2 ) {
   for(auto var : *c2){
+    code << var->code.str();
     if(var->index == ""){
       this->code << ".< " + var->val <<endl;
     }
@@ -78,6 +79,7 @@ ReadStmt::ReadStmt( int c1, list<Var*>* c2 ) {
 
 WriteStmt::WriteStmt( int c1, list<Var*>* c2 ) {
   for(auto var : *c2){
+    code << var->code.str();
     if(var->index == ""){
       this->code << ".> " + var->val <<endl;
     }
