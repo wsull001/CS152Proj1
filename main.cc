@@ -17,6 +17,8 @@ int yyparse();          // prototype of bison-generated parser function
 int decCnt = 0;
 map<string,int> symtab;
 int loopCount = 0;
+list<fcall> fcalls;
+map<string,int> functab;
 
 
 string preamble =

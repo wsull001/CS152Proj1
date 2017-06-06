@@ -20,7 +20,10 @@ extern string compilerName;               // initialized from argv[0] in main()
 extern int decCnt;
 extern int loopCount;                     // preston's loopcount idea
 
+extern list<fcall> fcalls;
+
 extern map<string,int> symtab;
+extern map<string,int> functab; //global symbol table
 const int integer = 0;
 const int arraytype = 1;
 const int function = 2;
@@ -200,6 +203,7 @@ public:
     } else if (symtab[*c1] != function) {
       error("Symbol " + *c1 + " is not a function");
     }*/
+    fcalls.push_back(fcall(*c1, yylineno));
     for (auto i : *c3) {
       code << i->code.str();
       code << "param " << i->val << std::endl;
@@ -312,6 +316,18 @@ class Program     : public Node {
 public:
   Program(Functions *c1) 
   { 
+    for (auto it : fcalls) {
+      if (!symtab.count(it.id))  {
+        cerr << BOLDBLACK << compilerName << ':' << BOLDRED << " fatal: " << RESET << "At symbol " << it.id << " on line " 
+          << it.lineno << endl  << "\t" << "Not a valid identifier" << endl;
+        exit(1);
+      } else if (symtab[it.id] != function) {
+        cerr << BOLDBLACK << compilerName << ':' << BOLDRED << " fatal: " << RESET << "At symbol " << it.id << " on line " 
+          << it.lineno << endl  << "\t" << "Identifier not a function" << endl;
+        exit(1);
+      }
+    }
+
     for( auto it : *c1 ) { /* process it */ 
       std::cout << it->code.str();
     } 
