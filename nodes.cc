@@ -30,6 +30,32 @@ WhileStmt::WhileStmt( int c1, BoolExpr* c2, int c3, Statements* c4, int c5) {
 }
 
 
+DoWhileStmt::DoWhileStmt( int c1, int c2, Statements* c3, int c4, int c5, BoolExpr* c6 ) {
+  string startlbl = newLabel();
+  code << ": " << startlbl << std::endl;
+  std::string statements = "";
+  for (auto i : *c3) {
+    statements += i->code.str();
+  }
+
+  istringstream strin(statements);
+
+  std::string temp;
+
+  while (getline(strin, temp)) {
+    if (temp.at(0) == '{') {
+      code << ":= " << startlbl << std::endl;
+    } else {
+      code << temp << std::endl;
+    }
+  }
+  
+  code << c6->code.str();
+  code << "?:= " << startlbl << ", " << c6->val << std::endl;
+
+}
+
+
 Expression::Expression(Var* c1) {
     val = c1->val;
 }

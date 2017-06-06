@@ -105,7 +105,7 @@ public:
 class DoWhileStmt : public Statement {
 public:   
   DoWhileStmt( int c1, int c2, Statements* c3, int c4, int c5,
-	       BoolExpr* c6 ){}
+	       BoolExpr* c6 );
 };
 
 class ReadStmt : public Statement {

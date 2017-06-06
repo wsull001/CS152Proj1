@@ -21,5 +21,9 @@ beginbody
     endif;
     write n;
   endloop;
-  return n;
+  read n;
+  do beginloop
+    write n;
+    n := n - 1;
+  endloop while n > 1;
 endbody
