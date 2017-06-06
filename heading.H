@@ -46,6 +46,13 @@ inline std::string itoa( int x ) {  // converts an integer to a string.
   return s.str();
 }
 
+
+struct fcall {
+  string id;
+  int lineno;
+  fcall() {};
+};
+
 // These should create a name and install it into the appropriate table.
 // It's attributes can be filled in later.
 
