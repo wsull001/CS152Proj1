@@ -58,6 +58,10 @@ DoWhileStmt::DoWhileStmt( int c1, int c2, Statements* c3, int c4, int c5, BoolEx
 
 Expression::Expression(Var* c1) {
     val = c1->val;
+    if(c1->index != ""){
+      val = newTemp(code);
+      code << "=[] " << val << ", " << c1->val << ", " << c1->index << endl;
+    }
 }
 
 ReadStmt::ReadStmt( int c1, list<Var*>* c2 ) {
@@ -66,7 +70,7 @@ ReadStmt::ReadStmt( int c1, list<Var*>* c2 ) {
       this->code << ".< " + var->val <<endl;
     }
     else{
-      this->code << "[].< " + var->val + ", " + var->index <<endl;
+      this->code << "[].< " + var->val << ", " << var->index <<endl;
     }
   }
 }
@@ -86,7 +90,7 @@ WriteStmt::WriteStmt( int c1, list<Var*>* c2 ) {
 AssignmentStmt::AssignmentStmt( Var* c1, int c2, Expression* c3 ) {
   code << c3->code.str();
   if(c1->index != ""){
-    code << "=[] " + c1->val + ", " + c1->index << endl;
+    code << "[]= " + c1->val + ", " + c1->index << ", " << c3->val << endl;
   } else {
     code << "= " + c1->val + ", " + c3->val << endl; 
   }

@@ -29,7 +29,7 @@ beginbody	## main program
 	    x := (x+n / x) / 2;
     endloop;
     sqrt_n := x;
-
+    
     ## initialization of the array
     i := 2;
     while i <= n beginloop

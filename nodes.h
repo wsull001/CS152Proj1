@@ -268,9 +268,9 @@ public:
         error("Redeclaration of symbol: " + *i);
       }
       symtab[*i] = integer;
-      code << ". " << *i << (isParam ? "\n" : "");
+      code << ". " << *i << endl;
       if (isParam) {
-        code << "= " << *i << ", $" << decCnt++;
+        code <<  "= " << *i << ", $" << decCnt++ << endl;;
       }
     }
   };  
@@ -281,7 +281,7 @@ public:
         error("Redeclaration of symbol: " + *i);
       }
       symtab[*i] = arraytype;
-      code << "[] " << *i << ", " << c5;
+      code << ".[] " << *i << ", " << c5 << endl;;
     }
   };
 };
@@ -296,10 +296,10 @@ public:
     std::cout << "func " << *c2 << std::endl;
     // emit MIL-code function declaration for c2
     for( auto it : *c5  ) { /* process it */ 
-      std::cout << it->code.str() << std::endl;
+      std::cout << it->code.str();
     };   
     for( auto it : *c8  ) { /* process it */ 
-      std::cout << it->code.str() << std::endl;
+      std::cout << it->code.str();
     };   
     for( auto it : *c11 ) { /* process it */ 
       std::cout << it->code.str(); 
