@@ -195,7 +195,11 @@ public:
     val = itoa(c1);
   }  // NUMBER 
   Expression( string* c1, int c2, Expressions* c3, int c4 ) {
-    
+    if (!symtab.count(*c1)){
+      error("Undefined function " + *c1);
+    } else if (symtab[*c1] != function) {
+      error("Symbol " + *c1 + " is not a function");
+    }
     for (auto i : *c3) {
       code << i->code.str();
       code << "param " << i->val << std::endl;
@@ -288,6 +292,7 @@ public:
   Function(int c1, string* c2, int c3, int c4, Declarations* c5, int c6,
       int c7, Declarations* c8, int c9, int c10, Statements* c11, int c12)
   {
+    symtab[*c2] = function;
     std::cout << "func " << *c2 << std::endl;
     // emit MIL-code function declaration for c2
     for( auto it : *c5  ) { /* process it */ 
