@@ -296,10 +296,10 @@ public:
     code << "func " << *c2 << std::endl;
     // emit MIL-code function declaration for c2
     for( auto it : *c5  ) { /* process it */ 
-      std::cout << it->code.str();
+      code << it->code.str();
     };   
     for( auto it : *c8  ) { /* process it */ 
-      std::cout << it->code.str();
+      code << it->code.str();
     };   
     for( auto it : *c11 ) { /* process it */ 
       code << it->code.str(); 
