@@ -195,11 +195,11 @@ public:
     val = itoa(c1);
   }  // NUMBER 
   Expression( string* c1, int c2, Expressions* c3, int c4 ) {
-    if (!symtab.count(*c1)){
+    /*if (!symtab.count(*c1)){
       error("Undefined function " + *c1);
     } else if (symtab[*c1] != function) {
       error("Symbol " + *c1 + " is not a function");
-    }
+    }*/
     for (auto i : *c3) {
       code << i->code.str();
       code << "param " << i->val << std::endl;
@@ -293,25 +293,33 @@ public:
       int c7, Declarations* c8, int c9, int c10, Statements* c11, int c12)
   {
     symtab[*c2] = function;
-    std::cout << "func " << *c2 << std::endl;
+    code << "func " << *c2 << std::endl;
     // emit MIL-code function declaration for c2
     for( auto it : *c5  ) { /* process it */ 
       std::cout << it->code.str();
     };   
     for( auto it : *c8  ) { /* process it */ 
       std::cout << it->code.str();
+      code << it->code.str() << std::endl;
+    };   
     };   
     for( auto it : *c11 ) { /* process it */ 
-      std::cout << it->code.str(); 
+      code << it->code.str(); 
     };   
-    std::cout<< "endfunc" << std::endl;
+    code << "endfunc" << std::endl;
   }
 };
 
 class Program     : public Node {    
 public:
   Program(Functions *c1) 
-  { for( auto it : *c1 ) { /* process it */ } }  
+  { 
+    for( auto it : *c1 ) { /* process it */ 
+      std::cout << it->code.str();
+    } 
+  
+  }  
+
 };
 
 
