@@ -195,11 +195,11 @@ public:
     val = itoa(c1);
   }  // NUMBER 
   Expression( string* c1, int c2, Expressions* c3, int c4 ) {
-    if (!symtab.count(*c1)){
+    /*if (!symtab.count(*c1)){
       error("Undefined function " + *c1);
     } else if (symtab[*c1] != function) {
       error("Symbol " + *c1 + " is not a function");
-    }
+    }*/
     for (auto i : *c3) {
       code << i->code.str();
       code << "param " << i->val << std::endl;
