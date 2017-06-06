@@ -51,6 +51,10 @@ struct fcall {
   string id;
   int lineno;
   fcall() {};
+  fcall(string tid, int tlineno) {
+    id = tid;
+    lineno = tlineno;
+  };
 };
 
 // These should create a name and install it into the appropriate table.
