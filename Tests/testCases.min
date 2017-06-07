@@ -40,4 +40,6 @@ beginbody
     write n;
     n := test( n, j );
   endloop while n > 0;
+  read k;
+  write k;
 endbody

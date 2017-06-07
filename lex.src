@@ -12,6 +12,7 @@
 int yyerror( const char* s );
 extern int yylineno;
 extern int loopCount;
+int lastFuncLine = 0;
 %}
 
 %option noyywrap
@@ -28,7 +29,7 @@ identifier            {letter}([_]*{letter}|[_]*{digit})*
 /* Lexical patterns with their actions */
 %%
 
-function		return yylval.junk = FUNCTION;
+function		lastFuncLine = yylineno; return yylval.junk = FUNCTION;
 beginparams		return yylval.junk = BEGINPARAMS;
 endparams		return yylval.junk = ENDPARAMS;
 beginlocals		return yylval.junk = BEGINLOCALS;

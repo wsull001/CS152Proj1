@@ -8,6 +8,7 @@
 int yyerror( const char* s );
 int yylex( void );
 extern int decCnt;
+extern map<string, int> scope;
 bool isParam = false;
 %}
 
@@ -138,7 +139,7 @@ Functions    : /* empty */                         { $$ = new list<Function*>; }
              | Functions Function                    { ($$=$1)->push_back($2); }
              ;                    /* any possibly empty sequence of Functions */
 
-Declarations : /* empty */                      { $$ = new list<Declaration*>; isParam = !isParam;}
+Declarations : /* empty */                      { $$ = new list<Declaration*>; isParam = !isParam; if (isParam) scope.clear();}
              | Declarations Declaration              { ($$=$1)->push_back($2); }
              ;/* any possibly empty semicolon-terminated Declaration sequence */
 

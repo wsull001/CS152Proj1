@@ -19,11 +19,12 @@ extern map< int, string > decode;              // MiniJava-to-C op-decode table
 extern string compilerName;               // initialized from argv[0] in main()
 extern int decCnt;
 extern int loopCount;                     // preston's loopcount idea
+extern int lastFuncLine;
 
 extern list<fcall> fcalls;
 
 extern map<string,int> symtab;
-extern map<string,int> functab; //global symbol table
+extern map<string, int> scope;
 const int integer = 0;
 const int arraytype = 1;
 const int function = 2;
@@ -64,6 +65,11 @@ public:
   virtual ~Node() {};
   void error(string err){
     cerr << BOLDBLACK << compilerName << ':' << BOLDRED << " fatal: " << RESET << pos() << "\t"
+    << err << endl;
+    exit( 1 );
+  }
+  void error(string err, int lineNum){
+    cerr << BOLDBLACK << compilerName << ':' << BOLDRED << " fatal: " << RESET << "On line " << lineNum << endl  << "\t"
     << err << endl;
     exit( 1 );
   }
@@ -240,9 +246,9 @@ class Var         : public Node {
 public:
   string index;
   Var( string* c1 ) {
-    if(!symtab.count(*c1)){
-      error("undefined symbol");
-    } else if((symtab[*c1] != integer)){
+    if(!scope.count(*c1)){
+      error("Symbol '" + *c1 + "' out of scope");
+    } else if((scope[*c1] != integer)){
       error("integer acessed as a non integer");
     } else{
       val = *c1;
@@ -251,9 +257,9 @@ public:
   }
   Var( string* c1, int c2, Expression* c3, int c4 ) {
     code << c3->code.str();
-    if(!symtab.count(*c1)){
-      error("undefined symbol");
-    } else if((symtab[*c1] != arraytype)){
+    if(!scope.count(*c1)){
+      error("Symbol '" + *c1 + "' out of scope");
+    } else if((scope[*c1] != arraytype)){
       error("array acessed as a non array");
     } else {
       val = *c1;
@@ -268,10 +274,17 @@ class Declaration : public Node {
 public:
   Declaration( list<string*>* c1, int c2, int c3, bool isParam=true ) {
     for (auto i : *c1) {
-      if (symtab.count(*i) != 0) {
-        error("Redeclaration of symbol: " + *i);
+      if (symtab.count(*i) != 0 && symtab[*i] == function) {
+        error("Identifier '" + *i + "' already exists as a function");
+      } else {
+        symtab[*i] = integer; //can't redeclare variables out of scope
       }
-      symtab[*i] = integer;
+      if(scope.count(*i)) {
+        error("Identifier already declared in scope " + *i);
+      } else {
+        scope[*i] = integer;
+      }
+
       code << ". " << *i << endl;
       if (isParam) {
         code <<  "= " << *i << ", $" << decCnt++ << endl;;
@@ -281,11 +294,17 @@ public:
   Declaration( list<string*>* c1, int c2, int c3, int c4, int c5, int c6,
 	       int c7, int c8, bool isParam=true ) {
     for (auto i : *c1) {
-      if (symtab.count(*i) != 0) {
-        error("Redeclaration of symbol: " + *i);
+      if (symtab.count(*i) != 0 && symtab[*i] == function) {
+         error("Identifier '" + *i + "' already exists as a function");
+      } else {
+        symtab[*i] = arraytype;
       }
-      symtab[*i] = arraytype;
-      code << ".[] " << *i << ", " << c5 << endl;;
+      if(scope.count(*i)) {
+        error("Identifier already declared in scope " + *i);
+      } else {
+        scope[*i] = arraytype;
+      }
+      code << ".[] " << *i << ", " << c5 << endl;
     }
   };
 };
@@ -296,6 +315,9 @@ public:
   Function(int c1, string* c2, int c3, int c4, Declarations* c5, int c6,
       int c7, Declarations* c8, int c9, int c10, Statements* c11, int c12)
   {
+    if (symtab.count(*c2)) {
+      error("Function symbol '" + *c2 + "' used before", lastFuncLine);
+    }
     symtab[*c2] = function;
     code << "func " << *c2 << std::endl;
     // emit MIL-code function declaration for c2
