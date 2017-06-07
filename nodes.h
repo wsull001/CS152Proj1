@@ -249,7 +249,7 @@ public:
     if(!scope.count(*c1)){
       error("Symbol '" + *c1 + "' out of scope");
     } else if((scope[*c1] != integer)){
-      error("integer acessed as a non integer");
+      error("attempt to access non integer as an integer");
     } else{
       val = *c1;
       index = "";
@@ -303,6 +303,9 @@ public:
         error("Identifier already declared in scope " + *i);
       } else {
         scope[*i] = arraytype;
+      }
+      if(c5 <= 0){
+        error("Array declared with size less than or equal to 0.");
       }
       code << ".[] " << *i << ", " << c5 << endl;
     }
