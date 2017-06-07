@@ -280,7 +280,7 @@ public:
         symtab[*i] = integer; //can't redeclare variables out of scope
       }
       if(scope.count(*i)) {
-        error("Identifier already declared in scope " + *i);
+        error("Identifier '" + *i + "' already declared in scope");
       } else {
         scope[*i] = integer;
       }
@@ -300,7 +300,7 @@ public:
         symtab[*i] = arraytype;
       }
       if(scope.count(*i)) {
-        error("Identifier already declared in scope " + *i);
+        error("Identifier '" + *i + "' already declared in scope");
       } else {
         scope[*i] = arraytype;
       }
@@ -349,6 +349,11 @@ public:
         exit(1);
       }
     }
+    if (!symtab.count("main")) {
+      cerr << BOLDBLACK << compilerName << ':' << BOLDRED << " fatal: " << RESET << "No main function in program" << endl;
+      exit(1);
+    }
+
 
     for( auto it : *c1 ) { /* process it */ 
       std::cout << it->code.str();
