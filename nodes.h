@@ -194,7 +194,7 @@ public:
     code << "! " << val << ", " << c2->val << endl;
   }
 
-  BoolExpr( int c1 ) { val = c1; }
+  BoolExpr( int c1 ) { val = itoa(c1); }
 };
 
 class Expression  : public Node {
