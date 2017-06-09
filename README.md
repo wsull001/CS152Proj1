@@ -1,4 +1,4 @@
-# CS152Proj1 <sub><sup>(±2)</sub></sup>
+# Compile\_of\_Crap (CS152Proj1 <sub><sup>(±2)</sub></sup>)
 ### With Preston, Wyatt and now Stanley! <sub><sup><sub><sup> Though apparently he's not needed... </sub></sup></sub></sup>
 
 #### Overview
