@@ -160,7 +160,7 @@ Expressions  : /* empty */                       { $$ = new list<Expression*>; }
              ;      /* any possibly empty comma-separated list of Expressions */
 
 NonemptyExpressionList
-             : Expression                        { $$ = new list<Expression*>; $$->push_back($1)}
+             : Expression                        { $$ = new list<Expression*>; $$->push_back($1);}
              | NonemptyExpressionList ',' Expression { ($$=$1)->push_back($3); }
              ;            /* any nonempty comma-separated list of Expressions */
 
