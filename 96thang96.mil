@@ -1,0 +1,114 @@
+func main
+. n
+. i
+. j
+. k
+.[] t, 20
+.< i
+.< j
+= k, 0
+= n, 20
+: __Label__1
+[]= t, k, k
+. __Temp__0
++ __Temp__0, k, 1
+= k, __Temp__0
+. __Temp__1
+% __Temp__1, k, 2
+. __Temp__2
+== __Temp__2, __Temp__1, 0
+. __Temp__3
+! __Temp__3, __Temp__2
+?:= __Label__0, __Temp__3
+:= __Label__2
+: __Label__0
+. __Temp__4
+- __Temp__4, k, 1
+.[]> t, __Temp__4
+: __Label__2
+. __Temp__5
+< __Temp__5, k, n
+?:= __Label__1, __Temp__5
+. __Temp__6
+< __Temp__6, i, j
+. __Temp__7
+< __Temp__7, j, n
+. __Temp__8
+&& __Temp__8, __Temp__6, __Temp__7
+. __Temp__9
+>= __Temp__9, i, 0
+. __Temp__10
+&& __Temp__10, __Temp__8, __Temp__9
+. __Temp__24
+! __Temp__24, __Temp__10
+?:= __Label__7, __Temp__24
+. __Temp__11
+* __Temp__11, i, 2
+[]= t, i, __Temp__11
+. __Temp__12
+* __Temp__12, j, 2
+[]= t, j, __Temp__12
+. __Temp__13
+=[] __Temp__13, t, i
+= k, __Temp__13
+. __Temp__14
+=[] __Temp__14, t, j
+[]= t, i, __Temp__14
+[]= t, j, k
+:= __Label__6
+: __Label__7
+: __Label__4
+. __Temp__15
+>= __Temp__15, i, j
+. __Temp__16
+|| __Temp__16, __Temp__15, 0
+. __Temp__23
+! __Temp__23, __Temp__16
+?:= __Label__5, __Temp__23
+. __Temp__17
++ __Temp__17, 1, i
+. __Temp__18
+- __Temp__18, __Temp__17, j
+. __Temp__19
+% __Temp__19, __Temp__18, 3
+= k, __Temp__19
+. __Temp__20
+- __Temp__20, i, 1
+= i, __Temp__20
+. __Temp__21
+> __Temp__21, k, 1
+. __Temp__22
+! __Temp__22, __Temp__21
+?:= __Label__3, __Temp__22
+:= __Label__4
+: __Label__3
+.> k
+:= __Label__4
+: __Label__5
+: __Label__6
+.> i
+.> j
+.> k
+. __Temp__25
+< __Temp__25, i, n
+. __Temp__26
+>= __Temp__26, i, 0
+. __Temp__27
+&& __Temp__27, __Temp__25, __Temp__26
+. __Temp__28
+! __Temp__28, __Temp__27
+?:= __Label__8, __Temp__28
+.[]> t, i
+: __Label__8
+. __Temp__29
+< __Temp__29, j, n
+. __Temp__30
+>= __Temp__30, j, 0
+. __Temp__31
+&& __Temp__31, __Temp__29, __Temp__30
+. __Temp__32
+! __Temp__32, __Temp__31
+?:= __Label__9, __Temp__32
+.[]> t, j
+: __Label__9
+endfunc
