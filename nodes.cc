@@ -32,6 +32,7 @@ WhileStmt::WhileStmt( int c1, BoolExpr* c2, int c3, Statements* c4, int c5) {
 
 DoWhileStmt::DoWhileStmt( int c1, int c2, Statements* c3, int c4, int c5, BoolExpr* c6 ) {
   string startlbl = newLabel();
+  string condlbl = newLabel();
   code << ": " << startlbl << std::endl;
   std::string statements = "";
   for (auto i : *c3) {
@@ -44,12 +45,12 @@ DoWhileStmt::DoWhileStmt( int c1, int c2, Statements* c3, int c4, int c5, BoolEx
 
   while (getline(strin, temp)) {
     if (temp.at(0) == '{') {
-      code << ":= " << startlbl << std::endl;
+      code << ":= " << condlbl << std::endl;
     } else {
       code << temp << std::endl;
     }
   }
-  
+  code << ": " << condlbl << std::endl;
   code << c6->code.str();
   code << "?:= " << startlbl << ", " << c6->val << std::endl;
 
