@@ -22,7 +22,7 @@ Run `git clone https://github.com/wsull001/CS152Proj1.git` to clone the repo,
 and then `make` to build the project. Once the project is built, 
 you can compile your MINI-L code with the following:
 
-`./compile\_of\_crap your_code.min > run_me.mil`
+`./compile_of_crap your_code.min > run_me.mil`
 
 #### Running the Crap
 
